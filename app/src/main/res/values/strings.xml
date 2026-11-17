@@ -1,4 +1,5 @@
 <resources>
+    <string name="launcher_title" translatable="false">Android Auto</string>
     <string name="hct_aa_wake_not_sent">The connection state changed, so the phone reconnect was not started. Try again after the current connection activity finishes.</string>
     <string name="hct_aa_selection_pending">The previous phone connection is still being handled. This selection has not replaced it.</string>
     <string name="hct_aa_wake_unconfirmed">The head unit has not completed the Android Auto connection. Select the phone again to retry, or reconnect it from its Bluetooth settings. Open Headunit is still listening for Android Auto.</string>

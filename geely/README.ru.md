@@ -1,0 +1,69 @@
+# Android Auto для Geely — форк OXIDIZ
+
+Это Open Headunit с изменениями, восстановленными при сравнении официального OHU 4.0.0 и GHUR_4.0.0.1.apk. Название значка — **Android Auto**. Исходный значок-картинка не меняется.
+
+## Правки для головного устройства
+
+- applicationId: **com.geely.headunitrevived**, установка отдельно от официального OHU.
+- Обычный экранный режим выставляет нулевые legacy system UI flags, чтобы Geely OneOS не сворачивала климатическую панель из-за LAYOUT_STABLE.
+- Обычный режим выбран по умолчанию. Сохранённые пользователем значения и миграция старых настроек сохраняются.
+- Нижний ручной отступ проекции по умолчанию — **126 пикселей**; нижний margin мастера настройки — **126 dp**.
+- Диалог поиска устройств в обычном режиме не навязывает immersive flags.
+- OEM-приёмник оставляет два события ECARX: com.ecarx.media.action.KEY_EVENT и com.ecarx.intent.action.MEDIA_BUTTON. Отдельные BYD/FYT-приёмники не создаются. Обычная MediaSession сохраняется.
+- NAVIGATION_UPDATE отправляется локальным приложениям без receiverPermission, как в GHUR. Данные манёвров и дороги доступны подписанным на этот action локальным интеграциям. Сам action сохранён: com.andrerinas.headunitrevived.NAVIGATION_UPDATE.
+- Из manifest удалены старое объявление NAVIGATION_UPDATE permission и TURN_SCREEN_ON.
+- В APK включены английский и русский. Переводы в исходниках не удалены, чтобы не создавать конфликты на каждом обновлении OHU; фильтрация выполняется при сборке. В отличие от GHUR это также убирает ненужные локали библиотек.
+- Providers, onboarding task affinity и ярлыки используют новый applicationId.
+- Нативные аудио-, видео- и USB-исходники не изменены.
+
+Дополнения для поддержки форка: обновления проверяются в **OXIDIZ/open-headunit**, а парсер версий учитывает четвёртую цифру. Версия складывается из неизменённой версии OHU и номера правок: например **4.0.0.1**. Параметр `-PgeelyRevision=2` позволяет выпустить исправление как 4.0.0.2. Для постоянной смены номера обновите default `orElse("1")` у geelyRevision в app/build.gradle.kts.
+
+Новая подпись принадлежит этому форку, а не автору GHUR. Если на ГУ уже стоит GHUR с тем же applicationId и чужой подписью, Android не разрешит обновить его поверх. При необходимости сохраните настройки средствами приложения перед переходом. Официальный OHU с другим applicationId можно оставить установленным.
+
+## Однократная настройка GitHub
+
+1. Откройте **Actions** и включите workflows для форка, если GitHub предлагает кнопку включения.
+2. Откройте **Settings → Secrets and variables → Actions → New repository secret**:
+   https://github.com/OXIDIZ/open-headunit/settings/secrets/actions/new
+3. Имя секрета: **GEELY_SIGNING**. Значение: всё содержимое файла **github-secret.json** из предоставленного отдельно резервного архива ключа. Этот файл содержит ключ и пароли: его не нужно коммитить или добавлять в Issues.
+4. В **Actions → Geely APK and stable OHU updates → Run workflow** запустите сборку на main.
+
+Если GitHub запрещает workflow запись содержимого, проверьте **Settings → Actions → General → Workflow permissions**. Workflow объявляет contents: write; ограничения организации могут потребовать изменения администратором.
+
+После успешной проверки подписанный APK появится в **Releases**:
+https://github.com/OXIDIZ/open-headunit/releases
+
+Без GEELY_SIGNING код и сборочные проверки выполняются, но создаётся только **неподписанный** artifact; такой APK не публикуется как готовый установочный релиз. Случайный временный ключ GitHub runner не используется для release.
+
+## Автоматические обновления OHU
+
+Workflow ежедневно проверяет последний **стабильный** GitHub Release andreknieriem/open-headunit, примерно в **07:17 по Москве** (04:17 UTC; расписание GitHub может задерживаться).
+
+1. Получает точный tag релиза и фиксирует его commit SHA в geely/upstream.json.
+2. Если релиз уже является предком main, не откатывает более новую базу форка.
+3. Вливает новый upstream в локальную копию, сохраняя собственные коммиты форка.
+4. Устанавливает версии Android SDK/NDK/CMake из обновлённого app/build.gradle.kts, выполняет unit-тесты, connection lifecycle harness, собирает APK и проверяет пакет, название, локали, фильтр ECARX, permissions, ABI и подпись.
+5. Только после успешных проверок отправляет обычный merge в main и публикует подписанный APK.
+
+При конфликте merge отменяется и workflow завершается ошибкой. При ошибке тестов или проверки APK обновление не отправляется в main и не публикуется. Force push не используется. Если во время сборки пользователь изменил main, обычный push отклонится, сохранив его изменения.
+
+Текущая стартовая база форка — main оригинального проекта, commit 574ce83f6a36c874e7f8aaabe30c10cc90f6289e. Она уже содержит изменения после stable 4.0.0. Состояние geely/upstream.json обозначает последний учтённый стабильный релиз, а не утверждает, что в исходниках нет более поздних коммитов.
+
+Если выпущенный tag уже существует, workflow сохраняет опубликованный APK. Для нового APK с изменениями самого форка увеличьте geelyRevision. Если долго не пользоваться форком, GitHub может приостановить scheduled workflows; их можно снова включить в Actions.
+
+## Локальная сборка
+
+Нужны JDK 21, Android SDK 36, build-tools 36.0.0, NDK 29.0.14206865 и CMake 3.22.1.
+
+```sh
+python3 -m unittest discover -s tools/geely -p 'test_*.py' -v
+./gradlew :app:testGithubDebugUnitTest :app:assembleGithubRelease
+python3 -u app/src/test/host-connection/run.py
+python3 tools/geely/verify_apk.py app/build/outputs/apk/github/release/com.geely.headunitrevived_4.0.0.1.apk --require-signature
+```
+
+Для подписи положите локальный key.properties в корень проекта (он игнорируется Git), указав storeFile, storePassword, keyAlias и keyPassword. Значение storeFile разрешается относительно app/. Для абсолютного пути используйте полный путь к вашему keystore.
+
+После настройки одного GEELY_SIGNING тот же конфиг можно применить локально через tools/geely/configure_signing.py. Не передавайте секреты непосредственно в командной строке или в публичных логах.
+
+Полная совместимость с конкретной прошивкой Geely требует проверки на головном устройстве: CI проверяет код и APK, но не физическое климатическое оборудование автомобиля.

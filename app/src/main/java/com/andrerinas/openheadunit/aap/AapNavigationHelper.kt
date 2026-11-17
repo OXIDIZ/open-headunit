@@ -124,7 +124,9 @@ class AapNavigationHelper(
             estimatedArrival = prepared.estimatedArrival,
             currentRoad = prepared.currentRoad
         )
-        context.applicationContext.sendBroadcast(intent, NavigationUpdateIntent.BROADCAST_PERMISSION)
+        // GHUR-compatible local navigation integration: ECARX/widget receivers need no
+        // signature permission. Keep the existing action and payload contract.
+        context.applicationContext.sendBroadcast(intent)
     }
 
     fun showNotificationForSnapshot(snapshot: NavigationSnapshot, distanceMeters: Int?) {

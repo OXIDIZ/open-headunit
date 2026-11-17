@@ -185,8 +185,9 @@ class AapPresentationTest {
             // The public intent has no STOP event field. Its existing clear representation is
             // empty roads, UNKNOWN nextEventType, and absent distance/time/turn/destination data.
             assertEquals(listOf(null, null, "", 0, "Unknown", null, null, null, null, null, null, ""), arguments)
-            verify(context).sendBroadcast(intents.constructed().single(),
-                com.andrerinas.openheadunit.contract.NavigationUpdateIntent.BROADCAST_PERMISSION)
+            // Geely/GHUR widgets receive the unchanged navigation payload without a
+            // signature-permission filter, including the message that clears navigation.
+            verify(context).sendBroadcast(intents.constructed().single())
         }
     }
 

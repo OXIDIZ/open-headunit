@@ -139,6 +139,9 @@ class NetworkListFragment : Fragment(), NetworkDiscovery.Listener {
         builder.setCancelable(false)
         scanDialog = builder.show()
 
+        // Do not collapse the Geely climate dock just to show network-scan progress.
+        if (Settings(requireContext()).fullscreenMode == Settings.FullscreenMode.NONE) return
+
         scanDialog?.window?.decorView?.apply {
             @Suppress("DEPRECATION")
             systemUiVisibility = (View.SYSTEM_UI_FLAG_FULLSCREEN

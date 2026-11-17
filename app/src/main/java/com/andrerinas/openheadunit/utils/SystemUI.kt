@@ -97,7 +97,9 @@ object SystemUI {
         // Legacy Flags (Layout stability & Fallback for hiding bars)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             @Suppress("DEPRECATION")
-            var flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            // Geely OneOS collapses its climate dock even for LAYOUT_STABLE. GHUR's normal
+            // mode leaves all legacy system-UI flags at zero; immersive modes keep their flags.
+            var flags = if (mode == Settings.FullscreenMode.NONE) 0 else View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             
             when (mode) {
                 Settings.FullscreenMode.IMMERSIVE, Settings.FullscreenMode.IMMERSIVE_WITH_NOTCH -> {

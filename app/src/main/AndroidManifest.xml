@@ -53,11 +53,6 @@
         android:name="android.hardware.bluetooth"
         android:required="false" />
 
-    <permission
-        android:name="com.andrerinas.openheadunit.permission.NAVIGATION_UPDATE"
-        android:protectionLevel="signature" />
-
-    <uses-permission android:name="android.permission.TURN_SCREEN_ON" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -111,7 +106,7 @@
         android:name=".App"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/title"
+        android:label="@string/launcher_title"
         android:largeHeap="true"
         android:supportsRtl="true"
         tools:ignore="GoogleAppIndexingWarning">
@@ -381,23 +376,8 @@
             android:name=".connection.carkey.CarKeyBroadcastReceiver"
             android:exported="true">
             <intent-filter android:priority="1000">
-                <action android:name="android.intent.action.MEDIA_BUTTON" />
-                <action android:name="hy.intent.action.MEDIA_BUTTON" />
-                <action android:name="com.nwd.action.ACTION_KEY_VALUE" />
-                <action android:name="com.microntek.irkeyUp" />
-                <action android:name="com.microntek.irkeyDown" />
-                <action android:name="com.winca.service.Setting.KEY_ACTION" />
-                <action android:name="android.intent.action.C3_HARDKEY" />
-                <action android:name="IKeyClick.KEY_CLICK" />
-                <action android:name="com.eryanet.music.prev" />
-                <action android:name="com.eryanet.music.next" />
-                <action android:name="com.eryanet.media.playorpause" />
-                <action android:name="com.eryanet.media.play" />
-                <action android:name="com.eryanet.media.pause" />
-                <action android:name="com.bz.action.phone.pickup" />
-                <action android:name="com.bz.action.phone.hangup" />
-                <action android:name="com.tencent.qqmusiccar.action.MEDIA_BUTTON_INNER_ONKEY" />
-                <action android:name="cn.kuwo.kwmusicauto.action.MEDIA_BUTTON" />
+                <action android:name="com.ecarx.media.action.KEY_EVENT" />
+                <action android:name="com.ecarx.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
 

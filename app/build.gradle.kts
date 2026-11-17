@@ -89,23 +89,27 @@ android {
     }
 
     defaultConfig {
-        // Keep the original Play Store application id so the app stays the same listing (reviews,
-        // installs, testers) and existing users just get a normal update. Only the display name
-        // changed to Open Headunit. The code package and namespace stay openheadunit, so the
-        // applicationId deliberately differs from the namespace, like com.google.talk for Hangouts.
-        applicationId = "com.andrerinas.headunitrevived"
+        // GHUR-compatible package for the Geely head unit. This fork uses its own signing key
+        // and installs alongside the official OHU; class names keep the upstream namespace.
+        applicationId = "com.geely.headunitrevived"
         minSdk = 16
         targetSdk = 36
         versionCode = 123
         versionName = "4.0.0"
+        // Keep the upstream version above intact when merging releases. The final component is
+        // this fork's revision, so a Geely-only fix can also be offered by Check for Updates.
+        val geelyRevision = providers.gradleProperty("geelyRevision").orElse("1").get().toInt()
+        require(geelyRevision > 0) { "geelyRevision must be positive" }
+        versionName = "${versionName}.$geelyRevision"
+        resourceConfigurations += listOf("en", "ru")
         setProperty("archivesBaseName", "${applicationId}_${versionName}")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true
 
-        // Store available locales in BuildConfig for runtime access
-        // This is scanned at build time from values-XX directories
-        buildConfigField("String", "AVAILABLE_LOCALES", "\"${availableLocales.joinToString(",")}\"")
+        // GHUR's language picker offers Russian plus the built-in English fallback. Keep the
+        // other translations in source so upstream locale updates merge without deletions.
+        buildConfigField("String", "AVAILABLE_LOCALES", "\"ru\"")
         buildConfigField("String", "GIT_SHA", "\"$gitDescription\"")
 
         externalNativeBuild {

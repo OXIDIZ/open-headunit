@@ -82,3 +82,9 @@ deploy_old_tablet.sh
 .antigravitycli
 .agents
 dev-note8.ps1
+
+# Local signing configuration; the keystore/passwords belong in Actions secrets.
+/key.properties
+/geely-signing-backup/
+/.kotlin/
+__pycache__/

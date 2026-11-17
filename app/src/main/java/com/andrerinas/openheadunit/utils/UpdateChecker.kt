@@ -20,7 +20,8 @@ data class AppVersion(
     val minor: Int,
     val patch: Int,
     val preReleaseStage: Int, // 0 = alpha, 1 = beta, 2 = rc, 3 = stable release
-    val preReleaseNumber: Int
+    val preReleaseNumber: Int,
+    val forkRevision: Int = 0
 ) : Comparable<AppVersion> {
 
     override fun compareTo(other: AppVersion): Int {
@@ -28,7 +29,9 @@ data class AppVersion(
         if (minor != other.minor) return minor.compareTo(other.minor)
         if (patch != other.patch) return patch.compareTo(other.patch)
         if (preReleaseStage != other.preReleaseStage) return preReleaseStage.compareTo(other.preReleaseStage)
-        return preReleaseNumber.compareTo(other.preReleaseNumber)
+        val preReleaseComparison = preReleaseNumber.compareTo(other.preReleaseNumber)
+        if (preReleaseComparison != 0) return preReleaseComparison
+        return forkRevision.compareTo(other.forkRevision)
     }
 
     companion object {
@@ -67,7 +70,8 @@ data class AppVersion(
                 }
             }
 
-            return AppVersion(major, minor, patch, stage, preNum)
+            val forkRevision = numParts.getOrNull(3)?.toIntOrNull() ?: 0
+            return AppVersion(major, minor, patch, stage, preNum, forkRevision)
         }
     }
 }
@@ -83,8 +87,8 @@ data class UpdateInfo(
 
 object UpdateChecker {
     private const val TAG = "UpdateChecker"
-    private const val GITHUB_RELEASES_API = "https://api.github.com/repos/andreknieriem/open-headunit/releases?per_page=5"
-    const val GITHUB_RELEASES_WEB = "https://github.com/andreknieriem/open-headunit/releases"
+    private const val GITHUB_RELEASES_API = "https://api.github.com/repos/OXIDIZ/open-headunit/releases?per_page=5"
+    const val GITHUB_RELEASES_WEB = "https://github.com/OXIDIZ/open-headunit/releases"
 
     fun isPlayStoreInstallation(context: Context): Boolean {
         if (BuildConfig.FLAVOR == "playstore") return true

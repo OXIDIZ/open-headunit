@@ -1,0 +1,165 @@
+name: Geely APK and stable OHU updates
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: '17 4 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: geely-release-main
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.repository == 'OXIDIZ/open-headunit'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Configure merge author
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+      - name: Test release-sync conflict handling
+        run: python3 -m unittest discover -s tools/geely -p 'test_*.py' -v
+
+      - name: Prepare latest stable OHU release
+        id: prepare
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          if [ "$EVENT_NAME" = push ]; then
+            echo 'build_required=true' >> "$GITHUB_OUTPUT"
+          elif [ "$EVENT_NAME" = workflow_dispatch ]; then
+            python3 tools/geely/sync_upstream.py --always-build
+          else
+            python3 tools/geely/sync_upstream.py
+          fi
+
+      - name: Set up JDK 21
+        if: steps.prepare.outputs.build_required == 'true'
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Set up Android SDK
+        if: steps.prepare.outputs.build_required == 'true'
+        uses: android-actions/setup-android@v4
+        with:
+          packages: ''
+
+      - name: Install pinned Android tools
+        if: steps.prepare.outputs.build_required == 'true'
+        run: |
+          packages="$(python3 tools/geely/android_packages.py)"
+          mapfile -t android_packages <<< "$packages"
+          for attempt in 1 2 3; do
+            sdkmanager "${android_packages[@]}" && exit 0
+            sleep 15
+          done
+          exit 1
+
+      - name: Set up Gradle
+        if: steps.prepare.outputs.build_required == 'true'
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Configure persistent APK signing
+        if: steps.prepare.outputs.build_required == 'true'
+        id: signing
+        env:
+          GEELY_SIGNING: ${{ secrets.GEELY_SIGNING }}
+        run: python3 tools/geely/configure_signing.py
+
+      - name: Test and build Geely APK
+        if: steps.prepare.outputs.build_required == 'true'
+        run: ./gradlew :app:testGithubDebugUnitTest :app:assembleGithubRelease --stacktrace
+
+      - name: Run connection lifecycle harness
+        if: steps.prepare.outputs.build_required == 'true'
+        run: python3 -u app/src/test/host-connection/run.py
+
+      - name: Verify packaged APK
+        if: steps.prepare.outputs.build_required == 'true'
+        id: apk
+        env:
+          SIGNED: ${{ steps.signing.outputs.configured }}
+        run: |
+          mapfile -t apks < <(find app/build/outputs/apk/github/release -maxdepth 1 -name '*.apk' -type f)
+          [ "${#apks[@]}" -eq 1 ]
+          args=()
+          if [ "$SIGNED" = true ]; then args+=(--require-signature); fi
+          python3 tools/geely/verify_apk.py "${apks[0]}" "${args[@]}"
+
+      # Push only after all tests and package checks. A concurrent user push causes a normal
+      # non-fast-forward rejection; this workflow never force-pushes or discards user commits.
+      - name: Save successfully tested upstream merge
+        if: steps.prepare.outputs.build_required == 'true'
+        run: git push origin HEAD:main
+
+      - name: Publish signed fork release
+        if: steps.prepare.outputs.build_required == 'true' && steps.signing.outputs.configured == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          APK_VERSION: ${{ steps.apk.outputs.version }}
+        run: |
+          tag="v.$APK_VERSION"
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release $tag already exists; keeping its signed APK unchanged."
+            exit 0
+          fi
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          state = json.loads(Path('geely/upstream.json').read_text())
+          Path('build/geely-release-notes.md').write_text(
+              'Geely adaptation of Open Headunit. Launcher name: **Android Auto**.\n\n'
+              'Includes the GHUR screen, climate-dock spacing, ECARX key and local navigation changes. '
+              'English/Russian interface; package com.geely.headunitrevived.\n\n'
+              f"Latest merged stable upstream: [{state['tag']}](https://github.com/{state['repository']}/releases/tag/{state['tag']}).\n\n"
+              'Built from this fork with a persistent signing key. Unit tests and APK checks passed. '
+              'Vehicle/firmware compatibility requires testing on the head unit.\n'
+          )
+          PY
+          gh release create "$tag" app/build/outputs/apk/github/release/*.apk \
+            --repo "$GITHUB_REPOSITORY" --target "$(git rev-parse HEAD)" \
+            --title "Android Auto $APK_VERSION" --notes-file build/geely-release-notes.md
+
+      - name: Upload APK artifact
+        if: always() && steps.prepare.outputs.build_required == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: geely-release-apk
+          path: app/build/outputs/apk/github/release/*.apk
+          if-no-files-found: warn
+
+      - name: Upload test reports
+        if: always() && steps.prepare.outputs.build_required == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: geely-test-reports
+          path: |
+            app/build/reports/tests/testGithubDebugUnitTest
+            app/build/test-results/testGithubDebugUnitTest
+          if-no-files-found: ignore
+
+      - name: Explain signing setup
+        if: steps.prepare.outputs.build_required == 'true' && steps.signing.outputs.configured != 'true'
+        run: |
+          echo '### One-time signing setup' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Add the GEELY_SIGNING repository secret described in geely/README.ru.md, then run this workflow manually. The unsigned APK artifact is not published as an installable release.' >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Remove runner signing files
+        if: always()
+        run: rm -f key.properties .geely-release.jks

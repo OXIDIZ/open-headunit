@@ -537,7 +537,7 @@ class Settings(private val context: Context) {
         set(value) { prefs.edit().putInt("inset-right", value).apply() }
 
     var insetBottom: Int
-        get() = prefs.getInt("inset-bottom", 0)
+        get() = prefs.getInt("inset-bottom", 126)
         set(value) { prefs.edit().putInt("inset-bottom", value).apply() }
 
     // Cached Surface Dimensions (used to avoid mismatch flicker on next start)
@@ -579,8 +579,8 @@ class Settings(private val context: Context) {
                 prefs.edit().putInt("fullscreen-mode", migrated.value).apply()
                 return migrated
             }
-            val value = prefs.getInt("fullscreen-mode", FullscreenMode.IMMERSIVE.value)
-            return FullscreenMode.fromInt(value) ?: FullscreenMode.IMMERSIVE
+            val value = prefs.getInt("fullscreen-mode", FullscreenMode.NONE.value)
+            return FullscreenMode.fromInt(value) ?: FullscreenMode.NONE
         }
         set(value) { prefs.edit().putInt("fullscreen-mode", value.value).apply() }
 

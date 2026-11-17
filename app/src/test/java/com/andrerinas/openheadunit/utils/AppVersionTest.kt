@@ -51,4 +51,16 @@ class AppVersionTest {
         assertFalse(oldStable > beta1)
         assertEquals(0, stable.compareTo(AppVersion.parse("v.3.5.0")!!))
     }
+    @Test
+    fun `fork revisions are offered as updates without outranking newer OHU versions`() {
+        val first = AppVersion.parse("v.4.0.0.1")!!
+        val second = AppVersion.parse("4.0.0.2")!!
+        assertEquals(1, first.forkRevision)
+        assertTrue(second > first)
+        assertTrue(first > AppVersion.parse("4.0.0")!!)
+        assertTrue(AppVersion.parse("4.0.1.1")!! > second)
+        assertTrue(AppVersion.parse("4.1.0-beta1")!! > second)
+        assertTrue(AppVersion.parse("4.1.0.1")!! > AppVersion.parse("4.1.0.1-beta1")!!)
+    }
+
 }
