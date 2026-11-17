@@ -114,7 +114,9 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           APK_VERSION: ${{ steps.apk.outputs.version }}
         run: |
-          tag="v.$APK_VERSION"
+          # Unique fork tags never move or collide with the original OHU tags. The installed
+          # application's versionName/versionCode stay exactly equal to OHU.
+          tag="v.$APK_VERSION-geely.$(git rev-parse --short=12 HEAD)"
           if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
             echo "Release $tag already exists; keeping its signed APK unchanged."
             exit 0
@@ -134,7 +136,7 @@ jobs:
           PY
           gh release create "$tag" app/build/outputs/apk/github/release/*.apk \
             --repo "$GITHUB_REPOSITORY" --target "$(git rev-parse HEAD)" \
-            --title "Android Auto $APK_VERSION" --notes-file build/geely-release-notes.md
+            --title "Android Auto $APK_VERSION" --latest --notes-file build/geely-release-notes.md
 
       - name: Upload APK artifact
         if: always() && steps.prepare.outputs.build_required == 'true'

@@ -96,11 +96,8 @@ android {
         targetSdk = 36
         versionCode = 123
         versionName = "4.0.0"
-        // Keep the upstream version above intact when merging releases. The final component is
-        // this fork's revision, so a Geely-only fix can also be offered by Check for Updates.
-        val geelyRevision = providers.gradleProperty("geelyRevision").orElse("1").get().toInt()
-        require(geelyRevision > 0) { "geelyRevision must be positive" }
-        versionName = "${versionName}.$geelyRevision"
+        // Keep versionName and versionCode identical to the upstream OHU release. Fork builds
+        // are distinguished by their source commit and GitHub release tag, not an app suffix.
         resourceConfigurations += listOf("en", "ru")
         setProperty("archivesBaseName", "${applicationId}_${versionName}")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

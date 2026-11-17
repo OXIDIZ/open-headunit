@@ -20,8 +20,7 @@ data class AppVersion(
     val minor: Int,
     val patch: Int,
     val preReleaseStage: Int, // 0 = alpha, 1 = beta, 2 = rc, 3 = stable release
-    val preReleaseNumber: Int,
-    val forkRevision: Int = 0
+    val preReleaseNumber: Int
 ) : Comparable<AppVersion> {
 
     override fun compareTo(other: AppVersion): Int {
@@ -29,9 +28,7 @@ data class AppVersion(
         if (minor != other.minor) return minor.compareTo(other.minor)
         if (patch != other.patch) return patch.compareTo(other.patch)
         if (preReleaseStage != other.preReleaseStage) return preReleaseStage.compareTo(other.preReleaseStage)
-        val preReleaseComparison = preReleaseNumber.compareTo(other.preReleaseNumber)
-        if (preReleaseComparison != 0) return preReleaseComparison
-        return forkRevision.compareTo(other.forkRevision)
+        return preReleaseNumber.compareTo(other.preReleaseNumber)
     }
 
     companion object {
@@ -70,8 +67,9 @@ data class AppVersion(
                 }
             }
 
-            val forkRevision = numParts.getOrNull(3)?.toIntOrNull() ?: 0
-            return AppVersion(major, minor, patch, stage, preNum, forkRevision)
+            // Older fork APKs used a fourth component. Normalize it to the OHU version so
+            // an old 4.0.0.1 release cannot outrank the current 4.0.0 build.
+            return AppVersion(major, minor, patch, stage, preNum)
         }
     }
 }
@@ -140,7 +138,8 @@ object UpdateChecker {
                 releases.add(UpdateLinkPolicy.Release(
                     tag = rel.optString("tag_name", ""),
                     pageUrl = rel.optString("html_url", GITHUB_RELEASES_WEB),
-                    assets = assetPairs(rel.optJSONArray("assets"))
+                    assets = assetPairs(rel.optJSONArray("assets")),
+                    sourceCommit = rel.optString("target_commitish", "")
                 ))
             }
             if (releases.none { AppVersion.parse(it.tag) != null }) {
@@ -149,7 +148,7 @@ object UpdateChecker {
 
             val newest = UpdateLinkPolicy.newestInstallable(releases)
             val currentVersion = AppVersion.parse(BuildConfig.VERSION_NAME)
-            val isUpdateAvailable = newest != null && currentVersion != null && newest.version > currentVersion
+            val isUpdateAvailable = UpdateLinkPolicy.isUpdateAvailable(newest, currentVersion, BuildConfig.GIT_SHA)
             if (newest == null) AppLog.i("$TAG: no listed release has its APK uploaded yet")
 
             val isPlayStore = isPlayStoreInstallation(context)
@@ -157,7 +156,7 @@ object UpdateChecker {
             Result.success(
                 UpdateInfo(
                     isUpdateAvailable = isUpdateAvailable,
-                    latestVersionName = newest?.tag ?: BuildConfig.VERSION_NAME,
+                    latestVersionName = newest?.tag?.substringBefore("-geely.") ?: BuildConfig.VERSION_NAME,
                     currentVersionName = BuildConfig.VERSION_NAME,
                     releaseUrl = newest?.pageUrl ?: GITHUB_RELEASES_WEB,
                     apkUrl = newest?.apkUrl,

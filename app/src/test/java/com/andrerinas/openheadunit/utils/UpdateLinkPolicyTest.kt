@@ -2,6 +2,8 @@ package com.andrerinas.openheadunit.utils
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
+import org.junit.Assert.assertFalse
 import org.junit.Test
 
 class UpdateLinkPolicyTest {
@@ -78,4 +80,54 @@ class UpdateLinkPolicyTest {
         assertNull(UpdateLinkPolicy.newestInstallable(listOf(release("v.4.0.1"), release("2.1.0-artefacts"))))
         assertNull(UpdateLinkPolicy.newestInstallable(listOf(release("nightly", "app.apk"))))
     }
+    @Test
+    fun sameOhuVersionOffersANewCommitOnlyOnce() {
+        val commit = "b".repeat(40)
+        val next = UpdateLinkPolicy.newestInstallable(listOf(UpdateLinkPolicy.Release(
+            "v.4.0.0-geely.${commit.take(12)}", page, listOf("app.apk" to apk), commit
+        )))!!
+        assertTrue(UpdateLinkPolicy.isUpdateAvailable(next, AppVersion.parse("4.0.0"), "a".repeat(12)))
+        assertFalse(UpdateLinkPolicy.isUpdateAvailable(next, AppVersion.parse("4.0.0"), commit.take(12)))
+        assertFalse(UpdateLinkPolicy.isUpdateAvailable(next, AppVersion.parse("4.0.0"), commit.take(12) + "-dirty"))
+    }
+
+    @Test
+    fun oldFourPartReleaseCannotReplaceCurrentOhuBuild() {
+        val commit = "b".repeat(40)
+        val next = UpdateLinkPolicy.newestInstallable(listOf(
+            UpdateLinkPolicy.Release("v.4.0.0-geely.new", page, listOf("new.apk" to apk), commit),
+            UpdateLinkPolicy.Release("v.4.0.0.1", page, listOf("old.apk" to debugApk), "a".repeat(40))
+        ))!!
+        assertEquals(commit, next.sourceCommit)
+        assertEquals(apk, next.apkUrl)
+        assertFalse(UpdateLinkPolicy.isUpdateAvailable(next, AppVersion.parse("4.0.0"), commit.take(12)))
+    }
+
+    @Test
+    fun missingOrBranchCommitDoesNotCauseEndlessSameVersionUpdates() {
+        for (commit in listOf(null, "main", "unknown", "a".repeat(12))) {
+            val next = UpdateLinkPolicy.newestInstallable(listOf(UpdateLinkPolicy.Release(
+                "v.4.0.0-geely.new", page, listOf("app.apk" to apk), commit
+            )))!!
+            assertFalse(UpdateLinkPolicy.isUpdateAvailable(next, AppVersion.parse("4.0.0"), "b".repeat(12)))
+        }
+    }
+
+    @Test
+    fun newerOhuVersionWinsAndAnOlderVersionCannotBeOfferedByCommitDifference() {
+        val next = UpdateLinkPolicy.newestInstallable(listOf(UpdateLinkPolicy.Release(
+            "v.4.1.0-geely.new", page, listOf("app.apk" to apk), "b".repeat(40)
+        )))!!
+        assertTrue(UpdateLinkPolicy.isUpdateAvailable(next, AppVersion.parse("4.0.0"), "unknown"))
+        assertFalse(UpdateLinkPolicy.isUpdateAvailable(next, AppVersion.parse("4.2.0"), "a".repeat(12)))
+    }
+
+    @Test
+    fun historicalForkReleaseAloneIsNotOfferedBackToTheCurrentApp() {
+        val old = UpdateLinkPolicy.Release(
+            "v.4.0.0.1", page, listOf("old.apk" to apk), "a".repeat(40)
+        )
+        assertNull(UpdateLinkPolicy.newestInstallable(listOf(old)))
+    }
+
 }

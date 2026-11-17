@@ -24,7 +24,12 @@ def verify(apk, sdk, require_signature=False):
     manifest = ET.fromstring(run(sdk / "cmdline-tools/latest/bin/apkanalyzer", "manifest", "print", apk))
     assert manifest.get("package") == "com.geely.headunitrevived", "Wrong application ID"
     version = manifest.get(ANDROID + "versionName")
-    assert re.fullmatch(r"\d+\.\d+\.\d+\.\d+", version), f"Missing fork revision: {version}"
+    assert re.fullmatch(r"\d+\.\d+\.\d+", version), f"Expected the unmodified OHU version: {version}"
+    build_file = (Path(__file__).resolve().parents[2] / "app/build.gradle.kts").read_text()
+    expected_version = re.search(r'versionName\s*=\s*"([^"$]+)"', build_file).group(1)
+    expected_code = re.search(r'versionCode\s*=\s*(\d+)', build_file).group(1)
+    assert version == expected_version, f"APK version differs from OHU: {version} != {expected_version}"
+    assert manifest.get(ANDROID + "versionCode") == expected_code, "APK versionCode differs from OHU"
     assert "application-label:'Android Auto'" in badging, "Wrong launcher label"
     for label in re.findall(r"application-label(?:-[^:]+)?:'([^']*)'", badging):
         assert label == "Android Auto", f"Unexpected localized launcher label: {label}"
@@ -43,6 +48,10 @@ def verify(apk, sdk, require_signature=False):
     assert "ru" in locales and all(x in {"--_--", "en", "ru"} or x.startswith("en-") for x in locales), f"Unexpected locales: {locales}"
     with zipfile.ZipFile(apk) as archive:
         assert archive.testzip() is None, "Broken APK ZIP"
+        artwork = (Path(__file__).resolve().parents[2] /
+                   "app/src/main/res/drawable-nodpi-v18/geely_launcher_artwork.webp").read_bytes()
+        assert any(archive.read(n) == artwork for n in archive.namelist() if n.endswith(".webp")), \
+            "The supplied launcher artwork is missing or has changed"
         abis = {n.split('/')[1] for n in archive.namelist() if n.startswith('lib/')}
         assert abis == {"armeabi-v7a", "arm64-v8a", "x86", "x86_64"}, f"Missing ABI: {abis}"
     if require_signature:
