@@ -21,6 +21,9 @@ def run(*args):
 def verify(apk, sdk, require_signature=False):
     build_tools = sdk / "build-tools/36.0.0"
     badging = run(build_tools / "aapt2", "dump", "badging", apk)
+    resources = run(build_tools / "aapt2", "dump", "resources", apk)
+    assert "drawable/geely_connection_artwork" in resources, "Default GEELY connection image is missing"
+    assert "layout/geely_loading_artwork" in resources, "Default connection image layout is missing"
     manifest = ET.fromstring(run(sdk / "cmdline-tools/latest/bin/apkanalyzer", "manifest", "print", apk))
     assert manifest.get("package") == "com.geely.headunitrevived", "Wrong application ID"
     version = manifest.get(ANDROID + "versionName")

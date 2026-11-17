@@ -129,6 +129,8 @@ jobs:
               'Geely adaptation of Open Headunit. Launcher name: **Android Auto**.\n\n'
               'Includes the GHUR screen, climate-dock spacing, ECARX key and local navigation changes. '
               'English/Russian interface; package com.geely.headunitrevived.\n\n'
+              'Supplied Android Auto launcher icon and default GEELY connection artwork. '
+              'Custom connection images and videos remain available.\n\n'
               f"Latest merged stable upstream: [{state['tag']}](https://github.com/{state['repository']}/releases/tag/{state['tag']}).\n\n"
               'Built from this fork with a persistent signing key. Unit tests and APK checks passed. '
               'Vehicle/firmware compatibility requires testing on the head unit.\n'
