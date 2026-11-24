@@ -699,6 +699,14 @@
     <string name="server_mode_manual">Handmatig</string>
     <string name="server_mode_auto">Automatisch</string>
     <string name="server_mode_help">Automatisch zoekt op het netwerk naar de headunit-server op de telefoon en verbindt zelf. Handmatig zoekt niet. Je verbindt via de netwerklijst of met het adres van de telefoon.</string>
+    <string name="headunit_server_network_label">Verbindingsmethode</string>
+    <string name="headunit_server_network_phone">Telefoonhotspot</string>
+    <string name="headunit_server_network_unit">Unithotspot</string>
+    <string name="headunit_server_network_shared">Gedeelde wifi</string>
+    <string name="headunit_server_network_help">Welke wifi de telefoon en deze unit delen. Telefoonhotspot: deze unit maakt verbinding met de hotspot van de telefoon. Tot dan wacht het zoeken naar de telefoon, en Verbinden via WiFi zoekt eerst naar de hotspot. Unithotspot: de telefoon maakt verbinding met het toegangspunt van deze unit. Gedeelde wifi: beide zitten op dezelfde router, en er verandert niets.</string>
+    <string name="headunit_server_auto_wifi_scan">Automatisch naar de hotspot zoeken</string>
+    <string name="headunit_server_auto_wifi_scan_summary">Zolang het startscherm open is en er geen wifi verbonden is.</string>
+    <string name="headunit_server_auto_wifi_scan_help">Zolang het startscherm zichtbaar is en deze unit op geen enkel wifinetwerk zit, vraagt hij Android om een wifiscan: meteen, twee minuten lang elke 35 seconden, daarna eens per minuut. Zo maakt de unit eerder verbinding met de hotspot van de telefoon. Android staat vier scans in twee minuten toe, en geen op de achtergrond.</string>
 
     <string name="helper_strategy_label">Verbindingsmethode (Helper)</string>
     <string name="helper_strategy_help">Bepaalt hoe de telefoon en dit apparaat een netwerk delen in de modus Wireless Helper. Gemeenschappelijke WiFi gebruikt een netwerk dat beide al delen. WiFi Direct maakt een privéverbinding. Apparaten in de buurt zitten in bèta. Telefoon-hotspot maakt verbinding met de hotspot van de telefoon. Headunit-hotspot maakt dit apparaat het toegangspunt. Wijzig dit als de telefoon dit apparaat niet vindt.</string>
@@ -1328,6 +1336,10 @@
     <string name="raise_projection_during_call">In Android Auto blijven tijdens gesprekken</string>
     <string name="raise_projection_during_call_description">Alleen Self Mode. Haalt de projectie terug over het belscherm van de telefoon, zodat gesprekken in de Android Auto-interface worden aangenomen en beëindigd.</string>
     <string name="raise_projection_during_call_summary">Alleen in de zelfstandige modus. Toont de projectie over het gespreksscherm van de telefoon.</string>
+    <string name="show_over_lock_screen">Boven vergrendelscherm tonen</string>
+    <string name="show_over_lock_screen_summary">Kaart en route blijven zichtbaar als vergrendeld. Aanraken en knoppen doen niets.</string>
+    <string name="show_over_lock_screen_help">Toont het Android Auto-beeld boven het vergrendelscherm, zodat kaart en routebeschrijving zonder ontgrendelen te lezen zijn. Zolang dit apparaat vergrendeld is, bereikt niets de telefoon: aanrakingen, knoppen, de draaiknop en de spraakknop worden tegengehouden en de kaart komt naar voren. Druk op Terug om te ontgrendelen met je pincode, patroon of wachtwoord; daarna werkt alles zoals gewoonlijk. Muziek, gesprekken en de spraakassistent op de telefoon zelf worden niet beïnvloed.</string>
+    <string name="show_over_lock_screen_locked_toast">Vergrendeld: alleen kaart. Druk op Terug om te ontgrendelen.</string>
     <string name="audio_stream_settings">Audiostreams</string>
     <string name="audio_stream_settings_description">Kies via welke systeemstream elk Android Auto-kanaal wordt afgespeeld.</string>
     <string name="audio_stream_settings_info">Android Auto verstuurt audio via drie kanalen: Media, Navigatiestem en Systeemgeluiden. Elk kanaal bereikt de headunit via een systeemstream. De gekozen stream bepaalt welke volumetoets erbij hoort en, op veel headunits, of de versterker er wel voor wordt aangezet. Gebruik de luidsprekerknop om vóór het opslaan een testtoon op de stream te horen.</string>
@@ -1877,4 +1889,17 @@
     <string name="usb_wireless_dongle_help">Schakel dit in als je verbindt via een draadloze USB-adapter zoals AAWireless of Carlinkit. Open Headunit kan een dongle niet van een kabel onderscheiden, dus deze optie verandert de startschermteksten van kabel naar draadloos.</string>
     <string name="home_subtitle_usb_dongle">Draadloos</string>
     <string name="home_action_connect_wireless_dongle">Draadloos verbinden</string>
+    <string name="home_wifi_not_connected">Wifi niet verbonden</string>
+    <string name="home_wifi_off">Wifi staat uit</string>
+    <string name="home_wifi_connected_unnamed">Wifi verbonden</string>
+    <string name="home_wifi_scanning">Zoeken…</string>
+    <string name="home_wifi_band_24">2,4 GHz</string>
+    <string name="home_wifi_band_5">5 GHz</string>
+    <string name="home_wifi_band_6">6 GHz</string>
+    <string name="home_wifi_signal">%1$d%%</string>
+    <string name="home_wifi_status_description">Wifi: %1$s</string>
+    <string name="home_hotspot_waiting">Wachten op de hotspot van de telefoon…</string>
+    <string name="home_hotspot_not_found">Geen wifi verbonden. Staat de hotspot van de telefoon aan?</string>
+    <string name="home_wifi_hotspot_hint">Staat de hotspot van de telefoon aan?</string>
+    <string name="home_wifi_off_hint">Zet het aan om te verbinden</string>
 </resources>

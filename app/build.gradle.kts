@@ -89,23 +89,21 @@ android {
     }
 
     defaultConfig {
-        // GHUR-compatible package for the Geely head unit. This fork uses its own signing key
+        // Package recognized by the Geely head unit. This fork uses its own signing key
         // and installs alongside the official OHU; class names keep the upstream namespace.
         applicationId = "com.geely.headunitrevived"
         minSdk = 16
         targetSdk = 36
-        versionCode = 123
-        versionName = "4.0.0"
-        // Keep versionName and versionCode identical to the upstream OHU release. Fork builds
-        // are distinguished by their source commit and GitHub release tag, not an app suffix.
-        resourceConfigurations += listOf("en", "ru")
+        versionCode = 124
+        versionName = "4.1.0-beta1"
         setProperty("archivesBaseName", "${applicationId}_${versionName}")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true
 
-        // GHUR's language picker offers Russian plus the built-in English fallback. Keep the
+        // Package Russian and the built-in English fallback. Keep the
         // other translations in source so upstream locale updates merge without deletions.
+        resourceConfigurations += listOf("en", "ru")
         buildConfigField("String", "AVAILABLE_LOCALES", "\"ru\"")
         buildConfigField("String", "GIT_SHA", "\"$gitDescription\"")
 

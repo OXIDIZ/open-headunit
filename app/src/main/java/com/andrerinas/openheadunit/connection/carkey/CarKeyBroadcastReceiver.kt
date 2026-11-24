@@ -11,7 +11,7 @@ import com.andrerinas.openheadunit.App
 import com.andrerinas.openheadunit.utils.AppLog
 
 /**
- * GHUR-compatible ECARX steering-wheel and hardware-button receiver for this Geely fork.
+ * ECARX steering-wheel and hardware-button receiver for this Geely fork.
  */
 class CarKeyBroadcastReceiver : BroadcastReceiver(), CarKeyReceiver {
 

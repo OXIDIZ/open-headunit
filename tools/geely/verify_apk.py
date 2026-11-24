@@ -27,7 +27,6 @@ def verify(apk, sdk, require_signature=False):
     manifest = ET.fromstring(run(sdk / "cmdline-tools/latest/bin/apkanalyzer", "manifest", "print", apk))
     assert manifest.get("package") == "com.geely.headunitrevived", "Wrong application ID"
     version = manifest.get(ANDROID + "versionName")
-    assert re.fullmatch(r"\d+\.\d+\.\d+", version), f"Expected the unmodified OHU version: {version}"
     build_file = (Path(__file__).resolve().parents[2] / "app/build.gradle.kts").read_text()
     expected_version = re.search(r'versionName\s*=\s*"([^"$]+)"', build_file).group(1)
     expected_code = re.search(r'versionCode\s*=\s*(\d+)', build_file).group(1)

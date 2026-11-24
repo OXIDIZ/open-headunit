@@ -700,6 +700,14 @@
     <string name="server_mode_manual">Manual</string>
     <string name="server_mode_auto">Auto</string>
     <string name="server_mode_help">Auto procura na rede o servidor da central multimídia no celular e conecta sozinho. Manual não procura. Você conecta pela lista de redes ou com o endereço do celular.</string>
+    <string name="headunit_server_network_label">Método de conexão</string>
+    <string name="headunit_server_network_phone">Hotspot do celular</string>
+    <string name="headunit_server_network_unit">Hotspot da unidade</string>
+    <string name="headunit_server_network_shared">WiFi comum</string>
+    <string name="headunit_server_network_help">Qual WiFi o celular e esta unidade compartilham. Hotspot do celular: esta unidade entra no hotspot do celular. Até lá, a busca pelo celular espera, e Conectar via Wi-Fi procura o hotspot primeiro. Hotspot da unidade: o celular entra no ponto de acesso desta unidade. WiFi comum: os dois estão no mesmo roteador e nada muda.</string>
+    <string name="headunit_server_auto_wifi_scan">Procurar o hotspot automaticamente</string>
+    <string name="headunit_server_auto_wifi_scan_summary">Enquanto a tela inicial está aberta e nenhum WiFi está conectado.</string>
+    <string name="headunit_server_auto_wifi_scan_help">Enquanto a tela inicial é exibida e esta unidade não está em nenhuma rede WiFi, ela pede ao Android uma busca de WiFi: na hora, a cada 35 segundos por dois minutos e depois uma vez por minuto. Assim a unidade entra antes no hotspot do celular. O Android permite quatro buscas em dois minutos e nenhuma em segundo plano.</string>
 
     <string name="helper_strategy_label">Método de conexão (Helper)</string>
     <string name="helper_strategy_help">Define como o celular e esta unidade compartilham uma rede no modo Wireless Helper. WiFi Comum usa uma rede que os dois já compartilham. WiFi Direct cria um link privado. Dispositivos próximos são beta. Roteador do celular entra no hotspot do celular. Roteador da multimídia faz desta unidade o ponto de acesso. Mude se o celular não encontrar esta unidade.</string>
@@ -1324,6 +1332,10 @@
     <string name="raise_projection_during_call">Permanecer no Android Auto durante chamadas</string>
     <string name="raise_projection_during_call_description">Somente Self Mode. Traz a projeção de volta sobre a tela de chamada do celular, para atender e encerrar as chamadas na interface do Android Auto.</string>
     <string name="raise_projection_during_call_summary">Só no modo autônomo. Mostra a projeção sobre a tela de chamada do celular.</string>
+    <string name="show_over_lock_screen">Mostrar sobre a tela de bloqueio</string>
+    <string name="show_over_lock_screen_summary">O mapa e as rotas continuam visíveis bloqueado. Toques e botões não fazem nada.</string>
+    <string name="show_over_lock_screen_help">Mostra a imagem do Android Auto sobre a tela de bloqueio, para ler o mapa e as rotas sem desbloquear. Enquanto esta unidade estiver bloqueada, nada chega ao celular: toques, botões, o controle giratório e o botão de voz são retidos, e o mapa é trazido para a frente. Pressione Voltar para desbloquear com seu PIN, padrão ou senha; depois tudo funciona normalmente. Música, chamadas e o assistente de voz no próprio celular não são afetados.</string>
+    <string name="show_over_lock_screen_locked_toast">Bloqueado: só o mapa. Pressione Voltar para desbloquear.</string>
     <string name="audio_stream_settings">Fluxos de áudio</string>
     <string name="audio_stream_settings_description">Escolha o fluxo do sistema em que cada canal do Android Auto toca.</string>
     <string name="audio_stream_settings_info">O Android Auto envia áudio em três canais: Mídia, Orientação e Sons do sistema. Cada um chega à central multimídia por um fluxo do sistema, e o fluxo escolhido define a tecla de volume que ele segue e, em muitas centrais, se o amplificador é ativado para ele. Use o botão do alto-falante para ouvir um tom de teste no fluxo antes de salvar.</string>
@@ -1873,4 +1885,17 @@
     <string name="usb_wireless_dongle_help">Ative se você se conecta por um adaptador USB sem fio como AAWireless ou Carlinkit. O Open Headunit não consegue diferenciar um dongle de um cabo, então esta opção muda os rótulos da tela inicial de cabo para sem fio.</string>
     <string name="home_subtitle_usb_dongle">Sem fio</string>
     <string name="home_action_connect_wireless_dongle">Conectar sem fio</string>
+    <string name="home_wifi_not_connected">WiFi não conectado</string>
+    <string name="home_wifi_off">O WiFi está desligado</string>
+    <string name="home_wifi_connected_unnamed">WiFi conectado</string>
+    <string name="home_wifi_scanning">Buscando…</string>
+    <string name="home_wifi_band_24">2,4 GHz</string>
+    <string name="home_wifi_band_5">5 GHz</string>
+    <string name="home_wifi_band_6">6 GHz</string>
+    <string name="home_wifi_signal">%1$d%%</string>
+    <string name="home_wifi_status_description">WiFi: %1$s</string>
+    <string name="home_hotspot_waiting">Aguardando o hotspot do celular…</string>
+    <string name="home_hotspot_not_found">Nenhum WiFi conectado. O hotspot do celular está ligado?</string>
+    <string name="home_wifi_hotspot_hint">O hotspot do celular está ligado?</string>
+    <string name="home_wifi_off_hint">Ligue-o para conectar</string>
 </resources>

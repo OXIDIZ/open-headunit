@@ -700,6 +700,14 @@
     <string name="server_mode_manual">Manual</string>
     <string name="server_mode_auto">Automático</string>
     <string name="server_mode_help">Automático busca en la red el servidor de la unidad en el teléfono y se conecta solo. Manual no busca. Te conectas desde la lista de redes o con la dirección del teléfono.</string>
+    <string name="headunit_server_network_label">Método de conexión</string>
+    <string name="headunit_server_network_phone">Zona del teléfono</string>
+    <string name="headunit_server_network_unit">Zona de la unidad</string>
+    <string name="headunit_server_network_shared">Wi-Fi común</string>
+    <string name="headunit_server_network_help">Qué Wi-Fi comparten el teléfono y esta unidad. Zona del teléfono: esta unidad se une a la zona Wi-Fi del teléfono. Hasta entonces, la búsqueda del teléfono espera, y Conectar por Wi-Fi busca primero la zona Wi-Fi. Zona de la unidad: el teléfono se une al punto de acceso de esta unidad. Wi-Fi común: ambos están en el mismo router y nada cambia.</string>
+    <string name="headunit_server_auto_wifi_scan">Buscar la zona Wi-Fi automáticamente</string>
+    <string name="headunit_server_auto_wifi_scan_summary">Mientras se muestra el inicio y no hay Wi-Fi conectado.</string>
+    <string name="headunit_server_auto_wifi_scan_help">Mientras se muestra la pantalla de inicio y esta unidad no está en ninguna red Wi-Fi, pide a Android una búsqueda de Wi-Fi: enseguida, cada 35 segundos durante dos minutos y luego una vez por minuto. Así la unidad se une antes a la zona Wi-Fi del teléfono. Android permite cuatro búsquedas en dos minutos y ninguna en segundo plano.</string>
 
     <string name="helper_strategy_label">Estrategia de conexión del Helper</string>
     <string name="helper_strategy_help">Elige cómo comparten red el teléfono y esta unidad en el modo Wireless Helper. WiFi Común usa una red que ambos ya comparten. WiFi Direct crea un enlace privado. Dispositivos cercanos están en beta. Punto de acceso del teléfono se une al hotspot del teléfono. Punto de acceso de la radio convierte esta unidad en el punto de acceso. Cámbialo si el teléfono no encuentra esta unidad.</string>
@@ -1332,6 +1340,10 @@
     <string name="raise_projection_during_call">Permanecer en Android Auto durante las llamadas</string>
     <string name="raise_projection_during_call_description">Solo en modo autónomo. Devuelve la proyección sobre la pantalla de llamada del teléfono para contestar y colgar las llamadas desde la interfaz de Android Auto.</string>
     <string name="raise_projection_during_call_summary">Solo en el modo autónomo. Muestra la proyección sobre la pantalla de llamada del teléfono.</string>
+    <string name="show_over_lock_screen">Mostrar sobre la pantalla de bloqueo</string>
+    <string name="show_over_lock_screen_summary">El mapa y las indicaciones siguen visibles con bloqueo. Toques y botones no hacen nada.</string>
+    <string name="show_over_lock_screen_help">Muestra la imagen de Android Auto sobre la pantalla de bloqueo, para leer el mapa y las indicaciones sin desbloquear. Mientras esta unidad esté bloqueada, nada llega al teléfono: se retienen los toques, los botones, el control giratorio y el botón de voz, y el mapa pasa al frente. Pulsa Atrás para desbloquear con tu PIN, patrón o contraseña; después todo funciona como siempre. La música, las llamadas y el asistente de voz del propio teléfono no se ven afectados.</string>
+    <string name="show_over_lock_screen_locked_toast">Bloqueado: solo mapa. Pulsa Atrás para desbloquear.</string>
     <string name="audio_stream_settings">Flujos de audio</string>
     <string name="audio_stream_settings_description">Elige el flujo del sistema en el que suena cada canal de Android Auto.</string>
     <string name="audio_stream_settings_info">Android Auto envía el audio por tres canales: Multimedia, Guía y Sonidos del sistema. Cada uno llega a la unidad central en un flujo del sistema. El flujo que elijas determina qué tecla de volumen lo controla y, en muchas unidades, si el amplificador se activa para él. Usa el botón del altavoz para oír un tono de prueba en el flujo antes de guardar.</string>
@@ -1880,4 +1892,17 @@
     <string name="usb_wireless_dongle_help">Actívalo si te conectas mediante un adaptador USB inalámbrico como AAWireless o Carlinkit. Open Headunit no puede distinguir un dongle de un cable, por lo que esta opción cambia las etiquetas de la pantalla de inicio a inalámbrico.</string>
     <string name="home_subtitle_usb_dongle">De forma inalámbrica</string>
     <string name="home_action_connect_wireless_dongle">Conectar de forma inalámbrica</string>
+    <string name="home_wifi_not_connected">Wi-Fi no conectado</string>
+    <string name="home_wifi_off">El Wi-Fi está apagado</string>
+    <string name="home_wifi_connected_unnamed">Wi-Fi conectado</string>
+    <string name="home_wifi_scanning">Buscando…</string>
+    <string name="home_wifi_band_24">2,4 GHz</string>
+    <string name="home_wifi_band_5">5 GHz</string>
+    <string name="home_wifi_band_6">6 GHz</string>
+    <string name="home_wifi_signal">%1$d %%</string>
+    <string name="home_wifi_status_description">Wi-Fi: %1$s</string>
+    <string name="home_hotspot_waiting">Esperando la zona Wi-Fi del teléfono…</string>
+    <string name="home_hotspot_not_found">No hay Wi-Fi conectado. ¿Está activa la zona Wi-Fi del teléfono?</string>
+    <string name="home_wifi_hotspot_hint">¿Está activa la zona Wi-Fi del teléfono?</string>
+    <string name="home_wifi_off_hint">Actívalo para conectar</string>
 </resources>

@@ -46,6 +46,7 @@ import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.NativeStrategy
 import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.SoftApAddressRecord
 import com.andrerinas.openheadunit.connection.wifi.modes.nativeaa.SoftApAdvertisedEndpoint
 import com.andrerinas.openheadunit.connection.wifi.WifiLauncherMode
+import com.andrerinas.openheadunit.connection.wifi.HeadunitServerNetwork
 
 class Settings(private val context: Context) {
 
@@ -289,6 +290,17 @@ class Settings(private val context: Context) {
         get() = prefs.getBoolean("raise-projection-during-call", true)
         set(value) {
             prefs.edit().putBoolean("raise-projection-during-call", value).apply()
+        }
+
+    /**
+     * Show the projection over the lock screen. While the unit is locked nothing reaches the phone:
+     * touches, keys and scroll are held back (see [com.andrerinas.openheadunit.input.LockedInputPolicy]),
+     * so the map and directions can be read but nothing can be opened. Off by default.
+     */
+    var showOverLockScreen: Boolean
+        get() = prefs.getBoolean("show-over-lock-screen", false)
+        set(value) {
+            prefs.edit().putBoolean("show-over-lock-screen", value).apply()
         }
 
     var nightMode: NightMode
@@ -2673,6 +2685,16 @@ class Settings(private val context: Context) {
         get() = prefs.getBoolean("auto-enable-hotspot", false)
         set(value) { prefs.edit().putBoolean("auto-enable-hotspot", value).apply() }
 
+    /** Headunit Server (Auto) only; see [HeadunitServerNetwork]. */
+    var headunitServerNetwork: HeadunitServerNetwork
+        get() = HeadunitServerNetwork.byIdOrDefault(prefs.getInt("headunit-server-network", -1), autoEnableHotspot)
+        set(value) { prefs.edit().putInt("headunit-server-network", value.id).apply() }
+
+    /** On the phone's hotspot: scan for it by itself while the home is on screen and no WiFi is joined. */
+    var headunitServerAutoWifiScan: Boolean
+        get() = prefs.getBoolean("headunit-server-auto-wifi-scan", false)
+        set(value) { prefs.edit().putBoolean("headunit-server-auto-wifi-scan", value).apply() }
+
     var waitForWifiBeforeWifiDirect: Boolean
         get() = prefs.getBoolean("wait-for-wifi-before-wifi-direct", false)
         set(value) { prefs.edit().putBoolean("wait-for-wifi-before-wifi-direct", value).apply() }
@@ -2929,6 +2951,12 @@ class Settings(private val context: Context) {
     var nativeAaIgnoreExternalBt: Boolean
         get() = prefs.getBoolean("native-aa-ignore-external-bt", false)
         set(value) = prefs.edit().putBoolean("native-aa-ignore-external-bt", value).apply()
+
+    // Opt-in for dual-radio units whose Android data-service radio starts disabled. This only
+    // enables the selected Android adapter; it does not select an external-module transport.
+    var nativeAaEnableBluetooth: Boolean
+        get() = prefs.getBoolean("native-aa-enable-bluetooth", false)
+        set(value) = prefs.edit().putBoolean("native-aa-enable-bluetooth", value).apply()
 
     var autoKillOemApps: Boolean
         get() = prefs.getBoolean("auto-kill-oem-apps", false)
