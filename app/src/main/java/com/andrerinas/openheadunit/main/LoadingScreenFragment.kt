@@ -283,10 +283,9 @@ class LoadingScreenFragment : Fragment() {
     }
 
     private fun updateStatusTextVisibility() {
-        val hasMedia = settings.loadingScreenMediaPath.isNotEmpty()
-        val show = hasMedia && settings.loadingScreenShowText
-        previewStatusText?.visibility = if (show) View.VISIBLE else View.GONE
-        fullscreenStatusText?.visibility = if (show) View.VISIBLE else View.GONE
+        val visibility = if (settings.loadingScreenShowText) View.VISIBLE else View.GONE
+        previewStatusText?.visibility = visibility
+        fullscreenStatusText?.visibility = visibility
     }
 
     private fun loadImagePreview(path: String, type: String) {
@@ -621,7 +620,6 @@ class LoadingScreenFragment : Fragment() {
         }
         settings.loadingScreenMediaPath = ""
         settings.loadingScreenMediaType = ""
-        settings.loadingScreenShowText = false
 
         releaseMediaPlayers()
         try {

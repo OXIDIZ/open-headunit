@@ -3,9 +3,14 @@ package com.andrerinas.openheadunit.geely
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.view.ContextThemeWrapper
+import android.view.LayoutInflater
+import android.view.View
+import com.andrerinas.openheadunit.R
 import com.andrerinas.openheadunit.utils.Settings
 import com.andrerinas.openheadunit.utils.SystemUI
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -28,6 +33,19 @@ class GeelyWindowTest {
         val settings = Settings(context)
         assertEquals(Settings.FullscreenMode.NONE, settings.fullscreenMode)
         assertEquals(126, settings.insetBottom)
+    }
+
+    @Test fun `built in loading artwork has a visible text switch with an off default`() {
+        val settings = Settings(context)
+        assertFalse(settings.loadingScreenShowText)
+        val inflater = LayoutInflater.from(ContextThemeWrapper(context, R.style.AppTheme))
+        val screen = inflater.inflate(R.layout.fragment_loading_screen, null)
+        var ancestor: View? = screen.findViewById<View>(R.id.toggle_show_text)
+        while (ancestor != null) {
+            assertEquals(View.VISIBLE, ancestor.visibility)
+            ancestor = ancestor.parent as? View
+        }
+        assertEquals(View.GONE, screen.findViewById<View>(R.id.toggle_container).visibility)
     }
 
     @Test fun `an upgrade preserves user screen settings`() {

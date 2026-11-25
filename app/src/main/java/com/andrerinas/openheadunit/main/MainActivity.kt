@@ -847,12 +847,13 @@ class MainActivity : BaseActivity() {
         // Falls back to the default "Android Auto is starting…" when no override
         // is set. Both the default and custom-media text overlays share the same
         // string so the wording stays consistent regardless of media presence.
+        val statusVisibility = if (settings.loadingScreenShowText) View.VISIBLE else View.GONE
+        findViewById<View>(R.id.loading_default_status_row)?.visibility = statusVisibility
         val statusText = autoConnectStatusText ?: getString(R.string.android_auto_starting)
         findViewById<android.widget.TextView>(R.id.auto_connect_loading_default_text)?.text = statusText
         findViewById<android.widget.TextView>(R.id.auto_connect_loading_custom_text)?.text = statusText
 
         if (mediaPath.isEmpty() || mediaType.isEmpty()) {
-            // No custom media — show default text + spinner over the dark backdrop.
             defaultContent?.visibility = View.VISIBLE
             customTextOverlay?.visibility = View.GONE
             customImage?.visibility = View.GONE
@@ -877,11 +878,7 @@ class MainActivity : BaseActivity() {
         defaultContent?.visibility = View.GONE
         overlay?.setBackgroundColor(Color.BLACK)
 
-        if (settings.loadingScreenShowText) {
-            customTextOverlay?.visibility = View.VISIBLE
-        } else {
-            customTextOverlay?.visibility = View.GONE
-        }
+        customTextOverlay?.visibility = statusVisibility
 
         val keepRatio = settings.loadingScreenKeepAspectRatio
         val scalePercent = settings.loadingScreenScalePercent

@@ -1674,6 +1674,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         val detail = findViewById<TextView>(R.id.overlay_detail)
         val button = findViewById<Button>(R.id.disconnect_button)
         overlay.visibility = View.VISIBLE
+        findViewById<View>(R.id.loading_default_status_row)?.visibility = View.VISIBLE
         title?.text = getString(R.string.connection_interrupted)
         detail?.text = getString(R.string.connection_interrupted_detail)
         detail?.visibility = View.VISIBLE
@@ -1705,6 +1706,8 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         // the custom-media text overlay. Done before the early-return paths so
         // the override applies whether or not custom media is configured. Read
         // once and cleared so the value can't leak into a later connection.
+        val statusVisibility = if (settings.loadingScreenShowText) View.VISIBLE else View.GONE
+        findViewById<View>(R.id.loading_default_status_row)?.visibility = statusVisibility
         val handover = pendingStatusText
         pendingStatusText = null
         if (handover != null) {
@@ -1738,9 +1741,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         overlay?.setBackgroundColor(Color.BLACK)
 
         // Show the dedicated custom text overlay if the user wants status text
-        if (settings.loadingScreenShowText) {
-            customTextOverlay?.visibility = View.VISIBLE
-        }
+        customTextOverlay?.visibility = statusVisibility
 
         val keepRatio = settings.loadingScreenKeepAspectRatio
         val scalePercent = settings.loadingScreenScalePercent
