@@ -68,7 +68,8 @@ jobs:
           mapfile -t android_packages <<< "$packages"
           for attempt in 1 2 3; do
             sdkmanager "${android_packages[@]}" && exit 0
-            sleep 15
+            echo "Android SDK installation attempt $attempt failed" >&2
+            if [ "$attempt" -lt 3 ]; then sleep 15; fi
           done
           exit 1
 
