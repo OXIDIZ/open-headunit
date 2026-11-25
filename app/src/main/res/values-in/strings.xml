@@ -188,23 +188,15 @@
     <string name="onb_dpi_small">Kecil</string>
     <string name="onb_dpi_medium">Sedang</string>
     <string name="onb_dpi_large">Besar</string>
-    <string name="onb_dpi_huge">Sangat Besar</string>
     <string name="onb_appearance_more_hint">Opsi mode gelap lainnya tersedia di Setelan.</string>
     <string name="onb_automation_more_hint">Opsi lainnya tersedia di setelan Hubungkan otomatis dan Mulai otomatis.</string>
     <string name="onb_dpi_help">DPI yang lebih tinggi membuat ikon dan teks Android Auto lebih besar, sehingga muat lebih sedikit di layar. DPI yang lebih rendah membuatnya lebih kecil, sehingga muat lebih banyak. Berlaku saat Anda menghubungkan Android Auto.</string>
     <!-- %1$d recommended DPI value -->
-    <string name="onb_dpi_recommended">Disarankan untuk layar Anda: %1$d dpi</string>
     <string name="onb_change_later">Anda dapat mengubah ini nanti di Setelan.</string>
-    <string name="dpi_automatic">Otomatis</string>
-    <string name="dpi_automatic_desc">Gunakan kerapatan perangkat.</string>
-    <string name="dpi_widescreen_hint">Pada %1$d DPI atau lebih rendah, Android Auto menampilkan peta dengan kartu media di sampingnya, dan teks menjadi lebih kecil.</string>
-    <string name="dpi_automatic_desc_canvas">Memakai %1$d DPI untuk %2$s, kanvas %3$dx%4$d dp.</string>
     <string name="dpi_row_value_format">%1$d (%2$dx%3$d dp)</string>
     <string name="dpi_row_auto_format">Otomatis: %1$d (%2$dx%3$d dp)</string>
     <string name="dpi_row_clamped_format">%1$d, dikirim sebagai %2$d (%3$dx%4$d dp)</string>
     <string name="dpi_clamped_note">Android Auto membutuhkan kanvas minimal 748x450 dp, sehingga %1$d DPI dikirim sebagai %2$d.</string>
-    <string name="dpi_clamped_note_portrait">Dalam mode potret, Google Maps di Android Auto mengabaikan sentuhan pada kanvas yang lebih sempit dari 730 dp, sehingga %1$d DPI dikirim sebagai %2$d.</string>
-    <string name="dpi_portrait_override_note">%1$d DPI dikirim sesuai pilihan. Dalam mode potret, Google Maps di Android Auto dapat mengabaikan sentuhan di atas %2$d DPI.</string>
     <string name="dpi_floor_override_note">%1$d DPI dikirim sesuai pilihan. Di atas %2$d DPI, kanvas menjadi lebih kecil dari 748x450 dp yang dibutuhkan Android Auto, dan tata letak yang ditampilkan bisa lebih sederhana.</string>
     <string name="dpi_value_format">%1$d DPI</string>
     <string name="dpi_input_hint">DPI</string>
@@ -291,6 +283,7 @@
     <string name="night_overlay_dismiss">Ketuk untuk kembali ke proyeksi</string>
     <string name="night_overlay_meters">%1$d m</string>
     <string name="night_overlay_kilometers">%1$.1f km</string>
+    <string name="night_overlay_kilometers_whole">%1$d km</string>
     <string name="night_overlay_navigation">%1$s · %2$s</string>
     <string name="night_overlay_left">kiri</string>
     <string name="night_overlay_right">kanan</string>
@@ -679,6 +672,9 @@
     <string name="auto_connecting_single_usb">Menghubungkan otomatis ke perangkat USB…</string>
     <string name="video_codec">Kodek Video</string>
     <string name="video_codec_help">Memilih format video yang dikirim ponsel. Auto membiarkan aplikasi memilih dari yang bisa didekode unit ini. H.265 memberi gambar lebih tajam pada laju data yang sama. H.264 berfungsi di semua dekoder. Ubah jika gambar tersendat atau tetap hitam. Pilihan berlaku mulai koneksi berikutnya.</string>
+    <string name="gal_compatibility_mode">Mode kompatibilitas (GAL 1.2)</string>
+    <string name="gal_compatibility_mode_summary">Hanya meminta versi awal protokol. Berlaku pada koneksi berikutnya.</string>
+    <string name="gal_compatibility_mode_help">Aplikasi meminta GAL 6.1 dari ponsel. Jika Android Auto di ponsel merespons dengan versi yang lebih lama, aplikasi meminta 1.6. Versi-versi tersebut mendukung fitur audio, video, dan tampilan yang lebih baru. Aktifkan mode ini hanya jika ponsel tersambung tetapi kemudian tidak berfungsi dengan semestinya. Aplikasi akan meminta GAL 1.2 seperti pada rilis sebelumnya, tanpa fitur-fitur tersebut. GAL adalah protokol proyeksi, bukan versi Android atau versi aplikasi Android Auto. Berlaku pada koneksi berikutnya.</string>
     <string name="fps_limit">Batas FPS</string>
     <string name="fps_limit_help">Frame rate tertinggi yang diminta unit ini dari Android Auto. Dengan 60, gerakan lebih mulus, tetapi butuh lebih banyak bandwidth dan daya decoder. Pilih 30 jika gambar tertinggal atau tersendat. Berlaku pada koneksi berikutnya.</string>
     <string name="save">Simpan</string>
@@ -718,16 +714,16 @@
     <string name="pref_enable_floating_button_help">Menampilkan tombol melayang di atas peluncur OEM dan aplikasi lain untuk kembali ke Open Headunit dengan cepat.</string>
     <string name="pref_floating_button_connection_status_title">Indikator Status Koneksi</string>
     <string name="pref_floating_button_connection_status_summary">Meredupkan tombol selama ponsel terhubung.</string>
-    <string name="pref_floating_button_connection_status_help">Memakai Opasitas Terputus saat tidak ada ponsel yang terhubung, lalu memudar ke Opasitas Tombol Melayang saat ponsel terhubung. Pada 0%, tombol disembunyikan dan meneruskan ketukan.</string>
+    <string name="pref_floating_button_connection_status_help" formatted="false">Memakai Opasitas Terputus saat tidak ada ponsel yang terhubung, lalu memudar ke Opasitas Tombol Melayang saat ponsel terhubung. Pada 0%, tombol disembunyikan dan meneruskan ketukan.</string>
     <string name="pref_floating_button_size_title">Ukuran Tombol Melayang</string>
     <string name="pref_floating_button_size_help">Ukuran tombol melayang, dari 32 hingga 120 dp. Tombol yang lebih besar lebih mudah diketuk saat mengemudi.</string>
     <string name="pref_floating_button_opacity_title">Opasitas Tombol Melayang</string>
     <string name="pref_floating_button_opacity_help">Seberapa pekat tombol melayang, dari 10% hingga 100%. Jika Indikator Status Koneksi aktif, nilai ini hanya berlaku saat ponsel tersambung.</string>
     <string name="pref_floating_button_disconnected_opacity_title">Opasitas Terputus</string>
-    <string name="pref_floating_button_disconnected_opacity_help">Seberapa pekat tombol melayang saat tidak ada ponsel yang tersambung. Pada 0%, tombol tersembunyi dan ketukan menembus ke layar di bawahnya.</string>
+    <string name="pref_floating_button_disconnected_opacity_help" formatted="false">Seberapa pekat tombol melayang saat tidak ada ponsel yang tersambung. Pada 0%, tombol tersembunyi dan ketukan menembus ke layar di bawahnya.</string>
     <string name="pref_floating_button_x_title">Posisi Horizontal (X)</string>
     <string name="pref_floating_button_y_title">Posisi Vertikal (Y)</string>
-    <string name="pref_floating_button_position_help">Letak tombol melayang di layar. Untuk X, 0% adalah tepi kiri dan 100% tepi kanan. Untuk Y, 0% adalah tepi atas dan 100% tepi bawah. Tombol selalu tetap utuh di dalam layar.</string>
+    <string name="pref_floating_button_position_help" formatted="false">Letak tombol melayang di layar. Untuk X, 0% adalah tepi kiri dan 100% tepi kanan. Untuk Y, 0% adalah tepi atas dan 100% tepi bawah. Tombol selalu tetap utuh di dalam layar.</string>
     <string name="pref_aa_exit_action_title">Tindakan Keluar Android Auto</string>
     <string name="pref_aa_exit_action_summary">Tindakan saat mengetuk Keluar di dalam laci aplikasi Android Auto.</string>
     <string name="pref_aa_exit_action_help">Memilih apa yang terjadi saat Anda mengetuk Keluar di Android Auto. Kembali ke Peluncur OEM menampilkan layar utama unit ini sendiri. Kembali ke Beranda Aplikasi menampilkan layar utama aplikasi ini. Dengan dua opsi ini, ponsel tetap tersambung. Putuskan Sesi mengakhiri sesi. Jika aplikasi ini adalah launcher mobil, Kembali ke Peluncur OEM bekerja seperti Kembali ke Beranda Aplikasi.</string>
@@ -833,7 +829,7 @@
     <string name="attach_hw_dsp_equalizer_description">Menambahkan efek Equalizer tiruan ke sesi audio untuk memaksa perutean DSP perangkat keras pada head unit tertentu. Biarkan nonaktif jika Anda memakai ViPER4Android / ViperFX atau jika suara teredam pada Android versi lama.</string>
     <string name="attach_hw_dsp_equalizer_summary">Memasang Equalizer palsu untuk memaksa perutean DSP perangkat keras di beberapa unit.</string>
     <string name="audio_volume_offset">Offset Volume Audio</string>
-    <string name="audio_volume_offset_help">Mengatur volume tiga aliran audio Android Auto di unit ini: media, panduan navigasi, dan bunyi sistem. Masing-masing berkisar 0% hingga 200%. Pada 100%, aliran diputar seperti yang dikirim ponsel. Gunakan untuk menyeimbangkan navigasi dan musik.</string>
+    <string name="audio_volume_offset_help" formatted="false">Mengatur volume tiga aliran audio Android Auto di unit ini: media, panduan navigasi, dan bunyi sistem. Masing-masing berkisar 0% hingga 200%. Pada 100%, aliran diputar seperti yang dikirim ponsel. Gunakan untuk menyeimbangkan navigasi dan musik.</string>
     <string name="microphone_settings">Pengaturan Mikrofon</string>
     <string name="use_head_unit_microphone">Mikrofon head unit</string>
     <string name="use_head_unit_microphone_description">Aktif: Android Auto mendengar mikrofon perangkat ini. Nonaktif: perangkat ini tidak pernah merekam, dan ponsel memakai mikrofonnya sendiri, atau headset/interkom yang dipasangkan ke ponsel, sehingga asisten suara tetap berfungsi. Memerlukan Android 11 atau lebih baru di ponsel.</string>
@@ -1194,12 +1190,15 @@
     <string name="kill_on_disconnect_description">Tutup aplikasi secara otomatis saat koneksi Android Auto terputus.</string>
     <string name="kill_on_disconnect_help">Menutup aplikasi saat Android Auto terputus, sehingga unit kembali ke layar bawaannya. Aktifkan jika unit harus menampilkan launcher-nya sendiri setelah setiap perjalanan. Tidak berpengaruh selama aplikasi ini menjadi launcher mobil. Jika Buka kembali saat terhubung ulang, Mulai saat boot, atau Mulai saat layar menyala aktif, aplikasi memperingatkan Anda dulu, karena opsi itu membutuhkan aplikasi tetap terbuka.</string>
     <string name="raise_projection_during_call">Tetap di Android Auto selama panggilan</string>
-    <string name="raise_projection_during_call_description">Khusus Mode Mandiri. Membawa proyeksi kembali ke atas layar panggilan ponsel sehingga panggilan dijawab dan diakhiri dalam antarmuka Android Auto.</string>
-    <string name="raise_projection_during_call_summary">Hanya untuk Mode Mandiri. Menampilkan proyeksi di atas layar panggilan ponsel.</string>
+    <string name="raise_projection_during_call_description">Di Mode Mandiri, membawa proyeksi kembali ke atas layar panggilan ponsel sehingga panggilan dijawab dan diakhiri dalam antarmuka Android Auto. Pada unit FYT, meminta unit tidak menampilkan bilah atau layar panggilannya sendiri saat Android Auto berada di depan. Mungkin tidak berfungsi di semua unit atau versi firmware.</string>
+    <string name="raise_projection_during_call_summary">Mode Mandiri dan unit FYT. Sembunyikan layar panggilan. Belum tentu berfungsi.</string>
     <string name="show_over_lock_screen">Tampilkan di atas layar kunci</string>
     <string name="show_over_lock_screen_summary">Peta dan petunjuk arah tetap terlihat saat terkunci. Sentuhan dan tombol tidak berfungsi.</string>
     <string name="show_over_lock_screen_help">Menampilkan gambar Android Auto di atas layar kunci, sehingga peta dan petunjuk arah dapat dibaca tanpa membuka kunci. Selama unit ini terkunci, tidak ada yang diteruskan ke ponsel: sentuhan, tombol, pengontrol putar, dan tombol suara ditahan, dan peta dibawa ke depan. Tekan Kembali untuk membuka kunci dengan PIN, pola, atau sandi; setelah itu semuanya berfungsi seperti biasa. Musik, panggilan, dan asisten suara di ponsel itu sendiri tidak terpengaruh.</string>
-    <string name="show_over_lock_screen_locked_toast">Terkunci: hanya peta. Tekan Kembali untuk membuka kunci.</string>
+    <string name="show_over_lock_screen_locked_toast">Terkunci. Tekan Kembali untuk membuka kunci.</string>
+    <string name="night_overlay_while_locked">Hamparan malam saat terkunci</string>
+    <string name="night_overlay_while_locked_summary">Jam, belokan berikutnya, dan lagu sebagai pengganti peta.</string>
+    <string name="night_overlay_while_locked_help">Selama unit ini terkunci, unit menampilkan hamparan malam sebagai pengganti gambar Android Auto: jam, belokan berikutnya, dan lagu yang diputar pada latar gelap. Peta, tempat tersimpan, dan pop-up Android Auto, seperti nama penelepon, tertutup. Setelah kunci dibuka, gambar tampil lagi. Ini hanya mengubah apa yang ditampilkan unit ini dan tidak mengirim apa pun ke ponsel. Ukuran teks, latar, dan baris yang ditampilkan adalah setelan hamparan malam di “Gestur”.</string>
     <string name="kill_on_disconnect_warning_title">Peringatan</string>
     <string name="kill_on_disconnect_warning">Setelan sambungan ulang berikut bertentangan dengan penutupan aplikasi saat koneksi terputus:\n\n%1$s\n\nSetelan koneksi awal Anda (hubungkan otomatis, mulai otomatis) tetap berfungsi saat head unit menyala. Namun, setelah koneksi pertama terputus, aplikasi langsung ditutup dan tidak mencoba menghubungkan kembali.\n\nCatatan: Beberapa head unit aftermarket tidak pernah mati sepenuhnya. Perangkat itu masuk ke mode hibernasi, seperti ponsel yang layarnya terkunci tetapi tidak pernah benar-benar mati. Jika opsi ini aktif, aplikasi ditutup setelah koneksi pertama terputus dan mungkin tidak terbuka lagi secara otomatis saat mesin dinyalakan berikutnya.\n\nNonaktifkan setelan sambungan ulang di atas?</string>
     <string name="kill_on_disconnect_disable_and_enable">Nonaktifkan dan aktifkan</string>
@@ -1764,6 +1763,15 @@
     <string name="onb_launcher_reopen_note">Buka kembali saat terhubung ulang tidak berlaku selama Open Headunit menjadi aplikasi beranda, karena unit sudah kembali ke aplikasi ini. Fitur ini berfungsi lagi jika Peluncur Mobil dimatikan.</string>
     <string name="onb_summary_launcher_home">Peluncur: Open Headunit adalah aplikasi beranda</string>
     <string name="onb_summary_launcher_registered">Peluncur: terdaftar sebagai aplikasi beranda</string>
+    <string name="dpi_pane_map_and_media">Peta dan media</string>
+    <string name="dpi_pane_one_app">Satu aplikasi</string>
+    <string name="dpi_pane_compact">Ringkas</string>
+    <string name="dpi_pane_map_over_media">Peta di atas media</string>
+    <string name="dpi_layout_step_title">1. Tata letak</string>
+    <string name="dpi_size_step_title">2. Ukuran teks dan ikon</string>
+    <string name="dpi_expected_format">Perkiraan: %1$s</string>
+    <string name="dpi_edge_note">Besar dan Otomatis berada di batas tata letak. Jika ponsel Anda menampilkan tata letak lain di sana, pilih Sedang.</string>
+    <string name="dpi_row_named_format">%1$s, %2$s</string>
     <string name="home_pages_hint_title">Sentuh lama area kosong</string>
     <string name="home_pages_hint_body">Begitulah cara menambahkan halaman untuk widget, atau menghapusnya.</string>
     <string name="home_pages_hint_got_it">Mengerti</string>

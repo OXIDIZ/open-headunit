@@ -75,6 +75,7 @@
     <string name="night_overlay_dismiss">タップして投影に戻る</string>
     <string name="night_overlay_meters">%1$d m</string>
     <string name="night_overlay_kilometers">%1$.1f km</string>
+    <string name="night_overlay_kilometers_whole">%1$d km</string>
     <string name="night_overlay_navigation">%1$s · %2$s</string>
     <string name="night_overlay_left">左</string>
     <string name="night_overlay_right">右</string>
@@ -384,6 +385,9 @@
     <string name="auto_connecting_single_usb">USBデバイスに自動接続しています…</string>
     <string name="video_codec">ビデオコーデック</string>
     <string name="video_codec_help">スマートフォンが送信する映像形式を選びます。自動では、この機器がデコードできる形式からアプリが選びます。H.265 は同じデータレートでより鮮明です。H.264 はどのデコーダーでも動作します。映像がカクつく、または黒いままのときに変更してください。選択は次回の接続から有効です。</string>
+    <string name="gal_compatibility_mode">互換モード (GAL 1.2)</string>
+    <string name="gal_compatibility_mode_summary">プロトコルの初期バージョンのみを要求します。次の接続から反映されます。</string>
+    <string name="gal_compatibility_mode_help">アプリはスマートフォンに GAL 6.1 を要求します。スマートフォンの Android Auto が古いバージョンで応答した場合は、1.6 を要求します。これらのバージョンでは、より新しい音声、映像、表示の機能を利用できます。スマートフォンは接続できるものの、その後の動作に問題がある場合にのみ、このモードをオンにしてください。オンにすると、以前のリリースと同じように GAL 1.2 を要求し、これらの機能は利用できません。GAL は画面投影用のプロトコルであり、Android や Android Auto アプリのバージョンとは異なります。次の接続から反映されます。</string>
     <string name="fps_limit">FPS 制限</string>
     <string name="fps_limit_help">この機器が Android Auto に要求する最大フレームレートです。60 にすると動きは滑らかになりますが、帯域とデコーダーの処理能力がより必要です。映像が遅れたりカクついたりする場合は 30 を選んでください。次の接続から反映されます。</string>
     <string name="save">保存</string>
@@ -421,7 +425,7 @@
     <string name="attach_hw_dsp_equalizer_description">オーディオセッションにダミーのイコライザーエフェクトをアタッチし、一部のヘッドユニットでハードウェアDSPルーティングを強制します。ViPER4Android / ViperFXを使用している場合や、古いAndroidで音声がこもる場合は無効にしてください。</string>
     <string name="attach_hw_dsp_equalizer_summary">一部の機器でハードウェア DSP 経由を強制するため、ダミーのイコライザーを接続します。</string>
     <string name="audio_volume_offset">音量オフセット</string>
-    <string name="audio_volume_offset_help">この機器での Android Auto の 3 つの音声ストリーム（メディア、ナビ案内、システム音）の音量を設定します。それぞれ 0% から 200% の範囲です。100% ではスマートフォンから送られたままの音量で再生します。ナビと音楽の音量バランスを整えるときに使います。</string>
+    <string name="audio_volume_offset_help" formatted="false">この機器での Android Auto の 3 つの音声ストリーム（メディア、ナビ案内、システム音）の音量を設定します。それぞれ 0% から 200% の範囲です。100% ではスマートフォンから送られたままの音量で再生します。ナビと音楽の音量バランスを整えるときに使います。</string>
     <string name="mic_input_source">マイク入力ソース</string>
     <string name="mic_input_source_description">マイクの音声ソースを選択します。</string>
     <string name="mic_input_source_help">アプリが録音に使う Android の音声ソースを選びます。「デフォルト」はシステムが決めます。「内蔵マイク」は生の音を録音します。「音声認識」と「ボイスコミュニケーション」は、システムのノイズとエコーのフィルターを加えます。「Bluetoothヘッドセット」は Bluetooth ヘッドセットで録音します。スマートフォンに声が届かない場合に変更してください。Android Auto の接続中に変更を保存すると、セッションが終了します。</string>
@@ -1025,16 +1029,10 @@
     <string name="onb_automation_more_hint">自動接続と自動起動の設定で、さらに多くのオプションを確認できます。</string>
     <string name="onb_dpi_help">DPI を高くすると Android Auto のアイコンや文字が大きくなり、画面に表示される情報は少なくなります。低くすると小さくなり、より多く表示されます。Android Auto に接続したときに反映されます。</string>
     <string name="onb_change_later">これはあとで設定で変更できます。</string>
-    <string name="dpi_automatic">自動</string>
-    <string name="dpi_automatic_desc">デバイスの密度を使用。</string>
-    <string name="dpi_widescreen_hint">%1$d DPI以下では、Android Autoは地図の横にメディアカードを表示し、文字が小さくなります。</string>
-    <string name="dpi_automatic_desc_canvas">%2$sに%1$d DPIを使用（%3$dx%4$d dpのキャンバス）。</string>
     <string name="dpi_row_value_format">%1$d (%2$dx%3$d dp)</string>
     <string name="dpi_row_auto_format">自動: %1$d (%2$dx%3$d dp)</string>
     <string name="dpi_row_clamped_format">%1$d、送信値 %2$d (%3$dx%4$d dp)</string>
     <string name="dpi_clamped_note">Android Autoには748x450 dp以上のキャンバスが必要なため、%1$d DPIは%2$dとして送信されます。</string>
-    <string name="dpi_clamped_note_portrait">縦向きでは、Android Auto上のGoogle Mapsは幅730 dp未満のキャンバスでタッチを受け付けないため、%1$d DPIは%2$dとして送信されます。</string>
-    <string name="dpi_portrait_override_note">%1$d DPIは選択どおりに送信されます。縦向きでは、%2$d DPIを超えると、Android Auto上のGoogle Mapsがタッチを受け付けない場合があります。</string>
     <string name="dpi_floor_override_note">%1$d DPIは選択どおりに送信されます。%2$d DPIを超えると、キャンバスがAndroid Autoに必要な748x450 dpより小さくなり、縮小されたレイアウトで表示される場合があります。</string>
     <string name="onb_conn_usb_label">USB（またはアダプター）</string>
     <string name="onb_connection_self_detail">セルフモードでは、スマートフォンを接続せずにこの端末で Android Auto を実行します。</string>
@@ -1050,7 +1048,6 @@
     <string name="resolution_use_anyway">そのまま使用</string>
     <string name="resolution_use_recommended">推奨を使用</string>
     <string name="dpi_input_hint">DPI</string>
-    <string name="onb_dpi_huge">特大</string>
     <string name="onb_vehicle_title">お使いの車</string>
     <string name="onb_vehicle_input_hint">ブランドまたは名前</string>
     <string name="onb_vehicle_help_aa">この名前は Android Auto に送信されます。スマートフォンの接続履歴と Android Auto のウェルカム画面に表示されます。</string>
@@ -1149,7 +1146,6 @@
         <item>Volkswagen</item>
         <item>Volvo</item>
     </string-array>
-    <string name="onb_dpi_recommended">お使いの画面の推奨値: %1$d dpi</string>
     <string name="dpi_value_format">%1$d DPI</string>
     <string name="pixel_aspect_ratio">ピクセルのアスペクト比</string>
     <string name="pixel_aspect_ratio_help">この画面で円が楕円に見える場合のみ変更してください。パネルの画素が正方形でないと起こります。10000は正方形の画素を表します。</string>
@@ -1332,12 +1328,15 @@
     <string name="failed_aa_not_system">失敗: Android Auto がシステムアプリとしてインストールされていません！</string>
     <string name="failed_aa_not_installed">失敗: Android Auto がインストールされていません！</string>
     <string name="raise_projection_during_call">通話中もAndroid Autoを表示したままにする</string>
-    <string name="raise_projection_during_call_description">セルフモード専用。スマートフォンの通話画面の上にAndroid Autoの画面を再び表示し、通話の応答と終了をAndroid Autoの画面で行えるようにします。</string>
-    <string name="raise_projection_during_call_summary">セルフモード専用。スマートフォンの通話画面の上に投影を表示します。</string>
+    <string name="raise_projection_during_call_description">セルフモードでは、スマートフォンの通話画面の上にAndroid Autoの画面を再び表示し、通話の応答と終了をAndroid Autoの画面で行えるようにします。FYTヘッドユニットでは、Android Autoが前面にある間、本体の通話バーや通話画面を表示しないよう本体に要求します。一部の機器やファームウェアのバージョンでは動作しない場合があります。</string>
+    <string name="raise_projection_during_call_summary">セルフモードとFYT機器。通話画面を隠します。一部の機器では動作しない場合があります。</string>
     <string name="show_over_lock_screen">ロック画面の上に表示</string>
     <string name="show_over_lock_screen_summary">ロック中も地図とルート案内が表示されます。タッチとボタンは無効です。</string>
     <string name="show_over_lock_screen_help">Android Auto の画面をロック画面の上に表示し、ロックを解除せずに地図とルート案内を確認できます。このユニットがロックされている間は、スマートフォンに何も送られません。タッチ、ボタン、ロータリーコントローラー、音声ボタンは保留され、地図が前面に表示されます。「戻る」を押すと PIN、パターン、パスワードでロックを解除でき、その後は通常どおり動作します。スマートフォン本体の音楽、通話、音声アシスタントには影響しません。</string>
-    <string name="show_over_lock_screen_locked_toast">ロック中: 地図のみ。「戻る」でロック解除。</string>
+    <string name="show_over_lock_screen_locked_toast">ロック中。「戻る」でロック解除。</string>
+    <string name="night_overlay_while_locked">ロック中のナイトオーバーレイ</string>
+    <string name="night_overlay_while_locked_summary">地図の代わりに時計、次の曲がり角、曲名を表示。</string>
+    <string name="night_overlay_while_locked_help">このユニットがロックされている間、Android Auto の映像の代わりにナイトオーバーレイを表示します。暗い背景に時計、次の曲がり角、再生中の曲が表示されます。地図、保存した場所、発信者名などの Android Auto のポップアップは隠れます。ロックを解除すると映像に戻ります。このユニットの表示だけを変え、スマートフォンには何も送りません。文字サイズ、背景、表示する行は“ジェスチャー”のナイトオーバーレイ設定で決まります。</string>
     <string name="audio_stream_settings">オーディオストリーム</string>
     <string name="audio_stream_settings_description">Android Auto の各チャンネルを再生するシステムストリームを選択します。</string>
     <string name="audio_stream_settings_info">Android Auto は音声を「メディア」「音声案内」「システム音」の 3 チャンネルで送信します。各チャンネルはシステムストリーム経由でヘッドユニットに届き、選んだストリームによって連動する音量キーが決まります。多くのヘッドユニットでは、そもそもアンプが作動するかどうかも左右します。保存する前にスピーカーボタンでテスト音を鳴らして確認してください。</string>
@@ -1487,16 +1486,16 @@
     <string name="pref_enable_floating_button_help">純正ランチャーや他のアプリの上にフローティングボタンを表示し、Open Headunitに素早く戻れるようにします。</string>
     <string name="pref_floating_button_connection_status_title">接続状態インジケーター</string>
     <string name="pref_floating_button_connection_status_summary">スマートフォンの接続中はボタンを薄くします。</string>
-    <string name="pref_floating_button_connection_status_help">スマートフォンが接続されていないときは「未接続時の不透明度」を使い、接続中は「フローティングボタンの不透明度」まで薄くなります。0%ではボタンは非表示になり、タップを通過させます。</string>
+    <string name="pref_floating_button_connection_status_help" formatted="false">スマートフォンが接続されていないときは「未接続時の不透明度」を使い、接続中は「フローティングボタンの不透明度」まで薄くなります。0%ではボタンは非表示になり、タップを通過させます。</string>
     <string name="pref_floating_button_size_title">フローティングボタンのサイズ</string>
     <string name="pref_floating_button_size_help">フローティングボタンの大きさを 32 dp から 120 dp で設定します。大きいボタンのほうが、運転中にタップしやすくなります。</string>
     <string name="pref_floating_button_opacity_title">フローティングボタンの不透明度</string>
     <string name="pref_floating_button_opacity_help">フローティングボタンの濃さを 10% から 100% で設定します。「接続状態インジケーター」がオンのときは、この値はスマートフォンの接続中のみ適用されます。</string>
     <string name="pref_floating_button_disconnected_opacity_title">未接続時の不透明度</string>
-    <string name="pref_floating_button_disconnected_opacity_help">スマートフォンが接続されていないときの、フローティングボタンの濃さです。0% ではボタンが非表示になり、タップは下の画面に届きます。</string>
+    <string name="pref_floating_button_disconnected_opacity_help" formatted="false">スマートフォンが接続されていないときの、フローティングボタンの濃さです。0% ではボタンが非表示になり、タップは下の画面に届きます。</string>
     <string name="pref_floating_button_x_title">水平位置 (X)</string>
     <string name="pref_floating_button_y_title">垂直位置 (Y)</string>
-    <string name="pref_floating_button_position_help">画面上のフローティングボタンの位置です。X では、0% が左端、100% が右端です。Y では、0% が上端、100% が下端です。ボタンは常に画面内に収まります。</string>
+    <string name="pref_floating_button_position_help" formatted="false">画面上のフローティングボタンの位置です。X では、0% が左端、100% が右端です。Y では、0% が上端、100% が下端です。ボタンは常に画面内に収まります。</string>
     <string name="pref_aa_exit_action_title">Android Auto 終了時の動作</string>
     <string name="pref_aa_exit_action_summary">Android Autoのアプリ一覧で「終了」をタップしたときの動作。</string>
     <string name="pref_aa_exit_action_help">Android Auto で「終了」をタップしたときの動作を選びます。「純正ランチャーに戻る」は、この機器のホーム画面を表示します。「アプリのホーム画面に戻る」は、このアプリのホーム画面を表示します。この 2 つではスマートフォンは接続されたままです。「セッションの接続を解除」はセッションを終了します。このアプリが車のランチャーの場合、「純正ランチャーに戻る」は「アプリのホーム画面に戻る」と同じ動作になります。</string>
@@ -1719,6 +1718,15 @@
     <string name="onb_launcher_reopen_note">Open Headunitがホームアプリの間は、ユニットが自動的に戻るため「再接続時に再開」は適用されません。カーランチャーをオフにすると再び有効になります。</string>
     <string name="onb_summary_launcher_home">ランチャー: Open Headunitがホームアプリです</string>
     <string name="onb_summary_launcher_registered">ランチャー: ホームアプリとして登録済み</string>
+    <string name="dpi_pane_map_and_media">マップとメディア</string>
+    <string name="dpi_pane_one_app">1つのアプリ</string>
+    <string name="dpi_pane_compact">コンパクト</string>
+    <string name="dpi_pane_map_over_media">メディアの上にマップ</string>
+    <string name="dpi_layout_step_title">1. レイアウト</string>
+    <string name="dpi_size_step_title">2. テキストとアイコンのサイズ</string>
+    <string name="dpi_expected_format">想定: %1$s</string>
+    <string name="dpi_edge_note">「大」と「自動」はレイアウトの境界にあります。スマートフォンで別のレイアウトが表示される場合は、「中」を選択してください。</string>
+    <string name="dpi_row_named_format">%1$s、%2$s</string>
     <string name="home_pages_hint_title">空いている場所を長押し</string>
     <string name="home_pages_hint_body">ウィジェット用のページを追加したり、削除したりできます。</string>
     <string name="home_pages_hint_got_it">OK</string>

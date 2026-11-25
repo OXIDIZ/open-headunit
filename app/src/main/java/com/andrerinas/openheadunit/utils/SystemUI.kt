@@ -111,21 +111,28 @@ object SystemUI {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                         flags = flags or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                     } else {
-                        // Older than KitKat: use FLAG_FULLSCREEN for reliability
-                        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
                         flags = flags or View.SYSTEM_UI_FLAG_LOW_PROFILE
+                    }
+                    // Keep FLAG_FULLSCREEN on API < 30 so system overlays (e.g. volume bar on
+                    // Android 6 / PX5 head units) do not pull the status bar back down (#1257).
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+                        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
                     }
                 }
                 Settings.FullscreenMode.STATUS_ONLY -> {
                     flags = flags or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_FULLSCREEN
-                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-                        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        flags = flags or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                    } else {
                         flags = flags or View.SYSTEM_UI_FLAG_LOW_PROFILE
+                    }
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+                        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
                     }
                 }
                 Settings.FullscreenMode.NONE -> {
                     // Reset flags for normal mode
-                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
                         window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
                     }
                 }
@@ -139,10 +146,10 @@ object SystemUI {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
                 if (Build.VERSION.SDK_INT < 35) {
-                    window.statusBarColor = Color.BLACK
-                    if (mode == Settings.FullscreenMode.NONE || mode == Settings.FullscreenMode.STATUS_ONLY) {
-                        window.navigationBarColor = Color.BLACK
-                    }
+                    // Paints the bars and sets their icons to match the own color, when there is one.
+                    val barColor = Settings(window.context).systemBarColor
+                    applyBarColors(window, barColor, mode)
+                    if (barColor != 0) return
                 }
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -152,6 +159,33 @@ object SystemUI {
             }
             controllerCompat.isAppearanceLightStatusBars = false
             controllerCompat.isAppearanceLightNavigationBars = false
+        }
+    }
+
+    /**
+     * Whether [applyBarColors] can paint the bars at all: not in the immersive modes, where the
+     * bars are hidden, and not from Android 15, where edge-to-edge leaves the window no bar color.
+     */
+    fun paintsBarColors(mode: Settings.FullscreenMode): Boolean =
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && Build.VERSION.SDK_INT < 35 &&
+            mode != Settings.FullscreenMode.IMMERSIVE && mode != Settings.FullscreenMode.IMMERSIVE_WITH_NOTCH
+
+    /**
+     * Paints the bars with the own [color] and sets their icons to be readable on it: dark icons
+     * on a light color, light icons otherwise. 0 is no own color and leaves the bars as the theme
+     * and the screen set them. The home launcher of some head units takes its own bottom panel
+     * from the navigation bar color, so this is what colors that panel.
+     */
+    fun applyBarColors(window: Window, color: Int, mode: Settings.FullscreenMode) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
+        if (color == 0 || !paintsBarColors(mode)) return
+        val darkIcons = HomeUiHelper.readableOn(color) != Color.WHITE
+        val controller = WindowInsetsControllerCompat(window, window.decorView)
+        window.statusBarColor = color
+        controller.isAppearanceLightStatusBars = darkIcons
+        if (mode == Settings.FullscreenMode.NONE || mode == Settings.FullscreenMode.STATUS_ONLY) {
+            window.navigationBarColor = color
+            controller.isAppearanceLightNavigationBars = darkIcons
         }
     }
 
@@ -216,7 +250,7 @@ object SystemUI {
         private var observedPreferences: SharedPreferences? = null
         private val settingsListener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
             when (key) {
-                null, "resolutionId", "dpi-pixel-density", "pixel-aspect-ratio-e4",
+                null, "resolutionId", "dpi-pixel-density", "dpi-auto-layout", "pixel-aspect-ratio-e4",
                 "inset-left", "inset-top", "inset-right", "inset-bottom",
                 "view-mode", Settings.KEY_SCREEN_ORIENTATION,
                 "fullscreen-mode", "start-in-fullscreen-mode",

@@ -172,6 +172,7 @@ object SettingsBackupManager {
         "view-mode" to ValueType.INT,
         Settings.KEY_SCREEN_ORIENTATION to ValueType.INT,
         "dpi-pixel-density" to ValueType.INT,
+        "dpi-auto-layout" to ValueType.STRING,
         "display-size-preset" to ValueType.STRING,
         "pixel-aspect-ratio-e4" to ValueType.INT,
         "inset-left" to ValueType.INT,
@@ -196,6 +197,7 @@ object SettingsBackupManager {
         "head-unit-model" to ValueType.STRING,
         "wifi-connection-mode" to ValueType.INT,
         "video-codec" to ValueType.STRING,
+        "gal-compatibility-mode" to ValueType.BOOLEAN,
         "fps-limit" to ValueType.INT,
         "auto-connect-last-session" to ValueType.BOOLEAN,
         "auto-connect-single-usb" to ValueType.BOOLEAN,
@@ -274,6 +276,7 @@ object SettingsBackupManager {
         "enable-rotary" to ValueType.BOOLEAN,
         "kill-on-disconnect" to ValueType.BOOLEAN,
         "show-over-lock-screen" to ValueType.BOOLEAN,
+        "night-overlay-while-locked" to ValueType.BOOLEAN,
         "auto-enable-hotspot" to ValueType.BOOLEAN,
         "headunit-server-network" to ValueType.INT,
         "headunit-server-auto-wifi-scan" to ValueType.BOOLEAN,
@@ -332,8 +335,10 @@ object SettingsBackupManager {
         "resolutionId",
         "video-fit-mode",
         "video-codec",
+        "gal-compatibility-mode",
         "fps-limit",
         "dpi-pixel-density",
+        "dpi-auto-layout",
         "pixel-aspect-ratio-e4",
         "force-software-decoding",
         "software-video-decoder",
@@ -461,11 +466,12 @@ object SettingsBackupManager {
         val prefs = context.getSharedPreferences(Settings.PREFS_NAME, Context.MODE_PRIVATE)
         val importData = parseImportJson(json)
         val existing = backupPreferences(context)
-        val changedKeys = importData.values.filter { (key, value) -> existing[key] != value }.keys
+        val values = withLayoutCleared(importData.values, existing)
+        val changedKeys = values.filter { (key, value) -> existing[key] != value }.keys
 
-        removeSupersededKeys(prefs, importData.values.keys)
-        applyValues(prefs, importData.values.filterKeys { it !in wifiScanBackupKeys })
-        val scanValues = importData.values.filterKeys { it in wifiScanBackupKeys }
+        removeSupersededKeys(prefs, values.keys)
+        applyValues(prefs, values.filterKeys { it !in wifiScanBackupKeys })
+        val scanValues = values.filterKeys { it in wifiScanBackupKeys }
             .mapKeys { (key, _) -> wifiScanBackupKeys.getValue(key) }
         if (scanValues.isNotEmpty()) {
             applyValues(context.getSharedPreferences("wifi-scan-option", Context.MODE_PRIVATE), scanValues)
@@ -477,6 +483,13 @@ object SettingsBackupManager {
             skippedKeys = importData.skippedKeys,
             changedKeys = changedKeys
         )
+    }
+
+    /** A backup from before the layout key sends Automatic, so a stored layout must not outlive its density. */
+    private fun withLayoutCleared(values: Map<String, Any>, existing: Map<String, *>): Map<String, Any> {
+        val stale = "dpi-pixel-density" in values && "dpi-auto-layout" !in values &&
+            !(existing["dpi-auto-layout"] as? String).isNullOrEmpty()
+        return if (stale) values + ("dpi-auto-layout" to "") else values
     }
 
     fun resetFromContext(context: Context, applyTheme: Boolean = true): ResetResult {

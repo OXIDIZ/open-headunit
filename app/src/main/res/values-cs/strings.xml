@@ -75,6 +75,7 @@
     <string name="night_overlay_dismiss">Klepnutím se vraťte do projekce</string>
     <string name="night_overlay_meters">%1$d m</string>
     <string name="night_overlay_kilometers">%1$.1f km</string>
+    <string name="night_overlay_kilometers_whole">%1$d km</string>
     <string name="night_overlay_navigation">%1$s · %2$s</string>
     <string name="night_overlay_left">vlevo</string>
     <string name="night_overlay_right">vpravo</string>
@@ -353,6 +354,9 @@
     <string name="auto_connecting_single_usb">Automatické připojování k USB zařízení…</string>
     <string name="video_codec">Video kodek</string>
     <string name="video_codec_help">Vybírá formát videa, který telefon posílá. Auto nechá aplikaci vybrat z toho, co toto autorádio umí dekódovat. H.265 dává ostřejší obraz při stejné datové rychlosti. H.264 funguje na každém dekodéru. Změňte ho, když obraz sekává nebo zůstává černý. Volba platí od dalšího připojení.</string>
+    <string name="gal_compatibility_mode">Režim kompatibility (GAL 1.2)</string>
+    <string name="gal_compatibility_mode_summary">Vyžádá pouze původní verzi protokolu. Platí od dalšího připojení.</string>
+    <string name="gal_compatibility_mode_help">Aplikace od telefonu žádá GAL 6.1. Pokud Android Auto v telefonu odpoví starší verzí, aplikace požádá o 1.6. Tyto verze umožňují novější funkce zvuku, videa a zobrazení. Tento režim zapněte, jen když se telefon připojí, ale pak nefunguje správně. Aplikace pak stejně jako v dřívějších vydáních požádá o GAL 1.2, bez těchto funkcí. GAL je protokol projekce, nikoli verze systému Android nebo aplikace Android Auto. Platí od dalšího připojení.</string>
     <string name="fps_limit">Limit FPS</string>
     <string name="fps_limit_help">Nejvyšší snímková frekvence, kterou tato jednotka od Android Auto žádá. 60 dává plynulejší pohyb, ale potřebuje větší šířku pásma a výkon dekodéru. Pokud obraz zaostává nebo sekává, zvolte 30. Platí od dalšího připojení.</string>
     <string name="save">Uložit</string>
@@ -389,7 +393,7 @@
     <string name="attach_hw_dsp_equalizer_description">Připojí k relaci zvuku virtuální ekvalizér pro vynucení směrování přes HW DSP na specifických autorádiích. Ponechte vypnuté, pokud používáte ViPER4Android / ViperFX nebo pokud je zvuk na starších verzích Androidu tlumený.</string>
     <string name="attach_hw_dsp_equalizer_summary">Připojí fiktivní ekvalizér, který na některých autorádiích vynutí směrování přes hardwarový DSP.</string>
     <string name="audio_volume_offset">Posun hlasitosti</string>
-    <string name="audio_volume_offset_help">Nastavuje hlasitost tří zvukových proudů Android Auto na této jednotce: médií, navigačních pokynů a systémových zvuků. Každý má rozsah od 0 % do 200 %. Při 100 % se proud přehrává tak, jak ho posílá telefon. Použijte to k vyvážení navigace a hudby.</string>
+    <string name="audio_volume_offset_help" formatted="false">Nastavuje hlasitost tří zvukových proudů Android Auto na této jednotce: médií, navigačních pokynů a systémových zvuků. Každý má rozsah od 0 % do 200 %. Při 100 % se proud přehrává tak, jak ho posílá telefon. Použijte to k vyvážení navigace a hudby.</string>
     <string name="mic_input_source">Zdroj vstupu mikrofonu</string>
     <string name="mic_input_source_description">Vyberte zdroj zvuku pro mikrofon.</string>
     <string name="mic_input_source_help">Vybírá zdroj zvuku Androidu, ze kterého aplikace nahrává. „Výchozí“ nechá rozhodnout systém. „Mikrofon“ nahrává surový zvuk. „Rozpoznávání hlasu“ a „Hlasová komunikace“ přidávají systémové filtry šumu a ozvěny. „Bluetooth náhlavní souprava“ nahrává přes náhlavní soupravu Bluetooth. Změňte to, pokud vás telefon neslyší. Pokud je Android Auto připojeno, uložení změny ukončí relaci.</string>
@@ -1020,16 +1024,10 @@
     <string name="onb_automation_more_hint">Další možnosti najdete v nastavení automatického připojení a automatického spuštění.</string>
     <string name="onb_dpi_help">Vyšší DPI zvětší ikony a text Android Auto, takže se na obrazovku vejde méně. Nižší DPI je zmenší a vejde se více. Projeví se po připojení Android Auto.</string>
     <string name="onb_change_later">Toto můžete změnit později v Nastavení.</string>
-    <string name="dpi_automatic">Automaticky</string>
-    <string name="dpi_automatic_desc">Použít hustotu zařízení.</string>
-    <string name="dpi_widescreen_hint">Při %1$d DPI nebo méně zobrazí Android Auto mapu s kartou médií vedle ní a text se zmenší.</string>
-    <string name="dpi_automatic_desc_canvas">Použije %1$d DPI pro %2$s (plocha %3$dx%4$d dp).</string>
     <string name="dpi_row_value_format">%1$d (%2$dx%3$d dp)</string>
     <string name="dpi_row_auto_format">Automaticky: %1$d (%2$dx%3$d dp)</string>
     <string name="dpi_row_clamped_format">%1$d, odesláno jako %2$d (%3$dx%4$d dp)</string>
     <string name="dpi_clamped_note">Android Auto vyžaduje plochu alespoň 748x450 dp, proto se místo %1$d DPI odešle %2$d.</string>
-    <string name="dpi_clamped_note_portrait">Na výšku Google Maps v Android Auto ignoruje dotyky na ploše užší než 730 dp, proto se místo %1$d DPI odešle %2$d.</string>
-    <string name="dpi_portrait_override_note">Odešle se %1$d DPI, jak je vybráno. Na výšku může Google Maps v Android Auto ignorovat dotyky nad %2$d DPI.</string>
     <string name="dpi_floor_override_note">Odešle se %1$d DPI, jak je vybráno. Nad %2$d DPI je plocha menší než 748x450 dp, které Android Auto vyžaduje, a může se zobrazit zjednodušené rozvržení.</string>
     <string name="onb_conn_usb_label">USB (nebo adaptér)</string>
     <string name="onb_connection_self_detail">Samostatný režim spouští Android Auto v tomto zařízení bez připojení telefonu.</string>
@@ -1045,7 +1043,6 @@
     <string name="resolution_use_anyway">Přesto použít</string>
     <string name="resolution_use_recommended">Použít doporučené</string>
     <string name="dpi_input_hint">DPI</string>
-    <string name="onb_dpi_huge">Obrovská</string>
     <string name="onb_vehicle_title">Vaše auto</string>
     <string name="onb_vehicle_input_hint">Značka nebo název</string>
     <string name="onb_vehicle_help_aa">Tento název se odesílá do Android Auto. Zobrazuje se v historii připojení telefonu a na uvítací obrazovce Android Auto.</string>
@@ -1077,7 +1074,6 @@
     <string name="perm_write_settings_help">Umožňuje aplikaci automaticky zapnout hotspot pro bezdrátová připojení.</string>
     <string name="perm_storage_title">Úložiště</string>
     <string name="perm_storage_help">Potřebné pro zálohování a obnovu nastavení a pro výběr vlastního obrázku načítání.</string>
-    <string name="onb_dpi_recommended">Doporučeno pro vaši obrazovku: %1$d dpi</string>
     <string name="onb_ready_loading_intro">Ještě jedna věc: nyní můžete nastavit vlastní načítací obrazovku, která se zobrazí při připojování auta.</string>
     <string name="onb_ready_loading_button">Nastavit načítací obrazovku</string>
 
@@ -1330,12 +1326,15 @@
     <string name="failed_aa_not_system">Selhalo: Android Auto není nainstalováno jako systémová aplikace!</string>
     <string name="failed_aa_not_installed">Selhalo: Android Auto není nainstalováno!</string>
     <string name="raise_projection_during_call">Zůstat v Android Auto během hovorů</string>
-    <string name="raise_projection_during_call_description">Pouze samostatný režim. Vrátí projekci nad obrazovku hovoru telefonu, takže se hovory přijímají a ukončují v rozhraní Android Auto.</string>
-    <string name="raise_projection_during_call_summary">Jen samostatný režim. Zobrazí projekci nad obrazovkou hovoru v telefonu.</string>
+    <string name="raise_projection_during_call_description">V samostatném režimu vrátí projekci nad obrazovku hovoru telefonu, takže se hovory přijímají a ukončují v rozhraní Android Auto. U jednotek FYT požádá jednotku, aby nezobrazovala vlastní lištu ani obrazovku hovoru, když je Android Auto v popředí. Nemusí fungovat na každé jednotce ani verzi firmwaru.</string>
+    <string name="raise_projection_during_call_summary">Samostatný režim a jednotky FYT. Skryje obrazovku hovoru. Nemusí fungovat všude.</string>
     <string name="show_over_lock_screen">Zobrazit na zamykací obrazovce</string>
     <string name="show_over_lock_screen_summary">Mapa a navigace zůstanou viditelné i při zamčení. Dotyky a tlačítka nefungují.</string>
     <string name="show_over_lock_screen_help">Zobrazí obraz Android Auto přes zamykací obrazovku, takže mapu a navigaci lze číst bez odemčení. Dokud je tato jednotka zamčená, do telefonu nic nedorazí: dotyky, tlačítka, otočný ovladač i hlasové tlačítko jsou blokovány a do popředí se přesune mapa. Stiskem Zpět jednotku odemknete pomocí PIN, gesta nebo hesla; poté vše funguje jako obvykle. Hudba, hovory a hlasový asistent v samotném telefonu nejsou ovlivněny.</string>
-    <string name="show_over_lock_screen_locked_toast">Zamčeno: jen mapa. Stiskem Zpět odemknete.</string>
+    <string name="show_over_lock_screen_locked_toast">Zamčeno. Stiskem Zpět odemknete.</string>
+    <string name="night_overlay_while_locked">Noční překrytí při zamčení</string>
+    <string name="night_overlay_while_locked_summary">Hodiny, další odbočka a skladba místo mapy.</string>
+    <string name="night_overlay_while_locked_help">Dokud je tato jednotka zamčená, zobrazuje místo obrazu Android Auto noční překrytí: hodiny, další odbočku a přehrávanou skladbu na tmavém pozadí. Mapa, uložená místa a vyskakovací okna Android Auto, například jméno volajícího, jsou zakryta. Po odemčení se obraz zobrazí znovu. Mění se jen to, co tato jednotka zobrazuje, a do telefonu se nic neposílá. Velikost textu, pozadí a zobrazené řádky se nastavují v nastavení nočního překrytí v nabídce “Gesta”.</string>
     <string name="audio_stream_settings">Zvukové streamy</string>
     <string name="audio_stream_settings_description">Vyberte systémový stream, na kterém hraje každý kanál Android Auto.</string>
     <string name="audio_stream_settings_info">Android Auto posílá zvuk třemi kanály: Média, Navigace a Systémové zvuky. Každý se do autorádia dostane určitým systémovým streamem a zvolený stream určuje, kterým tlačítkem hlasitosti se řídí a u řady autorádií i to, zda se pro něj vůbec zapne zesilovač. Tlačítkem reproduktoru si před uložením přehrajte na streamu zkušební tón.</string>
@@ -1484,16 +1483,16 @@
     <string name="pref_enable_floating_button_help">Zobrazí plovoucí tlačítko nad OEM spouštěčem a jinými aplikacemi pro rychlý návrat do Open Headunit.</string>
     <string name="pref_floating_button_connection_status_title">Indikátor stavu připojení</string>
     <string name="pref_floating_button_connection_status_summary">Ztlumí tlačítko, dokud je připojen telefon.</string>
-    <string name="pref_floating_button_connection_status_help">Když není připojen telefon, použije Neprůhlednost při odpojení, a při připojeném telefonu přejde na Neprůhlednost plovoucího tlačítka. Při 0 % je tlačítko skryté a propouští klepnutí.</string>
+    <string name="pref_floating_button_connection_status_help" formatted="false">Když není připojen telefon, použije Neprůhlednost při odpojení, a při připojeném telefonu přejde na Neprůhlednost plovoucího tlačítka. Při 0 % je tlačítko skryté a propouští klepnutí.</string>
     <string name="pref_floating_button_size_title">Velikost plovoucího tlačítka</string>
     <string name="pref_floating_button_size_help">Velikost plovoucího tlačítka, od 32 do 120 dp. Větší tlačítko se při řízení snáze trefí.</string>
     <string name="pref_floating_button_opacity_title">Neprůhlednost plovoucího tlačítka</string>
     <string name="pref_floating_button_opacity_help">Jak nepropustně plovoucí tlačítko vypadá, od 10 % do 100 %. Při zapnutém indikátoru stavu připojení platí tato hodnota jen tehdy, když je telefon připojen.</string>
     <string name="pref_floating_button_disconnected_opacity_title">Neprůhlednost při odpojení</string>
-    <string name="pref_floating_button_disconnected_opacity_help">Jak nepropustně plovoucí tlačítko vypadá, dokud není připojen žádný telefon. Při 0 % je tlačítko skryté a klepnutí projdou na obrazovku pod ním.</string>
+    <string name="pref_floating_button_disconnected_opacity_help" formatted="false">Jak nepropustně plovoucí tlačítko vypadá, dokud není připojen žádný telefon. Při 0 % je tlačítko skryté a klepnutí projdou na obrazovku pod ním.</string>
     <string name="pref_floating_button_x_title">Vodorovná pozice (X)</string>
     <string name="pref_floating_button_y_title">Svislá pozice (Y)</string>
-    <string name="pref_floating_button_position_help">Kde na obrazovce plovoucí tlačítko leží. U X je 0 % levý okraj a 100 % pravý okraj. U Y je 0 % horní okraj a 100 % dolní okraj. Tlačítko vždy zůstane celé na obrazovce.</string>
+    <string name="pref_floating_button_position_help" formatted="false">Kde na obrazovce plovoucí tlačítko leží. U X je 0 % levý okraj a 100 % pravý okraj. U Y je 0 % horní okraj a 100 % dolní okraj. Tlačítko vždy zůstane celé na obrazovce.</string>
     <string name="pref_aa_exit_action_title">Akce při ukončení Android Auto</string>
     <string name="pref_aa_exit_action_summary">Akce po klepnutí na Ukončit v nabídce aplikací Android Auto.</string>
     <string name="pref_aa_exit_action_help">Určuje, co se stane po klepnutí na Ukončit v Android Auto. „Návrat do OEM spouštěče“ zobrazí vlastní domovskou obrazovku této jednotky. „Zpět na úvod aplikace“ zobrazí domovskou obrazovku této aplikace. U těchto dvou zůstane telefon připojen. „Odpojit relaci“ ukončí relaci. Pokud je tato aplikace launcherem vozidla, „Návrat do OEM spouštěče“ funguje jako „Zpět na úvod aplikace“.</string>
@@ -1716,6 +1715,15 @@
     <string name="onb_launcher_reopen_note">Volba Znovu otevřít při opětovném připojení neplatí, dokud je Open Headunit domovskou aplikací, protože se k ní jednotka vrací sama. Znovu začne fungovat, když spouštěč v autě vypnete.</string>
     <string name="onb_summary_launcher_home">Spouštěč: Open Headunit je domovská aplikace</string>
     <string name="onb_summary_launcher_registered">Spouštěč: zaregistrován jako domovská aplikace</string>
+    <string name="dpi_pane_map_and_media">Mapa a média</string>
+    <string name="dpi_pane_one_app">Jedna aplikace</string>
+    <string name="dpi_pane_compact">Kompaktní</string>
+    <string name="dpi_pane_map_over_media">Mapa nad médii</string>
+    <string name="dpi_layout_step_title">1. Rozvržení</string>
+    <string name="dpi_size_step_title">2. Velikost textu a ikon</string>
+    <string name="dpi_expected_format">Očekáváno: %1$s</string>
+    <string name="dpi_edge_note">Velká a Automaticky leží na hranici rozvržení. Pokud telefon zobrazí jiné rozvržení, zvolte Střední.</string>
+    <string name="dpi_row_named_format">%1$s, %2$s</string>
     <string name="home_pages_hint_title">Podržte prst na prázdném místě</string>
     <string name="home_pages_hint_body">Takto přidáte stránku pro widgety, nebo ji odeberete.</string>
     <string name="home_pages_hint_got_it">Rozumím</string>

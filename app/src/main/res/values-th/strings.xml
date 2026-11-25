@@ -188,23 +188,15 @@
     <string name="onb_dpi_small">เล็ก</string>
     <string name="onb_dpi_medium">ปานกลาง</string>
     <string name="onb_dpi_large">ใหญ่</string>
-    <string name="onb_dpi_huge">ใหญ่มาก</string>
     <string name="onb_appearance_more_hint">คุณสามารถค้นหาตัวเลือกโหมดมืดเพิ่มเติมได้ในการตั้งค่า</string>
     <string name="onb_automation_more_hint">คุณสามารถค้นหาตัวเลือกเพิ่มเติมในการตั้งค่าเชื่อมต่ออัตโนมัติและเริ่มต้นอัตโนมัติ</string>
     <string name="onb_dpi_help">DPI ที่สูงขึ้นจะทำให้ไอคอนและข้อความของ Android Auto ใหญ่ขึ้น จึงแสดงบนหน้าจอได้น้อยลง DPI ที่ต่ำลงจะทำให้มีขนาดเล็กลง จึงแสดงได้มากขึ้น จะมีผลเมื่อคุณเชื่อมต่อ Android Auto</string>
     <!-- %1$d recommended DPI value -->
-    <string name="onb_dpi_recommended">แนะนำสำหรับหน้าจอของคุณ: %1$d dpi</string>
     <string name="onb_change_later">คุณสามารถเปลี่ยนสิ่งนี้ได้ในภายหลังในการตั้งค่า</string>
-    <string name="dpi_automatic">อัตโนมัติ</string>
-    <string name="dpi_automatic_desc">ใช้ความหนาแน่นของอุปกรณ์</string>
-    <string name="dpi_widescreen_hint">ที่ %1$d DPI หรือต่ำกว่า Android Auto จะแสดงแผนที่พร้อมการ์ดสื่อข้างกัน และข้อความจะเล็กลง</string>
-    <string name="dpi_automatic_desc_canvas">ใช้ %1$d DPI สำหรับ %2$s โดยพื้นที่มีขนาด %3$dx%4$d dp</string>
     <string name="dpi_row_value_format">%1$d (%2$dx%3$d dp)</string>
     <string name="dpi_row_auto_format">อัตโนมัติ: %1$d (%2$dx%3$d dp)</string>
     <string name="dpi_row_clamped_format">%1$d, ส่งเป็น %2$d (%3$dx%4$d dp)</string>
     <string name="dpi_clamped_note">Android Auto ต้องการพื้นที่อย่างน้อย 748x450 dp จึงส่ง %1$d DPI เป็น %2$d</string>
-    <string name="dpi_clamped_note_portrait">ในแนวตั้ง Google Maps บน Android Auto จะไม่รับการสัมผัสบนพื้นที่ที่แคบกว่า 730 dp จึงส่ง %1$d DPI เป็น %2$d</string>
-    <string name="dpi_portrait_override_note">ส่ง %1$d DPI ตามที่เลือก ในแนวตั้ง Google Maps บน Android Auto อาจไม่รับการสัมผัสเมื่อเกิน %2$d DPI</string>
     <string name="dpi_floor_override_note">ส่ง %1$d DPI ตามที่เลือก เมื่อเกิน %2$d DPI พื้นที่จะเล็กกว่า 748x450 dp ที่ Android Auto ต้องการ และอาจแสดงเลย์เอาต์แบบลดขนาด</string>
     <string name="dpi_value_format">%1$d DPI</string>
     <string name="dpi_input_hint">DPI</string>
@@ -291,6 +283,7 @@
     <string name="night_overlay_dismiss">แตะเพื่อกลับไปยังการฉาย</string>
     <string name="night_overlay_meters">%1$d ม.</string>
     <string name="night_overlay_kilometers">%1$.1f กม.</string>
+    <string name="night_overlay_kilometers_whole">%1$d กม.</string>
     <string name="night_overlay_navigation">%1$s · %2$s</string>
     <string name="night_overlay_left">ซ้าย</string>
     <string name="night_overlay_right">ขวา</string>
@@ -679,6 +672,9 @@
     <string name="auto_connecting_single_usb">กำลังเชื่อมต่อกับอุปกรณ์ USB อัตโนมัติ…</string>
     <string name="video_codec">ตัวแปลงสัญญาณวิดีโอ (Codec)</string>
     <string name="video_codec_help">เลือกรูปแบบวิดีโอที่โทรศัพท์ส่งมา อัตโนมัติให้แอปเลือกจากรูปแบบที่เครื่องนี้ถอดรหัสได้ H.265 ให้ภาพคมชัดกว่าที่อัตราข้อมูลเท่ากัน H.264 ใช้ได้กับตัวถอดรหัสทุกตัว เปลี่ยนเมื่อภาพกระตุกหรือเป็นสีดำ ตัวเลือกจะมีผลตั้งแต่การเชื่อมต่อครั้งถัดไป</string>
+    <string name="gal_compatibility_mode">โหมดความเข้ากันได้ (GAL 1.2)</string>
+    <string name="gal_compatibility_mode_summary">ขอใช้เฉพาะโปรโตคอลเวอร์ชันดั้งเดิม มีผลเมื่อเชื่อมต่อครั้งถัดไป</string>
+    <string name="gal_compatibility_mode_help">แอปขอใช้ GAL 6.1 จากโทรศัพท์ หาก Android Auto บนโทรศัพท์ตอบกลับด้วยเวอร์ชันเก่ากว่า แอปจะขอใช้ 1.6 โปรโตคอลทั้งสองเวอร์ชันนี้รองรับฟีเจอร์ใหม่กว่าด้านเสียง วิดีโอ และการแสดงผล เปิดโหมดนี้เฉพาะเมื่อโทรศัพท์เชื่อมต่อได้แต่ทำงานผิดปกติหลังจากนั้น เมื่อเปิดโหมดนี้ แอปจะขอใช้ GAL 1.2 เหมือนในแอปรุ่นก่อน จึงใช้ฟีเจอร์เหล่านั้นไม่ได้ GAL คือโปรโตคอลสำหรับฉายภาพ ไม่ใช่เวอร์ชันของ Android หรือของแอป Android Auto มีผลเมื่อเชื่อมต่อครั้งถัดไป</string>
     <string name="fps_limit">ขีดจำกัด FPS</string>
     <string name="fps_limit_help">อัตราเฟรมสูงสุดที่อุปกรณ์นี้ขอจาก Android Auto ค่า 60 ให้การเคลื่อนไหวลื่นกว่า แต่ใช้แบนด์วิดท์และกำลังถอดรหัสมากกว่า เลือก 30 หากภาพหน่วงหรือกระตุก มีผลเมื่อเชื่อมต่อครั้งถัดไป</string>
     <string name="save">บันทึก</string>
@@ -718,16 +714,16 @@
     <string name="pref_enable_floating_button_help">แสดงปุ่มลอยทับลอนเชอร์เดิมและแอปอื่นๆ เพื่อกลับสู่ Open Headunit ได้อย่างรวดเร็ว</string>
     <string name="pref_floating_button_connection_status_title">ตัวบ่งชี้สถานะการเชื่อมต่อ</string>
     <string name="pref_floating_button_connection_status_summary">ทำให้ปุ่มจางลงขณะที่เชื่อมต่อโทรศัพท์</string>
-    <string name="pref_floating_button_connection_status_help">ใช้ความทึบเมื่อไม่ได้เชื่อมต่อ เมื่อไม่มีโทรศัพท์เชื่อมต่อ และค่อยๆ จางเป็นความทึบของปุ่มลอยขณะที่มีโทรศัพท์เชื่อมต่อ ที่ 0% ปุ่มจะถูกซ่อนและปล่อยให้การแตะผ่านไป</string>
+    <string name="pref_floating_button_connection_status_help" formatted="false">ใช้ความทึบเมื่อไม่ได้เชื่อมต่อ เมื่อไม่มีโทรศัพท์เชื่อมต่อ และค่อยๆ จางเป็นความทึบของปุ่มลอยขณะที่มีโทรศัพท์เชื่อมต่อ ที่ 0% ปุ่มจะถูกซ่อนและปล่อยให้การแตะผ่านไป</string>
     <string name="pref_floating_button_size_title">ขนาดปุ่มลอย</string>
     <string name="pref_floating_button_size_help">ขนาดของปุ่มลอย ตั้งแต่ 32 ถึง 120 dp ปุ่มที่ใหญ่กว่าแตะได้ง่ายกว่าขณะขับรถ</string>
     <string name="pref_floating_button_opacity_title">ความทึบของปุ่มลอย</string>
     <string name="pref_floating_button_opacity_help">ความชัดของปุ่มลอย ตั้งแต่ 10% ถึง 100% เมื่อเปิดตัวบ่งชี้สถานะการเชื่อมต่อ ค่านี้ใช้เฉพาะขณะที่มีโทรศัพท์เชื่อมต่ออยู่</string>
     <string name="pref_floating_button_disconnected_opacity_title">ความทึบเมื่อไม่ได้เชื่อมต่อ</string>
-    <string name="pref_floating_button_disconnected_opacity_help">ความชัดของปุ่มลอยขณะที่ไม่มีโทรศัพท์เชื่อมต่อ ที่ 0% ปุ่มจะถูกซ่อน และการแตะจะทะลุไปยังหน้าจอด้านล่าง</string>
+    <string name="pref_floating_button_disconnected_opacity_help" formatted="false">ความชัดของปุ่มลอยขณะที่ไม่มีโทรศัพท์เชื่อมต่อ ที่ 0% ปุ่มจะถูกซ่อน และการแตะจะทะลุไปยังหน้าจอด้านล่าง</string>
     <string name="pref_floating_button_x_title">ตำแหน่งแนวนอน (X)</string>
     <string name="pref_floating_button_y_title">ตำแหน่งแนวตั้ง (Y)</string>
-    <string name="pref_floating_button_position_help">ตำแหน่งของปุ่มลอยบนหน้าจอ สำหรับ X ค่า 0% คือขอบซ้าย และ 100% คือขอบขวา สำหรับ Y ค่า 0% คือขอบบน และ 100% คือขอบล่าง ปุ่มจะอยู่ในหน้าจอทั้งปุ่มเสมอ</string>
+    <string name="pref_floating_button_position_help" formatted="false">ตำแหน่งของปุ่มลอยบนหน้าจอ สำหรับ X ค่า 0% คือขอบซ้าย และ 100% คือขอบขวา สำหรับ Y ค่า 0% คือขอบบน และ 100% คือขอบล่าง ปุ่มจะอยู่ในหน้าจอทั้งปุ่มเสมอ</string>
     <string name="pref_aa_exit_action_title">การกระทำเมื่อออกจาก Android Auto</string>
     <string name="pref_aa_exit_action_summary">การกระทำเมื่อแตะ ออก ภายในหน้ารวมแอปของ Android Auto</string>
     <string name="pref_aa_exit_action_help">เลือกสิ่งที่เกิดขึ้นเมื่อคุณแตะออกใน Android Auto กลับสู่ลอนเชอร์ติดรถ จะแสดงหน้าจอหลักของอุปกรณ์เอง กลับสู่หน้าแรกของแอปจะแสดงหน้าจอหลักของแอปนี้ ทั้งสองแบบโทรศัพท์ยังคงเชื่อมต่ออยู่ ยกเลิกการเชื่อมต่อเซสชันจะจบเซสชัน เมื่อแอปนี้เป็นตัวเปิดแอปของรถ กลับสู่ลอนเชอร์ติดรถ จะทำงานเหมือนกลับสู่หน้าแรกของแอป</string>
@@ -833,7 +829,7 @@
     <string name="attach_hw_dsp_equalizer_description">แนบเอฟเฟกต์อีควอไลเซอร์จำลองกับเซสชันเสียงเพื่อบังคับให้ส่งเสียงผ่าน DSP ฮาร์ดแวร์บนเฮดยูนิตบางรุ่น ควรปิดไว้หากใช้ ViPER4Android / ViperFX หรือเสียงอู้อี้บน Android รุ่นเก่า</string>
     <string name="attach_hw_dsp_equalizer_summary">เชื่อมอีควอไลเซอร์ปลอมเพื่อบังคับการส่งผ่าน DSP ฮาร์ดแวร์บนบางเครื่อง</string>
     <string name="audio_volume_offset">การชดเชยระดับเสียง</string>
-    <string name="audio_volume_offset_help">กำหนดความดังของสตรีมเสียง Android Auto สามแบบบนอุปกรณ์นี้ ได้แก่ มีเดีย เสียงนำทาง และเสียงระบบ แต่ละแบบปรับได้ตั้งแต่ 0% ถึง 200% ที่ 100% จะเล่นสตรีมตามที่โทรศัพท์ส่งมา ใช้เพื่อปรับสมดุลระหว่างเสียงนำทางกับเพลง</string>
+    <string name="audio_volume_offset_help" formatted="false">กำหนดความดังของสตรีมเสียง Android Auto สามแบบบนอุปกรณ์นี้ ได้แก่ มีเดีย เสียงนำทาง และเสียงระบบ แต่ละแบบปรับได้ตั้งแต่ 0% ถึง 200% ที่ 100% จะเล่นสตรีมตามที่โทรศัพท์ส่งมา ใช้เพื่อปรับสมดุลระหว่างเสียงนำทางกับเพลง</string>
     <string name="microphone_settings">การตั้งค่าไมโครโฟน</string>
     <string name="use_head_unit_microphone">ไมโครโฟนของเฮดยูนิต</string>
     <string name="use_head_unit_microphone_description">เปิด: Android Auto ได้ยินเสียงจากไมโครโฟนของอุปกรณ์นี้ ปิด: อุปกรณ์นี้จะไม่บันทึกเสียงเลย และโทรศัพท์จะใช้ไมโครโฟนของตัวเอง หรือชุดหูฟังหรืออินเตอร์คอมที่จับคู่กับโทรศัพท์ ผู้ช่วยเสียงจึงยังใช้งานได้ ต้องใช้ Android 11 ขึ้นไปบนโทรศัพท์</string>
@@ -1194,12 +1190,15 @@
     <string name="kill_on_disconnect_description">ปิดแอปโดยอัตโนมัติเมื่อ Android Auto ยกเลิกการเชื่อมต่อ</string>
     <string name="kill_on_disconnect_help">ปิดแอปเมื่อ Android Auto ตัดการเชื่อมต่อ เพื่อให้เครื่องกลับไปที่หน้าจอของตัวเอง เปิดใช้เมื่อต้องการให้เครื่องแสดงตัวเรียกใช้งานของตัวเองหลังการเดินทางทุกครั้ง ไม่มีผลขณะที่แอปนี้เป็นตัวเรียกใช้งานของรถ หากเปิด “เปิดใหม่เมื่อเชื่อมต่ออีกครั้ง” “เริ่มเมื่อเปิดเครื่อง” หรือ “เริ่มเมื่อเปิดหน้าจอ” อยู่ แอปจะเตือนก่อน เพราะตัวเลือกเหล่านั้นต้องการให้แอปเปิดอยู่</string>
     <string name="raise_projection_during_call">อยู่ใน Android Auto ระหว่างการโทร</string>
-    <string name="raise_projection_during_call_description">เฉพาะโหมดตนเองเท่านั้น นำภาพฉายกลับมาแสดงทับหน้าจอการโทรของโทรศัพท์ เพื่อให้รับสายและวางสายได้ในหน้าจอ Android Auto</string>
-    <string name="raise_projection_during_call_summary">เฉพาะโหมดตนเอง แสดงการฉายภาพทับหน้าจอสายเรียกเข้าของโทรศัพท์</string>
+    <string name="raise_projection_during_call_description">ในโหมดตนเอง นำภาพฉายกลับมาแสดงทับหน้าจอการโทรของโทรศัพท์ เพื่อให้รับสายและวางสายได้ในหน้าจอ Android Auto บนเครื่อง FYT จะขอให้เครื่องไม่แสดงแถบสายหรือหน้าจอสายของตัวเองขณะที่ Android Auto อยู่ด้านหน้า อาจใช้ไม่ได้กับทุกเครื่องหรือทุกเวอร์ชันเฟิร์มแวร์</string>
+    <string name="raise_projection_during_call_summary">โหมดตนเองและเครื่อง FYT ซ่อนหน้าจอสาย อาจใช้ไม่ได้กับทุกเครื่อง</string>
     <string name="show_over_lock_screen">แสดงบนหน้าจอล็อก</string>
     <string name="show_over_lock_screen_summary">แผนที่และเส้นทางยังแสดงอยู่ขณะล็อก การแตะและปุ่มจะไม่ทำงาน</string>
     <string name="show_over_lock_screen_help">แสดงภาพ Android Auto บนหน้าจอล็อก เพื่อให้อ่านแผนที่และเส้นทางได้โดยไม่ต้องปลดล็อก ขณะที่อุปกรณ์นี้ล็อกอยู่ จะไม่มีสิ่งใดถูกส่งไปยังโทรศัพท์ การแตะ ปุ่ม ตัวควบคุมแบบหมุน และปุ่มเสียงจะถูกระงับไว้ และแผนที่จะถูกนำขึ้นมาด้านหน้า กดย้อนกลับเพื่อปลดล็อกด้วย PIN รูปแบบ หรือรหัสผ่าน หลังจากนั้นทุกอย่างจะทำงานตามปกติ เพลง การโทร และผู้ช่วยเสียงบนตัวโทรศัพท์เองจะไม่ได้รับผลกระทบ</string>
-    <string name="show_over_lock_screen_locked_toast">ล็อกอยู่: แสดงแผนที่เท่านั้น กดย้อนกลับเพื่อปลดล็อก</string>
+    <string name="show_over_lock_screen_locked_toast">ล็อกอยู่ กดย้อนกลับเพื่อปลดล็อก</string>
+    <string name="night_overlay_while_locked">โอเวอร์เลย์กลางคืนขณะล็อก</string>
+    <string name="night_overlay_while_locked_summary">นาฬิกา ทางเลี้ยวถัดไป และเพลงแทนแผนที่</string>
+    <string name="night_overlay_while_locked_help">ขณะที่อุปกรณ์นี้ล็อกอยู่ จะแสดงโอเวอร์เลย์กลางคืนแทนภาพ Android Auto ได้แก่ นาฬิกา ทางเลี้ยวถัดไป และเพลงที่กำลังเล่นบนพื้นหลังสีเข้ม แผนที่ สถานที่ที่บันทึกไว้ และป๊อปอัปของ Android Auto เช่น ชื่อผู้โทร จะถูกบังไว้ เมื่อปลดล็อก ภาพจะกลับมาแสดง การตั้งค่านี้เปลี่ยนเฉพาะสิ่งที่อุปกรณ์นี้แสดงและไม่ส่งอะไรไปยังโทรศัพท์ ขนาดข้อความ พื้นหลัง และบรรทัดที่แสดงเป็นการตั้งค่าโอเวอร์เลย์กลางคืนใน “ท่าทาง”</string>
     <string name="kill_on_disconnect_warning_title">คำเตือน</string>
     <string name="kill_on_disconnect_warning">การตั้งค่าการเชื่อมต่อใหม่ต่อไปนี้ขัดแย้งกับการปิดแอปเมื่อยกเลิกการเชื่อมต่อ:\n\n%1$s\n\nการตั้งค่าการเชื่อมต่อครั้งแรก (เชื่อมต่ออัตโนมัติ, เริ่มอัตโนมัติ) ยังใช้งานได้เมื่อเฮดยูนิตเปิดขึ้น แต่หลังจากยกเลิกการเชื่อมต่อครั้งแรก แอปจะปิดทันทีแทนที่จะพยายามเชื่อมต่อใหม่\n\nหมายเหตุ: เฮดยูนิตหลังการขายบางรุ่นไม่เคยปิดเครื่องจริง แต่เข้าสู่โหมดไฮเบอร์เนตแทน คล้ายโทรศัพท์ที่ล็อกหน้าจอแต่ไม่เคยดับเครื่อง เมื่อเปิดใช้ตัวเลือกนี้ แอปจะปิดหลังยกเลิกการเชื่อมต่อครั้งแรก และอาจไม่เปิดเองในรอบสตาร์ทเครื่องถัดไป\n\nต้องการปิดการตั้งค่าการเชื่อมต่อใหม่ที่ระบุไว้ข้างต้นหรือไม่?</string>
     <string name="kill_on_disconnect_disable_and_enable">ปิดตัวเลือกที่ขัดแย้งและเปิดใช้งาน</string>
@@ -1635,10 +1634,6 @@
     <string name="copied_to_clipboard">คัดลอกลงในคลิปบอร์ดแล้ว</string>
 
     <!-- Extra keys -->
-    <string name="dpi_size_s">S</string>
-    <string name="dpi_size_m">M</string>
-    <string name="dpi_size_l">L</string>
-    <string name="dpi_size_xl">XL</string>
     <string name="github_issues_url">https://github.com/andreknieriem/open-headunit/issues</string>
     <string name="support_rules_english_title">All posts in English</string>
     <string name="support_rules_english_desc">โปรดเขียนปัญหาเป็นภาษาอังกฤษเสมอ เพราะเป็นภาษาเดียวที่ผู้ดูแลและผู้ช่วยส่วนใหญ่ใช้ร่วมกัน หากเขียนหลายภาษาในกระทู้เดียว จะสับสนวุ่นวายและไม่มีใครช่วยใครได้ ไม่มีใครตัดสินระดับภาษาอังกฤษหรือวิธีเขียนของคุณ จึงไม่ต้องกังวลเรื่องข้อผิดพลาด หากจำเป็น คุณใช้เครื่องมือแปลอย่าง Google Translate หรือ DeepL หรือ AI อย่าง ChatGPT หรือ Claude ช่วยเขียนและเกลาข้อความเป็นภาษาอังกฤษได้</string>
@@ -1768,6 +1763,15 @@
     <string name="onb_launcher_reopen_note">ตัวเลือก \"เปิดใหม่เมื่อเชื่อมต่ออีกครั้ง\" จะไม่มีผลขณะที่ Open Headunit เป็นแอปหน้าจอหลัก เพราะเครื่องจะกลับมาที่แอปนี้อยู่แล้ว และจะกลับมาทำงานเมื่อปิด Car Launcher</string>
     <string name="onb_summary_launcher_home">Launcher: Open Headunit เป็นแอปหน้าจอหลัก</string>
     <string name="onb_summary_launcher_registered">Launcher: ลงทะเบียนเป็นแอปหน้าจอหลักแล้ว</string>
+    <string name="dpi_pane_map_and_media">แผนที่และสื่อ</string>
+    <string name="dpi_pane_one_app">แอปเดียว</string>
+    <string name="dpi_pane_compact">กะทัดรัด</string>
+    <string name="dpi_pane_map_over_media">แผนที่เหนือสื่อ</string>
+    <string name="dpi_layout_step_title">1. เลย์เอาต์</string>
+    <string name="dpi_size_step_title">2. ขนาดข้อความและไอคอน</string>
+    <string name="dpi_expected_format">คาดว่า: %1$s</string>
+    <string name="dpi_edge_note">ขนาดใหญ่และอัตโนมัติอยู่ที่ขอบของเลย์เอาต์ หากโทรศัพท์ของคุณแสดงเลย์เอาต์อื่นตรงนั้น ให้เลือกปานกลาง</string>
+    <string name="dpi_row_named_format">%1$s, %2$s</string>
     <string name="home_pages_hint_title">แตะค้างที่พื้นที่ว่าง</string>
     <string name="home_pages_hint_body">นี่คือวิธีเพิ่มหน้าสำหรับวิดเจ็ตของคุณ หรือลบหน้าออก</string>
     <string name="home_pages_hint_got_it">เข้าใจแล้ว</string>

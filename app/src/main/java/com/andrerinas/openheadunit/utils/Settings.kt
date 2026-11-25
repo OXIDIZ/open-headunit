@@ -280,11 +280,10 @@ class Settings(private val context: Context) {
         }
 
     /**
-     * In Self Mode, put the projection back on top when a call covers it.
+     * Keep a call screen off the projection: Android Auto's own call UI is already on it.
      *
-     * Android Auto's own call UI is already on the projected surface, so the phone's call screen
-     * only hides it. Self Mode only: anywhere else the call screen is on the phone, not on the
-     * head unit.
+     * In Self Mode the projection comes back over the phone's call screen. On an FYT unit, in
+     * every mode, the unit is asked not to draw its own call bar or page.
      */
     var raiseProjectionDuringCall: Boolean
         get() = prefs.getBoolean("raise-projection-during-call", true)
@@ -301,6 +300,17 @@ class Settings(private val context: Context) {
         get() = prefs.getBoolean("show-over-lock-screen", false)
         set(value) {
             prefs.edit().putBoolean("show-over-lock-screen", value).apply()
+        }
+
+    /**
+     * With [showOverLockScreen] on, a locked unit shows the night overlay (clock, next turn and
+     * playing track as text) in place of the projection; see
+     * [com.andrerinas.openheadunit.input.LockedViewPolicy]. Off by default.
+     */
+    var nightOverlayWhileLocked: Boolean
+        get() = prefs.getBoolean("night-overlay-while-locked", false)
+        set(value) {
+            prefs.edit().putBoolean("night-overlay-while-locked", value).apply()
         }
 
     var nightMode: NightMode
@@ -454,6 +464,13 @@ class Settings(private val context: Context) {
         set(value) {
             prefs.edit().putInt("dpi-pixel-density", value).apply()
         }
+
+    /** The layout Auto works inside, a [DisplayLayoutPolicy.Pane] name; empty is the plain Automatic. */
+    var dpiAutoLayout: String
+        get() = prefs.getString("dpi-auto-layout", "") ?: ""
+        set(value) { prefs.edit().putString("dpi-auto-layout", value).apply() }
+
+    val dpiAutoLayoutPane: DisplayLayoutPolicy.Pane? get() = DisplayLayoutPolicy.Pane.fromStored(dpiAutoLayout)
 
     /** The DPI screen's "Use anyway": send a stored DPI above the canvas floor (HUIG or portrait) as is. */
     var dpiFloorOverride: Boolean
@@ -1012,10 +1029,14 @@ class Settings(private val context: Context) {
             val ip = prefs.getString("soft-ap-last-ip", null) ?: return null
             val digest = prefs.getString("soft-ap-last-psk-digest", null) ?: return null
             val boot = prefs.getInt("soft-ap-ip-boot", -1).takeIf { it >= 0 }
-            return SoftApAddressRecord(ip, digest, boot, prefs.getBoolean("soft-ap-ip-spanned-boot", false))
+            return SoftApAddressRecord(
+                ip, digest, boot, prefs.getBoolean("soft-ap-ip-spanned-boot", false),
+                bssid = prefs.getString("soft-ap-ip-bssid", null),
+            )
         }
         set(value) {
             prefs.edit()
+                .putString("soft-ap-ip-bssid", value?.bssid)
                 .putString("soft-ap-last-ip", value?.ip)
                 .putString("soft-ap-last-psk-digest", value?.passphraseDigest)
                 .putInt("soft-ap-ip-boot", value?.bootCount ?: -1)
@@ -1261,6 +1282,11 @@ class Settings(private val context: Context) {
     var videoCodec: String
         get() = prefs.getString("video-codec", "Auto")!!
         set(value) { prefs.edit().putString("video-codec", value).apply() }
+
+    /** Requests only GAL 1.2, as releases before negotiation did. Applies at the next connection. */
+    var galCompatibilityMode: Boolean
+        get() = prefs.getBoolean("gal-compatibility-mode", false)
+        set(value) { prefs.edit().putBoolean("gal-compatibility-mode", value).apply() }
 
     var fpsLimit: Int
         get() = prefs.getInt("fps-limit", 60)
@@ -2649,6 +2675,11 @@ class Settings(private val context: Context) {
         get() = prefs.getBoolean("use-gradient-background", false)
         set(value) { prefs.edit().putBoolean("use-gradient-background", value).apply() }
 
+    /** Own solid color for the system bars (status and navigation), as opaque ARGB. 0 is not set. */
+    var systemBarColor: Int
+        get() = prefs.getInt("system-bar-color", 0)
+        set(value) { prefs.edit().putInt("system-bar-color", value).apply() }
+
     var aaMonochromeEnabled: Boolean
         get() = prefs.getBoolean("aa-monochrome-enabled", false)
         set(value) { prefs.edit().putBoolean("aa-monochrome-enabled", value).apply() }
@@ -2829,6 +2860,11 @@ class Settings(private val context: Context) {
     var connectionIssueHandsFreeRecordRefusedAtEpochMs: Long
         get() = prefs.getLong("connection-issue-hands-free-record-refused", 0L)
         set(value) = prefs.edit().putLong("connection-issue-hands-free-record-refused", value).apply()
+
+    /** The phone took this unit's hands-free connection and dropped it: no audio-device place left. */
+    var connectionIssuePhoneRefusedHandsFreeAtEpochMs: Long
+        get() = prefs.getLong("connection-issue-phone-refused-hands-free", 0L)
+        set(value) = prefs.edit().putLong("connection-issue-phone-refused-hands-free", value).apply()
 
     /** The phone kept dialling a TCP endpoint this unit no longer honours. */
     var connectionIssueStaleEndpointAtEpochMs: Long

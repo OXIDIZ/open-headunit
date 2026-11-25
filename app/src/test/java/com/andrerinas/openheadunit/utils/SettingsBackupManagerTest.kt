@@ -52,6 +52,18 @@ class SettingsBackupManagerTest {
         assertEquals(0, parsed.skippedKeys)
     }
 
+    @Test fun `GAL compatibility mode survives backup and restore and reconnects the projection`() {
+        val settings = Settings(context)
+        settings.galCompatibilityMode = true
+        val backup = SettingsBackupManager.exportFromContext(context)
+        prefs.edit().clear().commit()
+
+        val restored = SettingsBackupManager.importFromJson(context, backup, applyTheme = false)
+        assertEquals(setOf("gal-compatibility-mode"), restored.changedKeys)
+        assertTrue(settings.galCompatibilityMode)
+        assertTrue(SettingsBackupManager.requiresProjectionRestart(restored.changedKeys))
+    }
+
     @Test fun `new user settings restore to their real preference stores`() {
         val values = linkedMapOf<String, Any>(
             "connection-modes" to setOf("usb", "wifi"),
@@ -71,6 +83,7 @@ class SettingsBackupManagerTest {
             "raise-projection-during-call" to false,
             "car-signal-invert" to true,
             "dpi-floor-override" to true,
+            "dpi-auto-layout" to "ONE_APP",
             "hide-battery-level" to true,
             "use-aaudio-output" to true,
             "native-driver-selection-timeout" to 20,
@@ -137,6 +150,22 @@ class SettingsBackupManagerTest {
         assertEquals(80, prefs.getInt("dim-opacity-percent", 0))
         assertTrue(prefs.getBoolean("show-home-clock", false))
         assertFalse(prefs.contains("night-overlay-background"))
+    }
+
+    @Test fun `a backup with a density and no layout clears the stored layout`() {
+        prefs.edit().putString("dpi-auto-layout", "ONE_APP").commit()
+        val older = SettingsBackupManager.exportToJson(mapOf("dpi-pixel-density" to 0), "test", 1)
+        val result = SettingsBackupManager.importFromJson(context, older, applyTheme = false)
+        assertEquals("", prefs.getString("dpi-auto-layout", null))
+        assertTrue("dpi-auto-layout" in result.changedKeys)
+        val both = SettingsBackupManager.exportToJson(
+            mapOf("dpi-pixel-density" to 0, "dpi-auto-layout" to "COMPACT"), "test", 1
+        )
+        SettingsBackupManager.importFromJson(context, both, applyTheme = false)
+        assertEquals("COMPACT", prefs.getString("dpi-auto-layout", null))
+        val neither = SettingsBackupManager.exportToJson(mapOf("fps-limit" to 30), "test", 1)
+        SettingsBackupManager.importFromJson(context, neither, applyTheme = false)
+        assertEquals("COMPACT", prefs.getString("dpi-auto-layout", null))
     }
 
     @Test fun `runtime state media widget bindings permissions and ESP32 are excluded`() {
@@ -217,6 +246,7 @@ class SettingsBackupManagerTest {
             SettingsBackupManager.importFromJson(context, json, applyTheme = false).changedKeys))
         assertTrue(SettingsBackupManager.importFromJson(context, json, applyTheme = false).changedKeys.isEmpty())
         assertFalse(SettingsBackupManager.requiresProjectionRestart(setOf("show-home-clock")))
+        assertTrue(SettingsBackupManager.requiresProjectionRestart(setOf("dpi-auto-layout")))
         assertEquals(1, JSONObject(json).getJSONObject("settings").length())
     }
 }

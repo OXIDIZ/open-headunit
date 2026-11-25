@@ -74,6 +74,7 @@
     <string name="night_overlay_dismiss">点按返回投屏</string>
     <string name="night_overlay_meters">%1$d 米</string>
     <string name="night_overlay_kilometers">%1$.1f 公里</string>
+    <string name="night_overlay_kilometers_whole">%1$d 公里</string>
     <string name="night_overlay_navigation">%1$s · %2$s</string>
     <string name="night_overlay_left">左</string>
     <string name="night_overlay_right">右</string>
@@ -352,6 +353,9 @@
     <string name="auto_connecting_single_usb">正在自动连接 USB 设备…</string>
     <string name="video_codec">视频编解码器</string>
     <string name="video_codec_help">选择手机发送的视频格式。“自动”由应用在本车机能解码的格式中选择。H.265 在相同码率下画面更清晰。H.264 适用于所有解码器。画面卡顿或一直发黑时再更改。所选格式将从下次连接起生效。</string>
+    <string name="gal_compatibility_mode">兼容模式 (GAL 1.2)</string>
+    <string name="gal_compatibility_mode_summary">仅请求最初的协议版本。下次连接时生效。</string>
+    <string name="gal_compatibility_mode_help">应用向手机请求 GAL 6.1；如果手机上的 Android Auto 回复的是较旧的版本，应用会请求 1.6。这两个版本支持更新的音频、视频和显示功能。仅在手机能连接但连接后运行异常时开启此模式。开启后，应用会像早期版本一样请求 GAL 1.2，上述功能将不可用。GAL 是投屏协议，不是 Android 系统或 Android Auto 应用的版本。下次连接时生效。</string>
     <string name="fps_limit">帧率上限 (FPS)</string>
     <string name="fps_limit_help">本机向 Android Auto 请求的最高帧率。60 的动画更流畅，但需要更多带宽和解码能力。如果画面延迟或卡顿，请选择 30。下次连接时生效。</string>
     <string name="save">保存</string>
@@ -388,7 +392,7 @@
     <string name="attach_hw_dsp_equalizer_description">在音频会话中附加一个虚拟均衡器效果，以在特定车机上强制使用硬件 DSP 路由。如果使用 ViPER4Android / ViperFX，或在旧版 Android 上声音发闷，请保持关闭。</string>
     <string name="attach_hw_dsp_equalizer_summary">挂接一个虚拟均衡器，在部分设备上强制使用硬件 DSP 路由。</string>
     <string name="audio_volume_offset">音频音量偏移</string>
-    <string name="audio_volume_offset_help">设置本机上三种 Android Auto 音频流的音量：媒体、导航语音和系统提示音。每种范围为 0% 到 200%。100% 按手机发送的原样播放。可用来平衡导航和音乐的音量。</string>
+    <string name="audio_volume_offset_help" formatted="false">设置本机上三种 Android Auto 音频流的音量：媒体、导航语音和系统提示音。每种范围为 0% 到 200%。100% 按手机发送的原样播放。可用来平衡导航和音乐的音量。</string>
     <string name="mic_input_source">麦克风输入源</string>
     <string name="mic_input_source_description">选择麦克风的音频源。</string>
     <string name="mic_input_source_help">选择应用录音所用的 Android 音频来源。“默认”由系统决定。“麦克风”录制原始声音。“语音辨识”和“语音通讯”会加入系统自带的降噪和回声过滤。“蓝牙耳机”通过蓝牙耳机录音。如果手机听不到您的声音，请更改。如果 Android Auto 已连接，保存更改会停止会话。</string>
@@ -1016,18 +1020,12 @@
     <string name="onb_automation_more_hint">您可以在“自动连接”和“自动启动”设置中找到更多选项。</string>
     <string name="onb_dpi_help">DPI 越高，Android Auto 的图标和文字越大，屏幕上能显示的内容越少；DPI 越低则越小，能显示更多内容。连接 Android Auto 时生效。</string>
     <string name="onb_change_later">您可以稍后在“设置”中更改。</string>
-    <string name="dpi_automatic">自动</string>
-    <string name="dpi_automatic_desc">使用设备密度。</string>
     <string name="onb_conn_usb_label">USB（或适配器）</string>
     <string name="onb_connection_self_detail">独立模式在本设备上运行 Android Auto，无需连接手机。</string>
-    <string name="dpi_widescreen_hint">%1$d DPI 及以下时，Android Auto 会在地图旁显示媒体卡片，文字也会变小。</string>
-    <string name="dpi_automatic_desc_canvas">为%2$s使用 %1$d DPI，画布为 %3$dx%4$d dp。</string>
     <string name="dpi_row_value_format">%1$d（%2$dx%3$d dp）</string>
     <string name="dpi_row_auto_format">自动：%1$d（%2$dx%3$d dp）</string>
     <string name="dpi_row_clamped_format">%1$d，作为 %2$d 发送（%3$dx%4$d dp）</string>
     <string name="dpi_clamped_note">Android Auto 需要至少 748x450 dp 的画布，因此 %1$d DPI 会作为 %2$d 发送。</string>
-    <string name="dpi_clamped_note_portrait">竖屏时，Android Auto 中的 Google Maps 会忽略宽度小于 730 dp 的画布上的触控，因此 %1$d DPI 会作为 %2$d 发送。</string>
-    <string name="dpi_portrait_override_note">%1$d DPI 会按所选值发送。竖屏时，超过 %2$d DPI 后，Android Auto 中的 Google Maps 可能会忽略触控。</string>
     <string name="dpi_floor_override_note">%1$d DPI 会按所选值发送。超过 %2$d DPI 后，画布会小于 Android Auto 所需的 748x450 dp，可能会显示精简布局。</string>
     <string name="connection_kind_all">全部</string>
     <string name="onb_connection_all_detail">同时显示 USB 和 WiFi 设置。</string>
@@ -1041,7 +1039,6 @@
     <string name="resolution_use_anyway">仍要使用</string>
     <string name="resolution_use_recommended">使用推荐值</string>
     <string name="dpi_input_hint">DPI</string>
-    <string name="onb_dpi_huge">特大</string>
     <string name="onb_vehicle_title">您的车辆</string>
     <string name="onb_vehicle_input_hint">品牌或名称</string>
     <string name="onb_vehicle_help_aa">此名称会发送到 Android Auto，并显示在手机的连接记录和 Android Auto 的欢迎界面中。</string>
@@ -1073,7 +1070,6 @@
     <string name="perm_write_settings_help">允许应用自动开启热点以进行无线连接。</string>
     <string name="perm_storage_title">存储空间</string>
     <string name="perm_storage_help">备份和恢复设置，以及选择自定义加载图片所需的权限。</string>
-    <string name="onb_dpi_recommended">适合您屏幕的推荐值：%1$d dpi</string>
     <string name="onb_ready_loading_intro">还有一件事：现在可以设置自定义加载画面，在车机连接时显示。</string>
     <string name="onb_ready_loading_button">设置加载画面</string>
 
@@ -1326,12 +1322,15 @@
     <string name="failed_aa_not_system">失败：Android Auto 未作为系统应用安装！</string>
     <string name="failed_aa_not_installed">失败：未安装 Android Auto！</string>
     <string name="raise_projection_during_call">通话期间停留在 Android Auto</string>
-    <string name="raise_projection_during_call_description">仅限本机模式。将投屏画面重新显示在手机的通话界面之上，这样就能在 Android Auto 界面中接听和结束通话。</string>
-    <string name="raise_projection_during_call_summary">仅限独立模式。在手机的通话界面上方显示投屏。</string>
+    <string name="raise_projection_during_call_description">在独立模式下，将投屏画面重新显示在手机的通话界面之上，这样就能在 Android Auto 界面中接听和结束通话。在 FYT 车机上，请求设备在 Android Auto 位于前台时不显示自带的通话栏和通话界面。部分设备或固件版本可能无效。</string>
+    <string name="raise_projection_during_call_summary">独立模式和 FYT 设备。隐藏通话界面。部分设备可能无效。</string>
     <string name="show_over_lock_screen">在锁屏上显示</string>
     <string name="show_over_lock_screen_summary">锁定时仍显示地图和路线指引。触摸和按键无效。</string>
     <string name="show_over_lock_screen_help">在锁屏上方显示 Android Auto 画面，无需解锁即可查看地图和路线指引。此设备锁定期间，不会有任何操作传到手机：触摸、按键、旋钮控制器和语音键都会被拦下，并把地图切换到前台。按“返回”可用 PIN 码、图案或密码解锁；之后一切照常工作。手机本身的音乐、通话和语音助理不受影响。</string>
-    <string name="show_over_lock_screen_locked_toast">已锁定：仅显示地图。按“返回”解锁。</string>
+    <string name="show_over_lock_screen_locked_toast">已锁定。按“返回”解锁。</string>
+    <string name="night_overlay_while_locked">锁定时的夜间叠加层</string>
+    <string name="night_overlay_while_locked_summary">以时钟、下一个转弯和曲目代替地图。</string>
+    <string name="night_overlay_while_locked_help">此设备锁定期间，会以夜间叠加层代替 Android Auto 画面：在深色背景上显示时钟、下一个转弯和正在播放的曲目。地图、已保存的地点以及 Android Auto 的弹出提示（例如来电者姓名）会被遮住。解锁后重新显示画面。这只改变此设备显示的内容，不会向手机发送任何信息。文字大小、背景和显示的行由“手势”中的夜间叠加层设置决定。</string>
     <string name="audio_stream_settings">音频流</string>
     <string name="audio_stream_settings_description">选择每个 Android Auto 通道使用哪个系统流播放。</string>
     <string name="audio_stream_settings_info">Android Auto 通过媒体、导航语音和系统提示音三个通道传送音频。每个通道都会以某个系统流交给车机，所选的流决定它跟随哪个音量键，在许多车机上还决定功放是否会为它取消静音。保存前，可点按喇叭按钮在该流上播放测试音。</string>
@@ -1481,16 +1480,16 @@
     <string name="pref_enable_floating_button_help">在原厂启动器及其他应用上方显示悬浮按钮，以便快速返回 Open Headunit。</string>
     <string name="pref_floating_button_connection_status_title">连接状态指示</string>
     <string name="pref_floating_button_connection_status_summary">手机连接期间让按钮变淡。</string>
-    <string name="pref_floating_button_connection_status_help">未连接手机时使用“未连接时不透明度”，手机连接后渐变为“悬浮按钮不透明度”。为0%时，按钮会隐藏并让触摸穿透。</string>
+    <string name="pref_floating_button_connection_status_help" formatted="false">未连接手机时使用“未连接时不透明度”，手机连接后渐变为“悬浮按钮不透明度”。为0%时，按钮会隐藏并让触摸穿透。</string>
     <string name="pref_floating_button_size_title">悬浮按钮大小</string>
     <string name="pref_floating_button_size_help">悬浮按钮的大小，范围为 32 到 120 dp。按钮越大，驾驶时越容易点按。</string>
     <string name="pref_floating_button_opacity_title">悬浮按钮不透明度</string>
     <string name="pref_floating_button_opacity_help">悬浮按钮的清晰程度，范围为 10% 到 100%。开启“连接状态指示”后，此值仅在手机已连接时生效。</string>
     <string name="pref_floating_button_disconnected_opacity_title">未连接时不透明度</string>
-    <string name="pref_floating_button_disconnected_opacity_help">未连接手机时悬浮按钮的清晰程度。设为 0% 时按钮隐藏，点按会穿过按钮作用于下方的屏幕。</string>
+    <string name="pref_floating_button_disconnected_opacity_help" formatted="false">未连接手机时悬浮按钮的清晰程度。设为 0% 时按钮隐藏，点按会穿过按钮作用于下方的屏幕。</string>
     <string name="pref_floating_button_x_title">水平位置 (X)</string>
     <string name="pref_floating_button_y_title">垂直位置 (Y)</string>
-    <string name="pref_floating_button_position_help">悬浮按钮在屏幕上的位置。对于 X，0% 为左边缘，100% 为右边缘。对于 Y，0% 为上边缘，100% 为下边缘。按钮始终完整显示在屏幕内。</string>
+    <string name="pref_floating_button_position_help" formatted="false">悬浮按钮在屏幕上的位置。对于 X，0% 为左边缘，100% 为右边缘。对于 Y，0% 为上边缘，100% 为下边缘。按钮始终完整显示在屏幕内。</string>
     <string name="pref_aa_exit_action_title">Android Auto 退出操作</string>
     <string name="pref_aa_exit_action_summary">在 Android Auto 应用抽屉中点按“退出”时执行的操作。</string>
     <string name="pref_aa_exit_action_help">选择在 Android Auto 中点按“退出”时的行为。“返回原厂主屏幕”显示本机自己的主屏幕。“返回应用主页”显示本应用的主屏幕。这两项都会保持手机连接。“断开连接”会结束会话。当本应用是车辆启动器时，“返回原厂主屏幕”的效果与“返回应用主页”相同。</string>
@@ -1713,6 +1712,15 @@
     <string name="onb_launcher_reopen_note">当 Open Headunit 是主画面应用时，“重新连接时重新开启”不起作用，因为车机本来就会回到它。关闭车载启动器后会重新生效。</string>
     <string name="onb_summary_launcher_home">启动器：Open Headunit 是主画面应用</string>
     <string name="onb_summary_launcher_registered">启动器：已注册为主画面应用</string>
+    <string name="dpi_pane_map_and_media">地图和媒体</string>
+    <string name="dpi_pane_one_app">单个应用</string>
+    <string name="dpi_pane_compact">紧凑</string>
+    <string name="dpi_pane_map_over_media">地图在媒体上方</string>
+    <string name="dpi_layout_step_title">1. 布局</string>
+    <string name="dpi_size_step_title">2. 文字和图标大小</string>
+    <string name="dpi_expected_format">预期：%1$s</string>
+    <string name="dpi_edge_note">“大”和“自动”位于布局的边界。如果手机在此显示其他布局，请选择“中”。</string>
+    <string name="dpi_row_named_format">%1$s，%2$s</string>
     <string name="home_pages_hint_title">长按空白处</string>
     <string name="home_pages_hint_body">这样就能为小部件添加页面，或移除页面。</string>
     <string name="home_pages_hint_got_it">知道了</string>

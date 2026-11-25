@@ -195,22 +195,14 @@
     <string name="onb_gps_phone">Connected phone</string>
     <string name="onb_do_it_later">Do it later</string>
     <string name="onb_display_dpi_label">Android Auto size</string>
-    <!-- Full-word DPI size names, used as accessibility labels for the S/M/L/XL buttons -->
+    <!-- Text size names on the size buttons of the DPI picker -->
     <string name="onb_dpi_small">Small</string>
     <string name="onb_dpi_medium">Medium</string>
     <string name="onb_dpi_large">Large</string>
-    <string name="onb_dpi_huge">Huge</string>
-    <!-- Compact size abbreviations shown on the DPI preset buttons. Kept identical in every
-         locale (globally recognized apparel sizing) so they never truncate. -->
-    <string name="dpi_size_s" translatable="false">S</string>
-    <string name="dpi_size_m" translatable="false">M</string>
-    <string name="dpi_size_l" translatable="false">L</string>
-    <string name="dpi_size_xl" translatable="false">XL</string>
     <string name="onb_appearance_more_hint">You can find more dark mode options in Settings.</string>
     <string name="onb_automation_more_hint">You can find more options in Auto-connect and Auto-start settings.</string>
     <string name="onb_dpi_help">A higher DPI makes Android Auto icons and text larger, so less fits on screen. A lower DPI makes them smaller, so more fits. It applies when you connect Android Auto.</string>
     <!-- %1$d recommended DPI value -->
-    <string name="onb_dpi_recommended">Recommended for your screen: %1$d dpi</string>
     <string name="onb_change_later">You can change this later in Settings.</string>
     <!-- Onboarding wizard: car launcher step -->
     <string name="onb_launcher_title">Car launcher</string>
@@ -221,16 +213,21 @@
     <string name="onb_launcher_reopen_note">Reopen on reconnection does not apply while Open Headunit is the home app, since the unit already comes back to it. It works again if you turn the car launcher off.</string>
     <string name="onb_summary_launcher_home">Launcher: Open Headunit is the home app</string>
     <string name="onb_summary_launcher_registered">Launcher: registered as a home app</string>
-    <string name="dpi_automatic">Automatic</string>
-    <string name="dpi_automatic_desc">Use the device density.</string>
-    <string name="dpi_widescreen_hint">%1$d DPI or lower: Android Auto shows the map with a media card beside it; text gets smaller.</string>
-    <string name="dpi_automatic_desc_canvas">Uses %1$d DPI for %2$s, a %3$dx%4$d dp canvas.</string>
+    <string name="dpi_pane_map_and_media">Map and media</string>
+    <string name="dpi_pane_one_app">One app</string>
+    <string name="dpi_pane_compact">Compact</string>
+    <string name="dpi_pane_map_over_media">Map over media</string>
+    <string name="dpi_layout_step_title">1. Layout</string>
+    <string name="dpi_size_step_title">2. Text and icon size</string>
+    <!-- %1$s the expected layout and text size, for example "Map and media, Large" -->
+    <string name="dpi_expected_format">Expected: %1$s</string>
+    <string name="dpi_edge_note">Large and Auto sit on the edge of the layout. If your phone draws another layout there, pick Medium.</string>
+    <!-- %1$s the density and canvas text, %2$s the layout and size name -->
+    <string name="dpi_row_named_format">%1$s, %2$s</string>
     <string name="dpi_row_value_format">%1$d (%2$dx%3$d dp)</string>
     <string name="dpi_row_auto_format">Auto: %1$d (%2$dx%3$d dp)</string>
     <string name="dpi_row_clamped_format">%1$d, sent as %2$d (%3$dx%4$d dp)</string>
     <string name="dpi_clamped_note">Android Auto needs a canvas of at least 748x450 dp, so %1$d DPI is sent as %2$d.</string>
-    <string name="dpi_clamped_note_portrait">In portrait, Google Maps on Android Auto ignores touch on a canvas narrower than 730 dp, so %1$d DPI is sent as %2$d.</string>
-    <string name="dpi_portrait_override_note">%1$d DPI is sent as you picked it. In portrait, Google Maps on Android Auto can ignore touch above %2$d DPI.</string>
     <string name="dpi_floor_override_note">%1$d DPI is sent as you picked it. Above %2$d DPI the canvas is smaller than the 748x450 dp Android Auto needs, and it can show a reduced layout.</string>
     <string name="dpi_value_format">%1$d DPI</string>
     <string name="dpi_input_hint">DPI</string>
@@ -317,6 +314,7 @@
     <string name="night_overlay_dismiss">Tap to return to projection</string>
     <string name="night_overlay_meters">%1$d m</string>
     <string name="night_overlay_kilometers">%1$.1f km</string>
+    <string name="night_overlay_kilometers_whole">%1$d km</string>
     <string name="night_overlay_navigation">%1$s · %2$s</string>
     <string name="night_overlay_left">left</string>
     <string name="night_overlay_right">right</string>
@@ -709,6 +707,9 @@
     <string name="auto_connecting_single_usb">Auto-connecting to USB device…</string>
     <string name="video_codec">Video Codec</string>
     <string name="video_codec_help">Chooses the video format the phone sends. Auto lets the app pick from what this unit can decode. H.265 gives a sharper picture at the same data rate. H.264 works on every decoder. Change it when the picture stutters or stays black. The choice applies from the next connection.</string>
+    <string name="gal_compatibility_mode">Compatibility mode (GAL 1.2)</string>
+    <string name="gal_compatibility_mode_summary">Request only the original protocol version. Applies at the next connection.</string>
+    <string name="gal_compatibility_mode_help">The app asks the phone for GAL 6.1, and for 1.6 when the phone\'s Android Auto answers with an older version. Those versions enable newer audio, video and display features. Turn this on only if a phone connects but then misbehaves: the app then requests GAL 1.2, as earlier releases did, without those features. GAL is the projection protocol, not the Android or Android Auto app version. Applies at the next connection.</string>
     <string name="fps_limit">FPS Limit</string>
     <string name="fps_limit_help">The highest frame rate this unit asks Android Auto for. 60 gives smoother motion, but needs more bandwidth and decoder power. Choose 30 if the picture lags or stutters. Applies at the next connection.</string>
     <string name="save">Save</string>
@@ -748,16 +749,16 @@
     <string name="pref_enable_floating_button_help">Displays a floating button over the OEM launcher and other apps to quickly return to Open Headunit.</string>
     <string name="pref_floating_button_connection_status_title">Connection Status Indicator</string>
     <string name="pref_floating_button_connection_status_summary">Fade the button while a phone is connected.</string>
-    <string name="pref_floating_button_connection_status_help">Uses Disconnected Opacity when no phone is connected, and fades to Floating Button Opacity while a phone is connected. At 0% the button is hidden and lets taps through.</string>
+    <string name="pref_floating_button_connection_status_help" formatted="false">Uses Disconnected Opacity when no phone is connected, and fades to Floating Button Opacity while a phone is connected. At 0% the button is hidden and lets taps through.</string>
     <string name="pref_floating_button_size_title">Floating Button Size</string>
     <string name="pref_floating_button_size_help">The size of the floating button, from 32 to 120 dp. A larger button is easier to hit while you drive.</string>
     <string name="pref_floating_button_opacity_title">Floating Button Opacity</string>
     <string name="pref_floating_button_opacity_help">How solid the floating button looks, from 10% to 100%. With Connection Status Indicator on, this value applies only while a phone is connected.</string>
     <string name="pref_floating_button_disconnected_opacity_title">Disconnected Opacity</string>
-    <string name="pref_floating_button_disconnected_opacity_help">How solid the floating button looks while no phone is connected. At 0%, the button is hidden and taps go through to the screen below it.</string>
+    <string name="pref_floating_button_disconnected_opacity_help" formatted="false">How solid the floating button looks while no phone is connected. At 0%, the button is hidden and taps go through to the screen below it.</string>
     <string name="pref_floating_button_x_title">Horizontal Position (X)</string>
     <string name="pref_floating_button_y_title">Vertical Position (Y)</string>
-    <string name="pref_floating_button_position_help">Where the floating button sits on the screen. For X, 0% is the left edge and 100% is the right edge. For Y, 0% is the top edge and 100% is the bottom edge. The button always stays fully on the screen.</string>
+    <string name="pref_floating_button_position_help" formatted="false">Where the floating button sits on the screen. For X, 0% is the left edge and 100% is the right edge. For Y, 0% is the top edge and 100% is the bottom edge. The button always stays fully on the screen.</string>
     <string name="pref_aa_exit_action_title">Android Auto Exit Action</string>
     <string name="pref_aa_exit_action_summary">Action when tapping Exit inside the Android Auto app drawer.</string>
     <string name="pref_aa_exit_action_help">Chooses what happens when you tap Exit in Android Auto. Return to OEM Launcher shows this unit\'s own home screen. Return to App Home shows this app\'s home screen. With these two, the phone stays connected. Disconnect Session ends the session. When this app is the car launcher, Return to OEM Launcher acts as Return to App Home.</string>
@@ -927,7 +928,7 @@
     <string name="attach_hw_dsp_equalizer_description">Attaches a dummy Equalizer effect to the audio session to force hardware DSP routing on specific headunits. Keep disabled if using ViPER4Android / ViperFX or if sound is muffled on older Android versions.</string>
     <string name="attach_hw_dsp_equalizer_summary">Attach a dummy Equalizer to force hardware DSP routing on some units.</string>
     <string name="audio_volume_offset">Audio Volume Offset</string>
-    <string name="audio_volume_offset_help">Sets the loudness of three Android Auto sound streams on this unit: media, navigation guidance and system sounds. Each goes from 0% to 200%. 100% plays a stream as the phone sends it. Use it to balance navigation against music.</string>
+    <string name="audio_volume_offset_help" formatted="false">Sets the loudness of three Android Auto sound streams on this unit: media, navigation guidance and system sounds. Each goes from 0% to 200%. 100% plays a stream as the phone sends it. Use it to balance navigation against music.</string>
     <string name="microphone_settings">Microphone Settings</string>
     <string name="use_head_unit_microphone">Head unit microphone</string>
     <string name="use_head_unit_microphone_description">On: Android Auto hears this device\'s microphone. Off: this device never records and the phone uses its own microphone, or a headset or intercom paired to the phone, so the voice assistant still works. Needs Android 11 or newer on the phone.</string>
@@ -1302,12 +1303,15 @@
     <string name="kill_on_disconnect_description">Automatically close the app when Android Auto disconnects.</string>
     <string name="kill_on_disconnect_help">Closes the app when Android Auto disconnects, so the unit goes back to its own screens. Turn it on if the unit must show its own launcher after each drive. It does nothing while this app is the car launcher. If Reopen on reconnection, Start on boot or Start on screen on is on, the app warns you first, because those want the app open.</string>
     <string name="raise_projection_during_call">Stay in Android Auto during calls</string>
-    <string name="raise_projection_during_call_description">Self Mode only. Brings the projection back over the phone\'s call screen so calls are answered and ended in the Android Auto interface.</string>
-    <string name="raise_projection_during_call_summary">Self Mode only. Show the projection over the phone\'s call screen.</string>
+    <string name="raise_projection_during_call_description">In Self Mode, brings the projection back over the phone\'s call screen so calls are answered and ended in the Android Auto interface. On FYT head units, asks the unit not to show its own call bar or call screen while Android Auto is in front. This may not work on every unit or firmware version.</string>
+    <string name="raise_projection_during_call_summary">Self Mode and FYT units. Hides the call screen. May not work on every unit.</string>
     <string name="show_over_lock_screen">Show over lock screen</string>
     <string name="show_over_lock_screen_summary">Map and directions stay visible while locked. Touches and keys do nothing.</string>
     <string name="show_over_lock_screen_help">Shows the Android Auto picture over the lock screen, so the map and directions can be read without unlocking. While this unit is locked, nothing reaches the phone: touches, keys, the rotary controller and the voice key are held back, and the map is brought to the front. Press Back to unlock with your PIN, pattern or password; after that everything works as usual. Music, calls and the voice assistant on the phone itself are not affected.</string>
-    <string name="show_over_lock_screen_locked_toast">Locked: map only. Press Back to unlock.</string>
+    <string name="show_over_lock_screen_locked_toast">Locked. Press Back to unlock.</string>
+    <string name="night_overlay_while_locked">Night overlay while locked</string>
+    <string name="night_overlay_while_locked_summary">Clock, next turn and track in place of the map.</string>
+    <string name="night_overlay_while_locked_help">While this unit is locked, it shows the night overlay in place of the Android Auto picture: the clock, the next turn and the playing track on a dark background. The map, saved places and Android Auto\'s pop-ups, such as a caller\'s name, are covered. Unlocking shows the picture again. This changes only what this unit shows and sends nothing to the phone. Text size, background and lines are the night overlay settings under Gestures.</string>
     <string name="kill_on_disconnect_warning_title">Warning</string>
     <string name="kill_on_disconnect_warning">The following reconnection settings will conflict with closing the app on disconnect:\n\n%1$s\n\nYour initial connection settings (auto-connect, auto-start) will still work when the headunit turns on. However, after the first disconnection the app will close immediately instead of trying to reconnect.\n\nNote: Some aftermarket head units never fully shut down — they hibernate instead, similar to a phone that locks its screen but never actually powers off. With this option enabled, the app will close after the first disconnection and may not reopen automatically on the next ignition cycle.\n\nWould you like to disable the reconnection settings listed above?</string>
     <string name="kill_on_disconnect_disable_and_enable">Disable and enable</string>
@@ -1533,6 +1537,7 @@
     <string name="connection_issue_banner_headunit_server_deaf">Android Auto\'s head unit server on your phone has stopped answering. On the phone, stop and start it again in Android Auto\'s developer settings.</string>
     <string name="connection_issue_banner_stale_endpoint">Your phone is trying an old network address for this unit. If it does not connect, forget this unit in Android Auto on your phone and connect again.</string>
     <string name="connection_issue_banner_hands_free_held">Another device is using this unit\'s hands-free connection, which Android Auto needs. Disconnect that device and this unit will try again.</string>
+    <string name="connection_issue_banner_phone_refused_hands_free">Your phone turned down this unit\'s Bluetooth connection, which Android Auto needs. Phones take two Bluetooth audio devices at a time, and the car\'s own Bluetooth plus earbuds or a headset fill them. Disconnect one and this unit will connect by itself.</string>
     <string name="connection_issue_banner_hands_free_record_refused">This unit\'s Bluetooth refused the hands-free setup Android Auto needs, so wireless may not start. A cable or another wireless mode does not need it.</string>
     <string name="connection_issue_banner_home_wifi_rejoined">This unit keeps rejoining your home WiFi during Android Auto, which can make the picture stutter, mostly on 2.4 GHz units. Tap to turn off auto-reconnect for that network, or wait until you are out of its range.</string>
     <string name="connection_issue_banner_stale_usb_accessory">Android Auto on the phone stopped answering over USB, and the app could not restart it. Unplug the phone, wait five seconds, and plug it back in.</string>
@@ -1977,4 +1982,12 @@
     <string name="home_hotspot_not_found">No WiFi joined. Is the phone’s hotspot on?</string>
     <string name="home_wifi_hotspot_hint">Is the phone’s hotspot on?</string>
     <string name="home_wifi_off_hint">Turn it on to connect</string>
+    <string name="bg_color_title">Panel background color</string>
+    <string name="bg_color_summary">Own color for the system panels</string>
+    <string name="bg_color_hint">Applies when the system bars are shown: not in the immersive full screen modes, and only on Android 14 and older.</string>
+    <string name="bg_color_default_value">Default</string>
+    <string name="bg_color_red">Red</string>
+    <string name="bg_color_green">Green</string>
+    <string name="bg_color_blue">Blue</string>
+    <string name="bg_color_hex_hint">Color (#RRGGBB)</string>
 </resources>

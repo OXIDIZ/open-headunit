@@ -75,6 +75,7 @@
     <string name="night_overlay_dismiss">Chạm để quay lại chế độ chiếu</string>
     <string name="night_overlay_meters">%1$d m</string>
     <string name="night_overlay_kilometers">%1$.1f km</string>
+    <string name="night_overlay_kilometers_whole">%1$d km</string>
     <string name="night_overlay_navigation">%1$s · %2$s</string>
     <string name="night_overlay_left">trái</string>
     <string name="night_overlay_right">phải</string>
@@ -373,6 +374,9 @@
     <string name="auto_connecting_single_usb">Đang tự kết nối thiết bị USB…</string>
     <string name="video_codec">Codec video</string>
     <string name="video_codec_help">Chọn định dạng video mà điện thoại gửi. Tự động để ứng dụng chọn trong số những gì thiết bị này giải mã được. H.265 cho hình ảnh nét hơn ở cùng tốc độ dữ liệu. H.264 chạy trên mọi bộ giải mã. Hãy đổi khi hình ảnh bị giật hoặc vẫn đen. Lựa chọn áp dụng từ lần kết nối tiếp theo.</string>
+    <string name="gal_compatibility_mode">Chế độ tương thích (GAL 1.2)</string>
+    <string name="gal_compatibility_mode_summary">Chỉ yêu cầu phiên bản ban đầu của giao thức. Áp dụng ở lần kết nối tiếp theo.</string>
+    <string name="gal_compatibility_mode_help">Ứng dụng yêu cầu điện thoại dùng GAL 6.1. Nếu Android Auto trên điện thoại phản hồi bằng một phiên bản cũ hơn, ứng dụng yêu cầu phiên bản 1.6. Các phiên bản này cho phép sử dụng các tính năng âm thanh, video và hiển thị mới hơn. Chỉ bật chế độ này nếu điện thoại kết nối được nhưng sau đó hoạt động không bình thường. Khi đó, ứng dụng yêu cầu GAL 1.2 như trong các bản phát hành trước và không có các tính năng đó. GAL là giao thức trình chiếu, không phải phiên bản Android hay phiên bản ứng dụng Android Auto. Áp dụng ở lần kết nối tiếp theo.</string>
     <string name="fps_limit">Giới hạn FPS</string>
     <string name="fps_limit_help">Tốc độ khung hình cao nhất mà thiết bị này yêu cầu từ Android Auto. 60 cho chuyển động mượt hơn nhưng cần nhiều băng thông và sức mạnh giải mã hơn. Chọn 30 nếu hình ảnh bị trễ hoặc giật. Áp dụng ở lần kết nối tiếp theo.</string>
     <string name="save">Lưu</string>
@@ -412,7 +416,7 @@
     <string name="attach_hw_dsp_equalizer_description">Gắn hiệu ứng bộ cân bằng giả vào phiên âm thanh để buộc định tuyến DSP phần cứng trên một số màn hình. Giữ tắt nếu sử dụng ViPER4Android / ViperFX hoặc nếu âm thanh bị nghẹt trên các phiên bản Android cũ.</string>
     <string name="attach_hw_dsp_equalizer_summary">Gắn một bộ chỉnh âm giả để buộc định tuyến qua DSP phần cứng trên một số thiết bị.</string>
     <string name="audio_volume_offset">Bù âm lượng</string>
-    <string name="audio_volume_offset_help">Đặt âm lượng của ba luồng âm thanh Android Auto trên thiết bị này: phương tiện, hướng dẫn dẫn đường và âm thanh hệ thống. Mỗi luồng từ 0% đến 200%. 100% phát luồng đúng như điện thoại gửi. Dùng để cân bằng giữa dẫn đường và nhạc.</string>
+    <string name="audio_volume_offset_help" formatted="false">Đặt âm lượng của ba luồng âm thanh Android Auto trên thiết bị này: phương tiện, hướng dẫn dẫn đường và âm thanh hệ thống. Mỗi luồng từ 0% đến 200%. 100% phát luồng đúng như điện thoại gửi. Dùng để cân bằng giữa dẫn đường và nhạc.</string>
     <string name="microphone_settings">Cài đặt micro</string>
     <string name="use_head_unit_microphone">Micro của đầu máy</string>
     <string name="use_head_unit_microphone_description">Bật: Android Auto nghe micro của thiết bị này. Tắt: thiết bị này không bao giờ ghi âm và điện thoại dùng micro của chính nó, hoặc tai nghe hay bộ đàm đã ghép nối với điện thoại, nên trợ lý giọng nói vẫn hoạt động. Cần Android 11 trở lên trên điện thoại.</string>
@@ -1023,16 +1027,10 @@
     <string name="onb_automation_more_hint">Bạn có thể tìm thêm tùy chọn trong cài đặt Tự động kết nối và Tự động khởi động.</string>
     <string name="onb_dpi_help">DPI cao hơn làm cho biểu tượng và chữ của Android Auto lớn hơn, nên hiển thị được ít hơn. DPI thấp hơn làm chúng nhỏ lại và hiển thị được nhiều hơn. Áp dụng khi bạn kết nối Android Auto.</string>
     <string name="onb_change_later">Bạn có thể thay đổi điều này sau trong Cài đặt.</string>
-    <string name="dpi_automatic">Tự động</string>
-    <string name="dpi_automatic_desc">Dùng mật độ của thiết bị.</string>
-    <string name="dpi_widescreen_hint">Ở %1$d DPI trở xuống, Android Auto hiển thị bản đồ kèm thẻ nội dung nghe nhìn bên cạnh, và văn bản nhỏ hơn.</string>
-    <string name="dpi_automatic_desc_canvas">Dùng %1$d DPI cho %2$s, vùng hiển thị %3$dx%4$d dp.</string>
     <string name="dpi_row_value_format">%1$d (%2$dx%3$d dp)</string>
     <string name="dpi_row_auto_format">Tự động: %1$d (%2$dx%3$d dp)</string>
     <string name="dpi_row_clamped_format">%1$d, gửi dưới dạng %2$d (%3$dx%4$d dp)</string>
     <string name="dpi_clamped_note">Android Auto cần vùng hiển thị tối thiểu 748x450 dp, nên %1$d DPI được gửi dưới dạng %2$d.</string>
-    <string name="dpi_clamped_note_portrait">Ở chế độ dọc, Google Maps trên Android Auto bỏ qua thao tác chạm trên vùng hiển thị hẹp hơn 730 dp, nên %1$d DPI được gửi dưới dạng %2$d.</string>
-    <string name="dpi_portrait_override_note">%1$d DPI được gửi đúng như đã chọn. Ở chế độ dọc, Google Maps trên Android Auto có thể bỏ qua thao tác chạm khi trên %2$d DPI.</string>
     <string name="dpi_floor_override_note">%1$d DPI được gửi đúng như đã chọn. Trên %2$d DPI, vùng hiển thị nhỏ hơn 748x450 dp mà Android Auto cần, và có thể hiện bố cục thu gọn.</string>
     <string name="onb_conn_usb_label">USB (hoặc bộ chuyển đổi)</string>
     <string name="onb_connection_self_detail">Chế độ độc lập chạy Android Auto trên thiết bị này mà không cần kết nối điện thoại.</string>
@@ -1048,7 +1046,6 @@
     <string name="resolution_use_anyway">Vẫn dùng</string>
     <string name="resolution_use_recommended">Dùng khuyến nghị</string>
     <string name="dpi_input_hint">DPI</string>
-    <string name="onb_dpi_huge">Cực lớn</string>
     <string name="onb_vehicle_title">Xe của bạn</string>
     <string name="onb_vehicle_input_hint">Hãng hoặc tên</string>
     <string name="onb_vehicle_help_aa">Tên này được gửi đến Android Auto. Nó hiển thị trong lịch sử kết nối của điện thoại và trên màn hình chào mừng của Android Auto.</string>
@@ -1147,7 +1144,6 @@
         <item>Volkswagen</item>
         <item>Volvo</item>
     </string-array>
-    <string name="onb_dpi_recommended">Đề xuất cho màn hình của bạn: %1$d dpi</string>
     <string name="dpi_value_format">%1$d DPI</string>
     <string name="pixel_aspect_ratio">Tỷ lệ khung hình điểm ảnh</string>
     <string name="pixel_aspect_ratio_help">Chỉ thay đổi nếu hình tròn trông như hình bầu dục trên màn hình này. Điều đó xảy ra khi điểm ảnh của tấm nền không vuông. 10000 nghĩa là điểm ảnh vuông.</string>
@@ -1330,12 +1326,15 @@
     <string name="failed_aa_not_system">Thất bại: Android Auto không được cài đặt dưới dạng ứng dụng hệ thống!</string>
     <string name="failed_aa_not_installed">Thất bại: Android Auto chưa được cài đặt!</string>
     <string name="raise_projection_during_call">Ở lại Android Auto trong khi gọi điện</string>
-    <string name="raise_projection_during_call_description">Chỉ áp dụng cho Chế độ độc lập. Đưa màn hình chiếu trở lại phía trên màn hình cuộc gọi của điện thoại, để trả lời và kết thúc cuộc gọi trong giao diện Android Auto.</string>
-    <string name="raise_projection_during_call_summary">Chỉ dành cho Chế độ độc lập. Hiện màn hình chiếu trên màn hình cuộc gọi của điện thoại.</string>
+    <string name="raise_projection_during_call_description">Trong Chế độ độc lập, đưa màn hình chiếu trở lại phía trên màn hình cuộc gọi của điện thoại, để trả lời và kết thúc cuộc gọi trong giao diện Android Auto. Trên đầu thu FYT, yêu cầu thiết bị không hiện thanh cuộc gọi hoặc màn hình cuộc gọi riêng khi Android Auto đang ở phía trước. Có thể không hoạt động trên mọi thiết bị hoặc phiên bản firmware.</string>
+    <string name="raise_projection_during_call_summary">Chế độ độc lập và thiết bị FYT. Ẩn màn hình cuộc gọi. Có thể không chạy.</string>
     <string name="show_over_lock_screen">Hiển thị trên màn hình khóa</string>
     <string name="show_over_lock_screen_summary">Bản đồ và chỉ đường vẫn hiển thị khi khóa. Chạm và nút bấm không có tác dụng.</string>
     <string name="show_over_lock_screen_help">Hiển thị hình ảnh Android Auto trên màn hình khóa để có thể xem bản đồ và chỉ đường mà không cần mở khóa. Khi thiết bị này đang khóa, không có gì được gửi tới điện thoại: thao tác chạm, nút bấm, núm xoay và nút giọng nói đều bị giữ lại, và bản đồ được đưa lên phía trước. Nhấn Quay lại để mở khóa bằng mã PIN, hình mở khóa hoặc mật khẩu; sau đó mọi thứ hoạt động như bình thường. Nhạc, cuộc gọi và trợ lý giọng nói trên chính điện thoại không bị ảnh hưởng.</string>
-    <string name="show_over_lock_screen_locked_toast">Đã khóa: chỉ bản đồ. Nhấn Quay lại để mở khóa.</string>
+    <string name="show_over_lock_screen_locked_toast">Đã khóa. Nhấn Quay lại để mở khóa.</string>
+    <string name="night_overlay_while_locked">Lớp phủ ban đêm khi đang khóa</string>
+    <string name="night_overlay_while_locked_summary">Đồng hồ, chỗ rẽ tiếp theo và bài hát thay cho bản đồ.</string>
+    <string name="night_overlay_while_locked_help">Khi thiết bị này đang khóa, thiết bị hiển thị lớp phủ ban đêm thay cho hình ảnh Android Auto: đồng hồ, chỗ rẽ tiếp theo và bài đang phát trên nền tối. Bản đồ, địa điểm đã lưu và cửa sổ bật lên của Android Auto, chẳng hạn tên người gọi, bị che đi. Khi mở khóa, hình ảnh hiển thị lại. Tùy chọn này chỉ thay đổi nội dung thiết bị này hiển thị và không gửi gì tới điện thoại. Cỡ chữ, nền và các dòng hiển thị là cài đặt lớp phủ ban đêm trong “Cử chỉ”.</string>
     <string name="audio_stream_settings">Luồng âm thanh</string>
     <string name="audio_stream_settings_description">Chọn luồng hệ thống mà mỗi kênh Android Auto sẽ phát trên đó.</string>
     <string name="audio_stream_settings_info">Android Auto gửi âm thanh qua ba kênh: Đa phương tiện, Chỉ dẫn và Âm thanh hệ thống. Mỗi kênh được chuyển tới đầu máy qua một luồng hệ thống. Luồng bạn chọn quyết định kênh đó theo phím âm lượng nào và, trên nhiều đầu máy, có bật tiếng bộ khuếch đại cho kênh đó hay không. Hãy dùng nút loa để nghe âm thanh thử trên luồng trước khi lưu.</string>
@@ -1485,16 +1484,16 @@
     <string name="pref_enable_floating_button_help">Hiển thị nút nổi trên trình khởi chạy gốc và các ứng dụng khác để nhanh chóng quay lại Open Headunit.</string>
     <string name="pref_floating_button_connection_status_title">Chỉ báo trạng thái kết nối</string>
     <string name="pref_floating_button_connection_status_summary">Làm mờ nút khi điện thoại đang kết nối.</string>
-    <string name="pref_floating_button_connection_status_help">Dùng Độ mờ khi ngắt kết nối nếu chưa có điện thoại nào kết nối, rồi mờ dần về Độ mờ nút nổi khi có điện thoại kết nối. Ở 0%, nút bị ẩn và cho phép chạm xuyên qua.</string>
+    <string name="pref_floating_button_connection_status_help" formatted="false">Dùng Độ mờ khi ngắt kết nối nếu chưa có điện thoại nào kết nối, rồi mờ dần về Độ mờ nút nổi khi có điện thoại kết nối. Ở 0%, nút bị ẩn và cho phép chạm xuyên qua.</string>
     <string name="pref_floating_button_size_title">Kích thước nút nổi</string>
     <string name="pref_floating_button_size_help">Kích thước của nút nổi, từ 32 đến 120 dp. Nút lớn hơn dễ chạm hơn khi đang lái xe.</string>
     <string name="pref_floating_button_opacity_title">Độ mờ nút nổi</string>
     <string name="pref_floating_button_opacity_help">Độ rõ của nút nổi, từ 10% đến 100%. Khi bật Chỉ báo trạng thái kết nối, giá trị này chỉ áp dụng lúc có điện thoại kết nối.</string>
     <string name="pref_floating_button_disconnected_opacity_title">Độ mờ khi ngắt kết nối</string>
-    <string name="pref_floating_button_disconnected_opacity_help">Độ rõ của nút nổi khi chưa có điện thoại nào kết nối. Ở 0%, nút bị ẩn và thao tác chạm xuyên qua đến màn hình bên dưới.</string>
+    <string name="pref_floating_button_disconnected_opacity_help" formatted="false">Độ rõ của nút nổi khi chưa có điện thoại nào kết nối. Ở 0%, nút bị ẩn và thao tác chạm xuyên qua đến màn hình bên dưới.</string>
     <string name="pref_floating_button_x_title">Vị trí ngang (X)</string>
     <string name="pref_floating_button_y_title">Vị trí dọc (Y)</string>
-    <string name="pref_floating_button_position_help">Vị trí của nút nổi trên màn hình. Với X, 0% là mép trái và 100% là mép phải. Với Y, 0% là mép trên và 100% là mép dưới. Nút luôn nằm trọn trong màn hình.</string>
+    <string name="pref_floating_button_position_help" formatted="false">Vị trí của nút nổi trên màn hình. Với X, 0% là mép trái và 100% là mép phải. Với Y, 0% là mép trên và 100% là mép dưới. Nút luôn nằm trọn trong màn hình.</string>
     <string name="pref_aa_exit_action_title">Hành động khi thoát Android Auto</string>
     <string name="pref_aa_exit_action_summary">Hành động khi nhấn Thoát trong danh sách ứng dụng Android Auto.</string>
     <string name="pref_aa_exit_action_help">Chọn điều xảy ra khi bạn chạm Thoát trong Android Auto. Quay lại trình khởi chạy OEM hiện màn hình chính riêng của thiết bị. Quay lại trang chủ ứng dụng hiện màn hình chính của ứng dụng này. Với hai tùy chọn này, điện thoại vẫn kết nối. Ngắt kết nối phiên kết thúc phiên. Khi ứng dụng này là trình khởi chạy của xe, Quay lại trình khởi chạy OEM hoạt động như Quay lại trang chủ ứng dụng.</string>
@@ -1717,6 +1716,15 @@
     <string name="onb_launcher_reopen_note">Mở lại khi kết nối lại không áp dụng khi Open Headunit là ứng dụng màn hình chính, vì thiết bị đã tự quay lại ứng dụng này. Tùy chọn sẽ hoạt động lại nếu bạn tắt trình khởi chạy trên xe.</string>
     <string name="onb_summary_launcher_home">Trình khởi chạy: Open Headunit là màn hình chính</string>
     <string name="onb_summary_launcher_registered">Trình khởi chạy: đã đăng ký làm màn hình chính</string>
+    <string name="dpi_pane_map_and_media">Bản đồ và nội dung nghe nhìn</string>
+    <string name="dpi_pane_one_app">Một ứng dụng</string>
+    <string name="dpi_pane_compact">Thu gọn</string>
+    <string name="dpi_pane_map_over_media">Bản đồ trên nội dung nghe nhìn</string>
+    <string name="dpi_layout_step_title">1. Bố cục</string>
+    <string name="dpi_size_step_title">2. Cỡ văn bản và biểu tượng</string>
+    <string name="dpi_expected_format">Dự kiến: %1$s</string>
+    <string name="dpi_edge_note">Lớn và Tự động nằm ở ranh giới của bố cục. Nếu điện thoại của bạn hiển thị bố cục khác ở đó, hãy chọn Vừa.</string>
+    <string name="dpi_row_named_format">%1$s, %2$s</string>
     <string name="home_pages_hint_title">Chạm và giữ vào chỗ trống</string>
     <string name="home_pages_hint_body">Đó là cách thêm trang cho tiện ích, hoặc xóa một trang.</string>
     <string name="home_pages_hint_got_it">Đã hiểu</string>

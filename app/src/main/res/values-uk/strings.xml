@@ -75,6 +75,7 @@
     <string name="night_overlay_dismiss">Торкніться, щоб повернутися до проєкції</string>
     <string name="night_overlay_meters">%1$d м</string>
     <string name="night_overlay_kilometers">%1$.1f км</string>
+    <string name="night_overlay_kilometers_whole">%1$d км</string>
     <string name="night_overlay_navigation">%1$s · %2$s</string>
     <string name="night_overlay_left">ліворуч</string>
     <string name="night_overlay_right">праворуч</string>
@@ -353,6 +354,9 @@
     <string name="auto_connecting_single_usb">Автопідключення до USB-пристрою…</string>
     <string name="video_codec">Відеокодек</string>
     <string name="video_codec_help">Обирає формат відео, який надсилає телефон. «Авто» дозволяє застосунку вибрати з того, що цей пристрій уміє декодувати. H.265 дає чіткішу картинку за того самого бітрейту. H.264 працює на кожному декодері. Змініть формат, якщо картинка гальмує або лишається чорною. Вибір діє з наступного підключення.</string>
+    <string name="gal_compatibility_mode">Режим сумісності (GAL 1.2)</string>
+    <string name="gal_compatibility_mode_summary">Запитує лише початкову версію протоколу. Застосовується під час наступного підключення.</string>
+    <string name="gal_compatibility_mode_help">Застосунок запитує в телефона GAL 6.1. Якщо Android Auto на телефоні відповідає старішою версією, застосунок запитує версію 1.6. Ці версії дають змогу користуватися новішими функціями звуку, відео й відображення. Вмикайте цей режим лише тоді, коли телефон підключається, але потім працює неправильно. У цьому режимі застосунок запитує GAL 1.2, як у попередніх випусках, без цих функцій. GAL — це протокол проєкції, а не версія Android чи застосунку Android Auto. Застосовується під час наступного підключення.</string>
     <string name="fps_limit">Обмеження FPS</string>
     <string name="fps_limit_help">Максимальна частота кадрів, яку цей пристрій запитує в Android Auto. 60 дає плавніший рух, але потребує більшої пропускної здатності та потужності декодера. Виберіть 30, якщо зображення відстає або смикається. Застосовується під час наступного підключення.</string>
     <string name="save">Зберегти</string>
@@ -389,7 +393,7 @@
     <string name="attach_hw_dsp_equalizer_description">Додає фіктивний еквалайзер до аудіосесії, щоб примусово задіяти апаратний DSP на деяких магнітолах. Залишайте вимкненим, якщо використовуєте ViPER4Android / ViperFX або якщо на старих версіях Android звук приглушений.</string>
     <string name="attach_hw_dsp_equalizer_summary">Підключає фіктивний еквалайзер, щоб на деяких пристроях примусово ввімкнути маршрутизацію через апаратний DSP.</string>
     <string name="audio_volume_offset">Зміщення гучності звуку</string>
-    <string name="audio_volume_offset_help">Визначає гучність трьох аудіопотоків Android Auto на цьому пристрої: медіа, голосових підказок навігації та системних звуків. Кожен можна налаштувати від 0% до 200%. При 100% потік звучить так, як його надсилає телефон. Використовуйте це, щоб збалансувати навігацію й музику.</string>
+    <string name="audio_volume_offset_help" formatted="false">Визначає гучність трьох аудіопотоків Android Auto на цьому пристрої: медіа, голосових підказок навігації та системних звуків. Кожен можна налаштувати від 0% до 200%. При 100% потік звучить так, як його надсилає телефон. Використовуйте це, щоб збалансувати навігацію й музику.</string>
     <string name="mic_input_source">Джерело мікрофона</string>
     <string name="mic_input_source_description">Виберіть джерело звуку для мікрофона.</string>
     <string name="mic_input_source_help">Вибирає аудіоджерело Android, з якого записує додаток. «За замовчуванням» залишає вибір системі. «Мікрофон» записує необроблений звук. «Розпізнавання мови» та «Голосовий зв’язок» додають системні фільтри шуму й відлуння. «Bluetooth-гарнітура» записує через Bluetooth-гарнітуру. Змініть джерело, якщо телефон вас не чує. Якщо Android Auto підключено, збереження зміни зупиняє сеанс.</string>
@@ -1022,16 +1026,10 @@
     <string name="onb_automation_more_hint">Більше параметрів у налаштуваннях автопідключення та автозапуску.</string>
     <string name="onb_dpi_help">Вищий DPI збільшує значки й текст Android Auto, тож на екран вміщається менше. Нижчий DPI робить їх меншими, вміщається більше. Застосовується під час підключення Android Auto.</string>
     <string name="onb_change_later">Ви можете змінити це пізніше в налаштуваннях.</string>
-    <string name="dpi_automatic">Автоматично</string>
-    <string name="dpi_automatic_desc">Використовувати щільність пристрою.</string>
-    <string name="dpi_widescreen_hint">При %1$d DPI або менше Android Auto показує карту з карткою мультимедіа поруч, а текст стає дрібнішим.</string>
-    <string name="dpi_automatic_desc_canvas">Використовує %1$d DPI для %2$s, полотно %3$dx%4$d dp.</string>
     <string name="dpi_row_value_format">%1$d (%2$dx%3$d dp)</string>
     <string name="dpi_row_auto_format">Автоматично: %1$d (%2$dx%3$d dp)</string>
     <string name="dpi_row_clamped_format">%1$d, надсилається як %2$d (%3$dx%4$d dp)</string>
     <string name="dpi_clamped_note">Android Auto потрібне полотно не менше 748x450 dp, тому %1$d DPI надсилається як %2$d.</string>
-    <string name="dpi_clamped_note_portrait">У портретному режимі Google Maps в Android Auto ігнорує дотики на полотні вужчому за 730 dp, тому %1$d DPI надсилається як %2$d.</string>
-    <string name="dpi_portrait_override_note">%1$d DPI надсилається так, як вибрано. У портретному режимі Google Maps в Android Auto може ігнорувати дотики вище %2$d DPI.</string>
     <string name="dpi_floor_override_note">%1$d DPI надсилається так, як вибрано. Вище %2$d DPI полотно менше, ніж потрібно Android Auto (748x450 dp), і може з\'явитися спрощений макет.</string>
     <string name="onb_conn_usb_label">USB (або адаптер)</string>
     <string name="onb_connection_self_detail">Автономний режим запускає Android Auto на цьому пристрої без телефона.</string>
@@ -1047,7 +1045,6 @@
     <string name="resolution_use_anyway">Все одно використати</string>
     <string name="resolution_use_recommended">Використати рекомендовану</string>
     <string name="dpi_input_hint">DPI</string>
-    <string name="onb_dpi_huge">Величезний</string>
     <string name="onb_vehicle_title">Ваш автомобіль</string>
     <string name="onb_vehicle_input_hint">Марка або назва</string>
     <string name="onb_vehicle_help_aa">Ця назва надсилається в Android Auto. Вона показується в історії підключень телефона та на екрані привітання Android Auto.</string>
@@ -1078,7 +1075,6 @@
     <string name="perm_write_settings_help">Дозволяє додатку автоматично вмикати точку доступу для бездротових підключень.</string>
     <string name="perm_storage_title">Сховище</string>
     <string name="perm_storage_help">Потрібен для резервного копіювання й відновлення налаштувань, а також для вибору власного зображення завантаження.</string>
-    <string name="onb_dpi_recommended">Рекомендовано для вашого екрана: %1$d dpi</string>
     <string name="onb_ready_loading_intro">Ще одне: тепер ви можете встановити власний екран завантаження, який відображатиметься під час підключення автомобіля.</string>
     <string name="onb_ready_loading_button">Налаштувати екран завантаження</string>
 
@@ -1331,12 +1327,15 @@
     <string name="failed_aa_not_system">Помилка: Android Auto не встановлено як системний додаток!</string>
     <string name="failed_aa_not_installed">Помилка: Android Auto не встановлено!</string>
     <string name="raise_projection_during_call">Залишатися в Android Auto під час дзвінків</string>
-    <string name="raise_projection_during_call_description">Лише Самостійний режим. Повертає проєкцію поверх екрана виклику телефону, щоб відповідати на дзвінки та завершувати їх в інтерфейсі Android Auto.</string>
-    <string name="raise_projection_during_call_summary">Лише в автономному режимі. Показує проєкцію поверх екрана дзвінка на телефоні.</string>
+    <string name="raise_projection_during_call_description">В автономному режимі повертає проєкцію поверх екрана виклику телефона, щоб відповідати на дзвінки та завершувати їх в інтерфейсі Android Auto. На пристроях FYT просить пристрій не показувати власну панель і екран виклику, поки Android Auto на передньому плані. Може працювати не на всіх пристроях і версіях прошивки.</string>
+    <string name="raise_projection_during_call_summary">Автономний режим і пристрої FYT. Ховає екран дзвінка. Може працювати не на всіх.</string>
     <string name="show_over_lock_screen">Показувати поверх екрана блокування</string>
     <string name="show_over_lock_screen_summary">Карта й маршрут видно і під час блокування. Дотики та кнопки не діють.</string>
     <string name="show_over_lock_screen_help">Показує зображення Android Auto поверх екрана блокування, щоб карту й маршрут можна було бачити без розблокування. Поки цей пристрій заблоковано, на телефон нічого не передається: дотики, кнопки, поворотний контролер і кнопка голосу затримуються, а карта виводиться на передній план. Натисніть «Назад», щоб розблокувати за допомогою PIN-коду, ключа або пароля; після цього все працює як зазвичай. Музика, дзвінки та голосовий помічник на самому телефоні не зачіпаються.</string>
-    <string name="show_over_lock_screen_locked_toast">Заблоковано: лише карта. Натисніть «Назад», щоб розблокувати.</string>
+    <string name="show_over_lock_screen_locked_toast">Заблоковано. Натисніть «Назад», щоб розблокувати.</string>
+    <string name="night_overlay_while_locked">Нічний оверлей під час блокування</string>
+    <string name="night_overlay_while_locked_summary">Годинник, наступний поворот і трек замість карти.</string>
+    <string name="night_overlay_while_locked_help">Поки цей пристрій заблоковано, замість зображення Android Auto він показує нічний оверлей: годинник, наступний поворот і трек, що відтворюється, на темному тлі. Карта, збережені місця та спливаючі вікна Android Auto, наприклад ім\'я абонента, закриті. Після розблокування знову показується зображення. Змінюється лише те, що показує цей пристрій, і нічого не надсилається на телефон. Розмір тексту, тло та показувані рядки задаються налаштуваннями нічного оверлея в меню “Жести”.</string>
     <string name="audio_stream_settings">Аудіопотоки</string>
     <string name="audio_stream_settings_description">Виберіть системний потік, через який відтворюється кожен канал Android Auto.</string>
     <string name="audio_stream_settings_info">Android Auto передає звук трьома каналами: «Мультимедіа», «Підказки» та «Системні звуки». Кожен потрапляє до магнітоли через системний потік, і вибраний потік визначає, якій кнопці гучності він підпорядковується та, на багатьох магнітолах, чи ввімкнеться для нього підсилювач узагалі. Натисніть кнопку динаміка, щоб почути тестовий сигнал на потоці перед збереженням.</string>
@@ -1486,16 +1485,16 @@
     <string name="pref_enable_floating_button_help">Відображає плаваючу кнопку поверх штатного лаунчера та інших програм для швидкого повернення до Open Headunit.</string>
     <string name="pref_floating_button_connection_status_title">Індикатор стану підключення</string>
     <string name="pref_floating_button_connection_status_summary">Робить кнопку блідішою, поки підключено телефон.</string>
-    <string name="pref_floating_button_connection_status_help">Коли телефон не підключено, використовує прозорість при відключенні, а коли підключено, плавно переходить до прозорості плаваючої кнопки. При 0% кнопка прихована й пропускає дотики.</string>
+    <string name="pref_floating_button_connection_status_help" formatted="false">Коли телефон не підключено, використовує прозорість при відключенні, а коли підключено, плавно переходить до прозорості плаваючої кнопки. При 0% кнопка прихована й пропускає дотики.</string>
     <string name="pref_floating_button_size_title">Розмір плаваючої кнопки</string>
     <string name="pref_floating_button_size_help">Розмір плаваючої кнопки, від 32 до 120 dp. Більшу кнопку легше натискати за кермом.</string>
     <string name="pref_floating_button_opacity_title">Прозорість плаваючої кнопки</string>
     <string name="pref_floating_button_opacity_help">Наскільки помітна плаваюча кнопка, від 10% до 100%. Якщо ввімкнено «Індикатор стану підключення», це значення діє лише поки телефон підключено.</string>
     <string name="pref_floating_button_disconnected_opacity_title">Прозорість при відключенні</string>
-    <string name="pref_floating_button_disconnected_opacity_help">Наскільки помітна плаваюча кнопка, поки телефон не підключено. При 0% кнопку приховано, і дотики проходять крізь неї до екрана під нею.</string>
+    <string name="pref_floating_button_disconnected_opacity_help" formatted="false">Наскільки помітна плаваюча кнопка, поки телефон не підключено. При 0% кнопку приховано, і дотики проходять крізь неї до екрана під нею.</string>
     <string name="pref_floating_button_x_title">Горизонтальне положення (X)</string>
     <string name="pref_floating_button_y_title">Вертикальне положення (Y)</string>
-    <string name="pref_floating_button_position_help">Де на екрані розташована плаваюча кнопка. Для X 0% означає лівий край, 100% правий. Для Y 0% означає верхній край, 100% нижній. Кнопка завжди залишається на екрані повністю.</string>
+    <string name="pref_floating_button_position_help" formatted="false">Де на екрані розташована плаваюча кнопка. Для X 0% означає лівий край, 100% правий. Для Y 0% означає верхній край, 100% нижній. Кнопка завжди залишається на екрані повністю.</string>
     <string name="pref_aa_exit_action_title">Дія при виході з Android Auto</string>
     <string name="pref_aa_exit_action_summary">Дія при натисканні «Вихід» у списку програм Android Auto.</string>
     <string name="pref_aa_exit_action_help">Вибирає, що відбувається, коли торкнутися «Вихід» в Android Auto. «Повернутися до штатного лаунчера» показує власний головний екран пристрою. «Повернутися на головний екран програми» показує головний екран цього додатка. У цих двох випадках телефон залишається підключеним. «Відключити сеанс» завершує сеанс. Якщо цей додаток є лаунчером автомобіля, «Повернутися до штатного лаунчера» діє як «Повернутися на головний екран програми».</string>
@@ -1718,6 +1717,15 @@
     <string name="onb_launcher_reopen_note">«Відкривати при повторному підключенні» не діє, поки Open Headunit є головною програмою: пристрій і так повертається до неї. Знову запрацює, якщо вимкнути лаунчер авто.</string>
     <string name="onb_summary_launcher_home">Лаунчер: Open Headunit є головним екраном</string>
     <string name="onb_summary_launcher_registered">Лаунчер: зареєстровано як головний екран</string>
+    <string name="dpi_pane_map_and_media">Карта й мультимедіа</string>
+    <string name="dpi_pane_one_app">Один застосунок</string>
+    <string name="dpi_pane_compact">Компактний</string>
+    <string name="dpi_pane_map_over_media">Карта над мультимедіа</string>
+    <string name="dpi_layout_step_title">1. Макет</string>
+    <string name="dpi_size_step_title">2. Розмір тексту й значків</string>
+    <string name="dpi_expected_format">Очікується: %1$s</string>
+    <string name="dpi_edge_note">Розміри «Великий» і «Автоматично» лежать на межі макета. Якщо телефон показує там інший макет, виберіть «Середній».</string>
+    <string name="dpi_row_named_format">%1$s, %2$s</string>
     <string name="home_pages_hint_title">Натисніть і утримуйте порожнє місце</string>
     <string name="home_pages_hint_body">Так можна додати сторінку для віджетів або видалити її.</string>
     <string name="home_pages_hint_got_it">Зрозуміло</string>

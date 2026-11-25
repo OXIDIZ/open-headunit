@@ -50,12 +50,16 @@ import com.andrerinas.openheadunit.decoder.audio.MicRecorder
 import com.andrerinas.openheadunit.decoder.video.DecoderStopPolicy
 import com.andrerinas.openheadunit.decoder.video.SoftwareYuvFrameSink
 import com.andrerinas.openheadunit.decoder.video.VideoDecoder
+import com.andrerinas.openheadunit.decoder.video.VideoDimensions
 import com.andrerinas.openheadunit.decoder.video.VideoDimensionsListener
 import com.andrerinas.openheadunit.utils.AppLog
 import com.andrerinas.openheadunit.utils.ScreenPower
 import com.andrerinas.openheadunit.input.LockedInputPolicy
+import com.andrerinas.openheadunit.input.LockedViewPolicy
 import com.andrerinas.openheadunit.utils.BluetoothHelper
 import com.andrerinas.openheadunit.utils.CarLauncherManager
+import com.andrerinas.openheadunit.connection.carkey.fyt.FytCallScreen
+import com.andrerinas.openheadunit.connection.carkey.fyt.FytCallScreenPolicy
 import com.andrerinas.openheadunit.connection.self.SelfModeCallRaisePolicy
 import com.andrerinas.openheadunit.connection.usb.UsbSwitchClaim
 import com.andrerinas.openheadunit.connection.usb.UsbDeviceCompat
@@ -63,6 +67,7 @@ import com.andrerinas.openheadunit.connection.projection.ProjectionConnection
 import com.andrerinas.openheadunit.decoder.audio.CallState
 import com.andrerinas.openheadunit.utils.IntentFilters
 import com.andrerinas.openheadunit.view.IProjectionView
+import com.andrerinas.openheadunit.decoder.video.VideoSurfaceKind
 import com.andrerinas.openheadunit.view.GlProjectionView
 import com.andrerinas.openheadunit.view.ProjectionView
 import com.andrerinas.openheadunit.view.TextureProjectionView
@@ -186,6 +191,8 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
     private var activityFullscreenOverride: Settings.FullscreenMode? = null
     private var touchOverlayView: OverlayTouchView? = null
     private var nightOverlay: NightProjectionOverlay? = null
+    /** True while the night overlay is up because "Night overlay while locked" put it up. */
+    private var lockedUnitOwnsOverlay = false
     private var dimmerView: ProjectionDimmerView? = null
     private val performanceOverlay by lazy {
         PerformanceOverlay(settings) { videoDecoder.lastFrameRenderedMs }
@@ -259,9 +266,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
             maybeRecoverWarmRelaunch()
             val lastFrame = videoDecoder.lastFrameRenderedMs
             if (lastFrame == 0L) {
-                // First frame hasn't arrived yet — handled by the starting overlay. If the phone is
-                // streaming video but nothing draws, offer to switch renderer (issue #767).
-                maybeOfferRendererConfirm()
+                // First frame hasn't arrived yet — handled by the starting overlay.
                 watchdogHandler.postDelayed(this, ProjectionWatchdogPolicy.WATCHDOG_TICK_MS)
                 return
             }
@@ -409,6 +414,14 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
     }
 
     private var resumedAtMs = 0L
+    // The unit forgets the ask at every call end, so it repeats while the projection is in front.
+    private val fytCallScreenRunnable = object : Runnable {
+        override fun run() {
+            if (!FytCallScreen.suppress(this@AapProjectionActivity, settings.raiseProjectionDuringCall, isForeground)) return
+            watchdogHandler.postDelayed(this, FytCallScreenPolicy.REPEAT_MS)
+        }
+    }
+
     private val returnRearmRunnable = Runnable {
         // A kept TextureView can return without a surface callback. Consume the same stop
         // generation here so a later callback cannot grant another recovery cycle.
@@ -617,7 +630,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
             val tv = projectionView as TextureView
             if (tv.isAvailable) {
                 AppLog.w("Watchdog: TextureView IS available. Forcing onSurfaceChanged.")
-                onSurfaceChanged(android.view.Surface(tv.surfaceTexture), tv.width, tv.height)
+                onSurfaceChanged(android.view.Surface(tv.surfaceTexture), tv.width, tv.height, VideoSurfaceKind.TEXTURE_CONSUMER)
             } else {
                 AppLog.e("Watchdog: TextureView NOT available. Vis=${tv.visibility}, W=${tv.width}, H=${tv.height}")
             }
@@ -625,7 +638,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
              val gles = projectionView as GlProjectionView
              if (gles.isSurfaceValid()) {
                  AppLog.w("Watchdog: GlProjectionView IS valid. Forcing onSurfaceChanged.")
-                 onSurfaceChanged(gles.getSurface()!!, gles.width, gles.height)
+                 onSurfaceChanged(gles.getSurface()!!, gles.width, gles.height, gles.videoSurfaceKind)
              } else {
                  AppLog.e("Watchdog: GlProjectionView NOT valid.")
              }
@@ -633,7 +646,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
              val sv = projectionView as ProjectionView
              if (sv.holder.surface.isValid) {
                  AppLog.w("Watchdog: SurfaceView IS valid. Forcing onSurfaceChanged.")
-                 onSurfaceChanged(sv.holder.surface, sv.reportedSurfaceWidth, sv.reportedSurfaceHeight)
+                 onSurfaceChanged(sv.holder.surface, sv.reportedSurfaceWidth, sv.reportedSurfaceHeight, sv.videoSurfaceKind)
              } else {
                  AppLog.e("Watchdog: SurfaceView NOT valid.")
              }
@@ -753,12 +766,11 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
     private var autoStartOfferResolved = false
     private var autoStartOfferTimer: CountDownTimer? = null
     private var rendererConfirmResolved = false
-    private var projectionStartMs = 0L
-    private val rendererConfirmNoFrameMs = 6000L
-    // "Phone still streaming" window for the offer. Kept comfortably above the 2s watchdog interval
-    // so a burst of keyframes (~every 2s on the AA logo) doesn't fall outside the window and hide
-    // the offer for a genuinely connected phone.
-    private val rendererConfirmPhoneAliveMs = 4000L
+    private val rendererBannerAutoDismissMs = 10_000L
+    private val rendererBannerDismissRunnable = Runnable {
+        rendererConfirmResolved = true
+        dismissRendererConfirmBanner()
+    }
 
     private fun maybeRecoverFromDisplayStall() {
         if (!::projectionView.isInitialized) return
@@ -847,27 +859,12 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         recreateProjectionView()
     }
 
-    /** Offer the renderer confirmation when the phone is actively streaming video but nothing has
-     * been drawn for a while (the broken-renderer case that cannot be detected automatically). */
-    private fun maybeOfferRendererConfirm() {
-        if (rendererConfirmResolved || rendererBanner != null) return
-        if (videoDecoder.lastFrameRenderedMs > 0L) return
-        val input = videoDecoder.lastInputBytesReceivedMs
-        if (input <= 0L) return
-        val now = SystemClock.elapsedRealtime()
-        if (now - input > rendererConfirmPhoneAliveMs) return
-        if (projectionStartMs == 0L || now - projectionStartMs < rendererConfirmNoFrameMs) return
-        showRendererConfirmBanner("the phone is streaming and nothing has drawn")
-    }
-
     /**
      * A dismissible bottom bar: "Do you see the screen?" with Yes / Switch renderer.
+     * Shown only after an explicit renderer change or fallback, and auto-dismissed after
+     * [rendererBannerAutoDismissMs] so it never stays stuck on screen (#1324).
      *
-     * @param reason which of the four situations armed it, for the log. They are four different
-     *   things - a terminal fallback that is also black, a phone streaming into a blank screen, a
-     *   renderer just switched, and the setup wizard asking for confirmation - and they used to
-     *   produce one indistinguishable line. A round saw the banner with `pendingRendererConfirm`
-     *   persisted false and had to reason out which path had armed it.
+     * @param reason which situation armed it, for the log.
      */
     private fun showRendererConfirmBanner(reason: String) {
         runOnUiThread {
@@ -920,14 +917,18 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
             nightOverlay?.takeIf { it.visibility == View.VISIBLE }?.bringToFront()
             // One-shot: offering the escape once is enough. Clearing the flag here (not only on
             // "Yes") stops the banner from re-appearing on every future session if the user drives
-            // off without tapping. A genuinely broken renderer still re-offers via the no-frame path.
+            // off without tapping. Auto-dismiss after 10 s so it never blocks the bottom bar (#1324).
             settings.pendingRendererConfirm = false
+            bar.postDelayed(rendererBannerDismissRunnable, rendererBannerAutoDismissMs)
         }
     }
 
     private fun dismissRendererConfirmBanner() {
         runOnUiThread {
-            rendererBanner?.let { (it.parent as? FrameLayout)?.removeView(it) }
+            rendererBanner?.let {
+                it.removeCallbacks(rendererBannerDismissRunnable)
+                (it.parent as? FrameLayout)?.removeView(it)
+            }
             rendererBanner = null
         }
     }
@@ -1341,6 +1342,8 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         placeDimmer()
         // The overlay is built hidden, so one lost to a recreation counts as closed.
         commManager.dimState.resumeAfterOverlay()
+        // A screen rebuilt on a locked unit goes back to the locked unit's view.
+        syncLockedView()
         overlayView.requestFocus()
         setFullscreen() // Call setFullscreen here as well
 
@@ -1413,6 +1416,8 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         watchdogHandler.removeCallbacks(videoWatchdogRunnable)
         watchdogHandler.removeCallbacks(reconnectingWatchdog)
         watchdogHandler.removeCallbacks(exitRunnable)
+        watchdogHandler.removeCallbacks(fytCallScreenRunnable)
+        FytCallScreen.restore(this)
         if (isOrientationReceiverRegistered) {
             unregisterReceiver(orientationReceiver)
             isOrientationReceiverRegistered = false
@@ -1490,6 +1495,8 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         watchdogHandler.postDelayed(watchdogRunnable, 2000)
         watchdogHandler.postDelayed(videoWatchdogRunnable, 3000)
         watchdogHandler.postDelayed(reconnectingWatchdog, 5000)
+        watchdogHandler.removeCallbacks(fytCallScreenRunnable)
+        watchdogHandler.post(fytCallScreenRunnable)
 
 
         if (!isKeyEventReceiverRegistered) {
@@ -1569,7 +1576,10 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         if (engage == LockedInputPolicy.engaged) return
         LockedInputPolicy.engaged = engage
         AppLog.i("AapProjectionActivity: locked-unit input hold ${if (engage) "on" else "off"} ($reason)")
-        if (!engage) return
+        if (!engage) {
+            syncLockedView()
+            return
+        }
         exitDialog?.dismiss()
         exitDialog = null
         (supportFragmentManager.findFragmentByTag("quick_settings") as? androidx.fragment.app.DialogFragment)
@@ -1578,6 +1588,31 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         // Straight to the transport, past the keymap: this is Android Auto's own map key.
         commManager.send(LockedInputPolicy.KEYCODE_AA_NAVIGATION, true)
         commManager.send(LockedInputPolicy.KEYCODE_AA_NAVIGATION, false)
+        syncLockedView()
+    }
+
+    /**
+     * Puts the night overlay up or takes it away so a locked unit shows what "Night overlay while
+     * locked" asks for. Safe to call at any time; it does nothing before the overlay exists.
+     */
+    private fun syncLockedView() {
+        val overlay = nightOverlay ?: return
+        val visible = overlay.visibility == View.VISIBLE
+        if (!visible) lockedUnitOwnsOverlay = false
+        when (LockedViewPolicy.decide(LockedInputPolicy.engaged, settings.nightOverlayWhileLocked,
+            visible, lockedUnitOwnsOverlay)) {
+            LockedViewPolicy.Step.SHOW -> {
+                showNightOverlay()
+                lockedUnitOwnsOverlay = true
+                AppLog.i("AapProjectionActivity: locked unit shows the night overlay")
+            }
+            LockedViewPolicy.Step.HIDE -> {
+                overlay.hide()
+                lockedUnitOwnsOverlay = false
+                AppLog.i("AapProjectionActivity: locked unit shows the picture again")
+            }
+            LockedViewPolicy.Step.KEEP -> Unit
+        }
     }
 
     /** Asks the system to lift the keyguard; a secure one shows its PIN, pattern or password screen. */
@@ -1912,7 +1947,8 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
 
         SystemUI.apply(window, container, mode) {
             if (::projectionView.isInitialized) {
-                ProjectionViewScaler.updateScale(projectionView as View, videoDecoder.videoWidth, videoDecoder.videoHeight)
+                val dimensions = videoDecoder.videoSize
+                ProjectionViewScaler.updateScale(projectionView as View, dimensions.width, dimensions.height)
             }
         }
 
@@ -1926,7 +1962,8 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
                         val effectiveMode = activityFullscreenOverride ?: settings.fullscreenMode
                         SystemUI.apply(window, container, effectiveMode) {
                             if (::projectionView.isInitialized) {
-                                ProjectionViewScaler.updateScale(projectionView as View, videoDecoder.videoWidth, videoDecoder.videoHeight)
+                                val dimensions = videoDecoder.videoSize
+                                ProjectionViewScaler.updateScale(projectionView as View, dimensions.width, dimensions.height)
                             }
                         }
                     }, 2000)
@@ -2079,8 +2116,9 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             try {
-                var width = videoDecoder.videoWidth.coerceAtLeast(1).toFloat()
-                var height = videoDecoder.videoHeight.coerceAtLeast(1).toFloat()
+                val dimensions = videoDecoder.videoSize
+                var width = dimensions.width.coerceAtLeast(1).toFloat()
+                var height = dimensions.height.coerceAtLeast(1).toFloat()
                 val ratio = width / height
 
                 // Android supports PiP aspect ratios between 1/2.39 (0.418) and 2.39.
@@ -2520,20 +2558,25 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
             true
         }
         GestureOutcomePolicy.Outcome.ShowOverlay -> {
-            commManager.dimState.suspendForOverlay()
-            nightOverlay?.apply {
-                applyOptions(NightOverlayOptions(
-                    textSize = settings.nightOverlayTextSize,
-                    background = settings.nightOverlayBackground,
-                    showClock = settings.nightOverlayShowClock,
-                    showNavigation = settings.nightOverlayShowNavigation,
-                    showTrack = settings.nightOverlayShowTrack
-                ))
-                render(App.provide(this@AapProjectionActivity).nightOverlayState.content.value)
-                scaleX = if (settings.hudMirroring) -1f else 1f
-                show()
-            }
+            showNightOverlay()
             true
+        }
+    }
+
+    /** Puts the night overlay up with the current settings; the gesture action and the locked unit share it. */
+    private fun showNightOverlay() {
+        commManager.dimState.suspendForOverlay()
+        nightOverlay?.apply {
+            applyOptions(NightOverlayOptions(
+                textSize = settings.nightOverlayTextSize,
+                background = settings.nightOverlayBackground,
+                showClock = settings.nightOverlayShowClock,
+                showNavigation = settings.nightOverlayShowNavigation,
+                showTrack = settings.nightOverlayShowTrack
+            ))
+            render(App.provide(this@AapProjectionActivity).nightOverlayState.content.value)
+            scaleX = if (settings.hudMirroring) -1f else 1f
+            show()
         }
     }
 
@@ -2542,7 +2585,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         // Decoder configuration is now in onSurfaceChanged
     }
 
-    override fun onSurfaceChanged(surface: android.view.Surface, width: Int, height: Int) {
+    override fun onSurfaceChanged(surface: android.view.Surface, width: Int, height: Int, kind: VideoSurfaceKind) {
         AppLog.i("[UI_DEBUG] [AapProjectionActivity] onSurfaceChanged. Actual surface dimensions: width=$width, height=$height")
         val surfaceChanged = relaunchRecovery.onSurfaceChanged(
             ownedSurface !== surface || !videoDecoder.isCurrentSurface(surface),
@@ -2550,7 +2593,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         )
         isSurfaceSet = true
 
-        videoDecoder.setSurface(surface)
+        videoDecoder.setSurface(surface, kind)
         ownedSurface = surface
         if (surfaceChanged) {
             // A replacement target must not strand a pending gain. A resize of the same
@@ -2599,18 +2642,9 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
             }
         }
 
-        // Explicitly check and set video dimensions if already known by the decoder
-        // This handles cases where the activity is recreated but the decoder already has dimensions
-        val currentVideoWidth = videoDecoder.videoWidth
-        val currentVideoHeight = videoDecoder.videoHeight
-
-        if (currentVideoWidth > 0 && currentVideoHeight > 0) {
-            AppLog.i("[AapProjectionActivity] Decoder already has dimensions: ${currentVideoWidth}x$currentVideoHeight. Applying to view.")
-            runOnUiThread {
-                projectionView.setVideoSize(currentVideoWidth, currentVideoHeight)
-                ProjectionViewScaler.updateScale(projectionView as View, currentVideoWidth, currentVideoHeight)
-            }
-        }
+        // A recreated activity can attach after dimensions are known. Reannounce through the
+        // same source-owned notification path instead of posting an unfenced width/height pair.
+        videoDecoder.notifyVideoDimensions()
     }
 
     /** Only a surface belonging to the completed root layout may change persistent geometry. */
@@ -2676,11 +2710,18 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
     }
 
 
-    override fun onVideoDimensionsChanged(width: Int, height: Int) {
-        AppLog.i("[AapProjectionActivity] Received video dimensions: ${width}x$height")
+    override fun onVideoDimensionsChanged(dimensions: VideoDimensions) {
+        // Registration precedes view setup in onCreate; onSurfaceChanged reannounces anything
+        // received before the target exists. Capture it before logging/posting can yield.
+        if (!::projectionView.isInitialized) return
+        val target = projectionView
+        AppLog.i("[AapProjectionActivity] Received video dimensions: ${dimensions.width}x${dimensions.height}")
         runOnUiThread {
-            projectionView.setVideoSize(width, height)
-            ProjectionViewScaler.updateScale(projectionView as View, width, height)
+            // Main-thread serialization covers the two mutations, not a decoder lock. Validate
+            // the original notification here, never acquire replacement ownership for old work.
+            if (projectionView !== target || !dimensions.isCurrent()) return@runOnUiThread
+            target.setVideoSize(dimensions.width, dimensions.height)
+            ProjectionViewScaler.updateScale(target as View, dimensions.width, dimensions.height)
         }
     }
 
@@ -2715,7 +2756,8 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         val reannounced = reannounceMargins()
         runOnUiThread {
             val view = projectionView as? View ?: return@runOnUiThread
-            ProjectionViewScaler.updateScale(view, videoDecoder.videoWidth, videoDecoder.videoHeight)
+            val dimensions = videoDecoder.videoSize
+            ProjectionViewScaler.updateScale(view, dimensions.width, dimensions.height)
         }
         return reannounced
     }
@@ -2724,7 +2766,8 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
     private fun onFallbackAdopted() {
         runOnUiThread {
             val view = projectionView as? View ?: return@runOnUiThread
-            ProjectionViewScaler.updateScale(view, videoDecoder.videoWidth, videoDecoder.videoHeight)
+            val dimensions = videoDecoder.videoSize
+            ProjectionViewScaler.updateScale(view, dimensions.width, dimensions.height)
         }
     }
 
@@ -3136,8 +3179,6 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         }
 
         projectionView.addCallback(this)
-        // Baseline for the "no frame drawn while streaming" renderer check (issue #767).
-        projectionStartMs = SystemClock.elapsedRealtime()
         placeDimmer()
         performanceOverlay.bringToFront()
         nightOverlay?.takeIf { it.visibility == View.VISIBLE }?.bringToFront()

@@ -31,6 +31,7 @@ class SettingsPendingCopy {
     var forceSoftware: Boolean? = null
     var softwareVideoDecoder: Settings.SoftwareVideoDecoder? = null
     var videoCodec: String? = null
+    var galCompatibilityMode: Boolean? = null
     var fpsLimit: Int? = null
     var bluetoothAddress: String? = null
     var bluetoothAnnounceSkip: Boolean? = null
@@ -104,6 +105,7 @@ class SettingsPendingCopy {
     var autoKillOemApps: Boolean? = null
     var raiseProjectionDuringCall: Boolean? = null
     var showOverLockScreen: Boolean? = null
+    var nightOverlayWhileLocked: Boolean? = null
     var insetLeft: Int? = null
     var insetTop: Int? = null
     var insetRight: Int? = null
@@ -130,6 +132,7 @@ class SettingsPendingCopy {
         forceSoftware = settings.forceSoftwareDecoding
         softwareVideoDecoder = settings.softwareVideoDecoder
         videoCodec = settings.videoCodec
+        galCompatibilityMode = settings.galCompatibilityMode
         fpsLimit = settings.fpsLimit
         bluetoothAddress = settings.bluetoothAddress
         bluetoothAnnounceSkip = BluetoothAnnouncePolicy.isSkip(settings.bluetoothAnnounceMode)
@@ -203,6 +206,7 @@ class SettingsPendingCopy {
         autoKillOemApps = settings.autoKillOemApps
         raiseProjectionDuringCall = settings.raiseProjectionDuringCall
         showOverLockScreen = settings.showOverLockScreen
+        nightOverlayWhileLocked = settings.nightOverlayWhileLocked
         insetLeft = settings.insetLeft
         insetTop = settings.insetTop
         insetRight = settings.insetRight
@@ -230,6 +234,7 @@ class SettingsPendingCopy {
         forceSoftware != settings.forceSoftwareDecoding ||
         softwareVideoDecoder != settings.softwareVideoDecoder ||
         videoCodec != settings.videoCodec ||
+        galCompatibilityMode != settings.galCompatibilityMode ||
         fpsLimit != settings.fpsLimit ||
         bluetoothAddress != settings.bluetoothAddress ||
         bluetoothAnnounceSkip != BluetoothAnnouncePolicy.isSkip(settings.bluetoothAnnounceMode) ||
@@ -303,6 +308,7 @@ class SettingsPendingCopy {
         autoKillOemApps != settings.autoKillOemApps ||
         raiseProjectionDuringCall != settings.raiseProjectionDuringCall ||
         showOverLockScreen != settings.showOverLockScreen ||
+        nightOverlayWhileLocked != settings.nightOverlayWhileLocked ||
         insetLeft != settings.insetLeft ||
         insetTop != settings.insetTop ||
         insetRight != settings.insetRight ||

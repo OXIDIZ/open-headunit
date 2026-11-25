@@ -6,6 +6,9 @@ import com.andrerinas.openheadunit.aap.AapMessage
 import com.andrerinas.openheadunit.aap.AapTransport
 import com.andrerinas.openheadunit.aap.NarrowBandProfilePolicy
 import com.andrerinas.openheadunit.aap.VehicleIdentityPolicy
+import com.andrerinas.openheadunit.aap.GalConnectionContract
+import com.andrerinas.openheadunit.aap.GalMediaOffer
+import com.andrerinas.openheadunit.aap.applyGuidanceConfigurations
 import com.andrerinas.openheadunit.aap.VehicleTypePolicy
 import com.andrerinas.openheadunit.input.KeyCode
 import com.andrerinas.openheadunit.aap.protocol.AudioConfigs
@@ -20,13 +23,20 @@ import com.andrerinas.openheadunit.utils.AppLog
 import com.andrerinas.openheadunit.utils.HeadUnitScreenConfig
 import com.andrerinas.openheadunit.utils.VideoFallbackPolicy
 import com.andrerinas.openheadunit.aap.AudioSessionConfig
-import com.google.protobuf.Message
 
-internal class ServiceDiscoveryResponse(context: Context, audioConfig: AudioSessionConfig, transport: AapTransport)
-    : AapMessage(Channel.ID_CTR, Control.ControlMsgType.MESSAGE_SERVICE_DISCOVERY_RESPONSE_VALUE, makeProto(context, audioConfig, transport)) {
+internal class ServiceDiscoveryResponse private constructor(proto: Control.ServiceDiscoveryResponse)
+    : AapMessage(Channel.ID_CTR, Control.ControlMsgType.MESSAGE_SERVICE_DISCOVERY_RESPONSE_VALUE, proto) {
+    constructor(context: Context, audioConfig: AudioSessionConfig, transport: AapTransport, contract: GalConnectionContract)
+        : this(makeProto(context, audioConfig, transport, contract))
+
+    val bluetoothAddress = proto.servicesList.firstOrNull { it.hasBluetoothService() }?.bluetoothService?.carAddress
+    val mediaOffer = GalMediaOffer.from(proto)
+    val sensorTypes = proto.servicesList.filter { it.hasSensorSourceService() }
+        .flatMap { it.sensorSourceService.sensorsList }.map { it.type.number }.toSet()
 
     companion object {
-        private fun makeProto(context: Context, audioConfig: AudioSessionConfig, transport: AapTransport): Message {
+        private fun makeProto(context: Context, audioConfig: AudioSessionConfig, transport: AapTransport,
+                              contract: GalConnectionContract): Control.ServiceDiscoveryResponse {
             val settings = App.provide(context).settings
             val geometry = HeadUnitScreenConfig.announceGeometry(transport, context, context.resources.displayMetrics, settings)
 
@@ -101,6 +111,12 @@ internal class ServiceDiscoveryResponse(context: Context, audioConfig: AudioSess
                         geometry.height - phoneHeightMargin,
                         geometry.pixelAspectRatioE4
                     ))
+                    AppLog.i("[ServiceDiscovery] Layout is: " + com.andrerinas.openheadunit.utils.AnnouncedDensityPolicy.describeLayout(
+                        densityDecision,
+                        geometry.width - phoneWidthMargin,
+                        geometry.height - phoneHeightMargin,
+                        geometry.pixelAspectRatioE4
+                    ))
                     AppLog.i("[ServiceDiscovery] PixelAspectRatioE4 is: ${geometry.pixelAspectRatioE4} (10000 = square)")
 
                     val announcedFrameRateType = when (announcedFps) {
@@ -115,6 +131,7 @@ internal class ServiceDiscoveryResponse(context: Context, audioConfig: AudioSess
                         setPixelAspectRatioE4(announcedPar)
                         setMarginWidth(phoneWidthMargin)
                         setMarginHeight(phoneHeightMargin)
+                        contract.display.initial(phoneWidthMargin, phoneHeightMargin)?.let { setUiConfig(it) }
                         setVideoCodecType(effectiveCodec)
                     }.build())
 
@@ -125,10 +142,21 @@ internal class ServiceDiscoveryResponse(context: Context, audioConfig: AudioSess
                         val margins = VideoFallbackPolicy.scaledMargins(
                             primarySize.first, primarySize.second, phoneWidthMargin, phoneHeightMargin, fallback
                         )
-                        val fallbackDensity = com.andrerinas.openheadunit.utils.AnnouncedDensityPolicy.fallbackDensity(
-                            densityDecision.announced, primarySize.first, VideoFallbackPolicy.sizeOf(fallback).first
+                        val fallbackSize = VideoFallbackPolicy.sizeOf(fallback)
+                        val fallbackGuess = com.andrerinas.openheadunit.utils.AnnouncedDensityPolicy.fallbackDensity(
+                            densityDecision.announced, primarySize.first, fallbackSize.first
+                        )
+                        val fallbackW = fallbackSize.first - margins.width
+                        val fallbackH = fallbackSize.second - margins.height
+                        val fallbackDensity = com.andrerinas.openheadunit.utils.AnnouncedDensityPolicy.fallbackDensityKeepingLayout(
+                            densityDecision, fallbackGuess,
+                            geometry.width - phoneWidthMargin, geometry.height - phoneHeightMargin,
+                            fallbackW, fallbackH, geometry.pixelAspectRatioE4
                         )
                         AppLog.i("[ServiceDiscovery] Offering a $fallback fallback, margins ${margins.width}x${margins.height}, density $fallbackDensity")
+                        AppLog.i("[ServiceDiscovery] Fallback layout is: " + com.andrerinas.openheadunit.utils.AnnouncedDensityPolicy.describeLayout(
+                            densityDecision.copy(announced = fallbackDensity), fallbackW, fallbackH, geometry.pixelAspectRatioE4
+                        ))
                         mediaSinkServiceBuilder.addVideoConfigs(Control.Service.MediaSinkService.VideoConfiguration.newBuilder().apply {
                             codecResolution = fallback
                             frameRate = announcedFrameRateType
@@ -136,6 +164,7 @@ internal class ServiceDiscoveryResponse(context: Context, audioConfig: AudioSess
                             setPixelAspectRatioE4(announcedPar)
                             setMarginWidth(margins.width)
                             setMarginHeight(margins.height)
+                            contract.display.initial(margins.width, margins.height)?.let { setUiConfig(it) }
                             setVideoCodecType(effectiveCodec)
                         }.build())
                     }
@@ -196,7 +225,7 @@ internal class ServiceDiscoveryResponse(context: Context, audioConfig: AudioSess
                     service.mediaSinkService = Control.Service.MediaSinkService.newBuilder().also {
                         it.availableType = audioType
                         it.audioType = Media.AudioStreamType.SPEECH
-                        it.addAudioConfigs(AudioConfigs.get(Channel.ID_AU1))
+                        contract.applyGuidanceConfigurations(it, AudioConfigs.get(Channel.ID_AU1))
                     }.build()
                 }.build()
                 services.add(audio1)
@@ -305,11 +334,6 @@ internal class ServiceDiscoveryResponse(context: Context, audioConfig: AudioSess
             }.build()
             services.add(navigationStatus)
 
-            val sessionConfig = (if (settings.hideClock) 0x01 else 0) or
-                (if (settings.hidePhoneSignal) 0x02 else 0) or
-                (if (settings.hideBatteryLevel) 0x04 else 0)
-            // 0x08 is "CAN_PLAY_NATIVE_MEDIA_DURING_VR"
-
             // Every type gets its own announced id. The phone looks its stored record up by
             // make/model/year and a hash of this id, and on a hit it stamps the stored vehicle type
             // over the one we declare. A different id misses that lookup, so our claim survives;
@@ -329,8 +353,7 @@ internal class ServiceDiscoveryResponse(context: Context, audioConfig: AudioSess
                 headUnitSoftwareVersion = "0.1.0"
                 driverPosition = if (settings.rightHandDrive) Control.DriverPosition.DRIVER_POSITION_RIGHT else Control.DriverPosition.DRIVER_POSITION_LEFT
                 canPlayNativeMediaDuringVr = false
-                hideProjectedClock = settings.hideClock
-                sessionConfiguration = sessionConfig
+                contract.display.applyDiscoveryVisibility(this)
                 setDisplayName(settings.vehicleDisplayName)
 
                 setHeadunitInfo(com.andrerinas.openheadunit.aap.protocol.proto.Common.HeadUnitInfo.newBuilder().apply {
